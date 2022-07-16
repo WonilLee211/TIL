@@ -22,5 +22,5 @@
 
 ### [Algorithm](./Algorithm/)
 * [study](./Algorithm/study/)
-* [SWEA](./Git/)
+* [SWEA](./Algorithm/SWEA/)
 
