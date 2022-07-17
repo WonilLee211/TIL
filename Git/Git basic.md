@@ -148,47 +148,6 @@ GITHUB에서 read.md로 명명하면 공식문서로 인정됨
 마크다운을 이용한 블로그 운영
 
 ---
-
-### 노션연습
-
-# 제목을 #하나로 쓸 수 있음
-
-- 리스트
-- 접었다가 폈다가 하는 토글이
-    
-    
-
-> 인용문 “
-> 
-
- 오늘 삼계탕 나와요 
-
- 
-
-<aside>
-💡 콜아웃
-
-</aside>
-
-[제목 없음](https://www.notion.so/d640055537624855ac5c8a88575bef1d)
-
-### 노션위젯
-
-- https://indify.co/
-    
-    날씨, 캘린더, 시계, 진행바, 카운드다운 등
-    
-- tradingview
-주식관련 위젯
-- weatherwidget
-날씨 위젯만 전무적으로 제공하는 사이트
-- apption
-노션에 필요한 이미지 제공
-- 노션 탬플릿 갤러리
-노션한국커미니티
-
-
----
 ## Git basic
 
 - README.md
@@ -201,12 +160,12 @@ GITHUB에서 read.md로 명명하면 공식문서로 인정됨
 
 - Repository
     - 특정 디렉토리를 버전관리하는 저장소
-        - git init 명령어로 로컬 저장소를 생성(>>.git)
-        - .git 디렉토리에 버전 관리에 필요한 모든 것들이 들어있음
-        - 주소 옆에 (master)라고 뜨면 git으로 관리되고있음을 의미함
+    - git init 명령어로 로컬 저장소를 생성(>>.git)
+    - .git 디렉토리에 버전 관리에 필요한 모든 것들이 들어있음
+    - 주소 옆에 (master)라고 뜨면 git으로 관리되고있음을 의미함
         
 
-#### **3가지 영역**
+#### **git의 3가지 영역**
 
 1. working directory : 내가 작압하고 있는 실제 디렉토리
 2. staging area : 커밋으로 남기고 싶은 특정 버전으로 관리하고 싶은 파일이 있는 곳
@@ -266,7 +225,7 @@ GITHUB에서 read.md로 명명하면 공식문서로 인정됨
 4. 이제 파일들을 올리기(로컬에 있는 commit 내역을 repository로 업데이트)
     1. git push origin master
 5. 내려받기
-    1. git clone github-repository-url
+    1. `git clone github-repository-url`
 
 
 >💡 주의점 Sync맞추기
@@ -309,10 +268,9 @@ GITHUB에서 read.md로 명명하면 공식문서로 인정됨
 
 
 💡 **clone과 pull 차이**
-- clone : 깃허브 레포를 로컬로 복제
-- 이때, .git도 같이 복제됨. >> git 설정이 있는 폴더. 즉, 리모트 주소도 같이 복제된다.>>
-- git init과 git remote add ~~할필요 없다.
-- pull : remote repository에 있는 버전과 동일한 버전으로 다운로드.사전에 리모트 정보가 있었어야 함.& 이미 .git이 존재해야 함.
+1. clone : 깃허브 레포를 로컬로 복제
+    - 이때, .git도 같이 복제됨. >> git 설정이 있는 폴더. 즉, 리모트 주소도 같이 복제된다.>>`git remote add ~` 명령이 불필요.
+2. pull : remote repository에 있는 버전과 동일한 버전으로 다운로드.사전에 리모트 정보가 있었어야 함.& 이미 .git이 존재해야 함.
 - 클론 이후에 푸쉬와 풀만 하면 됨
 - 깃허브에 레퍼지토리가 등록조차 되지않았을 때.
 - git init부터 시작
