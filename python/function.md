@@ -58,18 +58,18 @@
   2. value returning function
      
      1. 튜플을 활용한 두 개 이상의 값 반환
-        
-        ```python
-        def minus_and_product(x, y):
-         return x-y, x*y
-        ```
+     
+     ```
+     def minus_and_product(x, y):
+        return x-y, x*y
+     ```
 
 ---
 
 ## 3. 함수의 입력(intput)
 
-- Parameter : 함수를 정의할 때, 함수 내부에서 사용되는 변수
-- Argument : 함수를 호출할 때, 넣어주는 값
+- Parameter : `함수를 정의`할 때, 함수 내부에서 사용되는 변수
+- Argument : `함수를 호출`할 때, 넣어주는 값
   1. 필수 argument : 반드시 전달되어야 하는 argument
   2. 선택 argument : 값을 전달하지 않아도 되는 기본값이 전달
 
@@ -77,7 +77,7 @@
 
 - 기본적으로 함수 호출 시 argument는 위치에 따라 함수에 전달됨
 
-```python
+```
 def add(x, y):
     return x + y
 
@@ -90,7 +90,7 @@ add(2, 3) # x = 2, y = 3
 - 직접 변수의 이름으로 특정 Argument를 전달할 수 있음
 - keyword argument 사용 후 postional argument 사용할 수 없음
 
-```python
+```
 def add(x, y):
     return x + y
 
@@ -104,25 +104,26 @@ add(x=2, 5) # 에러 발생
 - 기본값을 지정하여 함수 호출 시 argument값을 설정하지 않도록 함
   
   - 정의된 것 보다 더 적은 개수의 argument들로 호출될 수 있음
-    
-    ```python
-    def add(x, y=0):
+  
+  ```python
+  def add(x, y=0):
       return x + y
-    
-    add(2) # add(2, y = 0)
-    add(2, 4) # 6
-    ```
+  
+  add(2) # add(2, y = 0)
+  add(2, 4) # 6
+  ```
 
 ### 3.4 가변인자(*args)
 
 - 여러 개의 positional argument를 하나의 필수 parameter로 받아서 사용
 - 몇 개의 PA를 받을지 모르는 함수를 정의할 때 유용
-- 언팩킹연산자 or 애스터리스크(asterisk) : `*`
+- 언팩킹연산자 or 애스터리스크(asterisk) : ``
 
 ```python
 def add(*args):
     for arg in args:
         print(arg)
+        print(type(arg)) # <class tuple>
 ```
 
 ### 3.5 패킹/언패킹
@@ -131,28 +132,27 @@ def add(*args):
 
 - 패킹 : 여러개의 데이터를 묶어서 변수에 할당하는 것
   
-  - `numbers = (1, 2, 3 , 4, 5)`
+  - `numbers = (1, 2, 3, 4, 5)`
 
-- 언패킹 : 시퀀스 속의 요소들을 여러 개의 변수에 나눵서 할당하는 것
+- 언패킹 : 시퀀스 속의 요소들을 여러 개의 변수에 나누어서 할당하는 것
   
   ```python
   numbers = (1, 2, 3, 4, 5)
   a, b, c, d, e = numbers
   ```
   
-  - `언패킹 시, 변수의 개수와 할당하고자 하는 요소의 개수가 동일해야 함.
-    
-    <mark>중요</mark> 패킹할 땐 가변인자는 튜플/ 언패킹할 때 가변인자는 리스트
-    
-    ```python
-    numbers = (1, 2, 3, 4, 5)
-    a, b, c, d, e, f = numbers
-    # ValueError : not enough values to unpack
-    
-    a, b, *rest = numbers # 1, 2를 제외한 나머지를 rest에 대입
-    a, *rest, e = numbers # 1, 5를 제외한 나머지를 rest에 대입
-    print(rest) # [2, 3, 4]
-    ```
+  - `언패킹 시, 변수의 개수와 할당하고자 하는 요소의 개수가 동일해야 함.`
+  - <mark>**중요</mark> 패킹할 땐 가변인자는 튜플/ 언패킹할 때 가변인자는 리스트**
+  
+  ```python
+  numbers = (1, 2, 3, 4, 5)
+  a, b, c, d, e, f = numbers
+  # ValueError : not enough values to unpack
+  
+  a, b, *rest = numbers # 1, 2를 제외한 나머지를 rest에 대입
+  a, *rest, e = numbers # 1, 5를 제외한 나머지를 rest에 대입
+  print(rest) # [2, 3, 4]
+  ```
 
 ### 3.6 <mark>Asterist(`*`)와 가변인자</mark>
 
@@ -174,10 +174,10 @@ func(1, 2, 3, 'a', 'b')
 ### 3.7 가변 키워드 인자(**kwargs)
 
 - 몇 개의 키워드 인자를 받을지 모르는 함수를 정의할 때 유용
-- **kwargs는 **딕셔너리로 묶여 처리**되며, parameter에 **를 붙여 표현
+- *kwargs는 **딕셔너리로 묶여 처리**되며, parameter에 **를 붙여 표현
 
 ```python
-def family(**kwargs): 
+def family(**kwargs):
     for key, value in kwargs.items():
         print(key, ":", value)
 family(father = '아부지', mother = '어머니' , baby = '아기')
@@ -190,26 +190,34 @@ baby : 아기
 '''
 ```
 
-- 가변인자와 가변 키워드 인자를 동시에 사용할 수 있을까?
+- <mark>kwargs는 숫자로만 이루어질 수 없다. >> 식별자(변수이름)으로 쓰기 때문</mark>
   
   ```python
-  def print_family_name(*parents, **pets):
-      print('아버지 :', parents[0])
-      print('어머니 :', parents[1])
-      if pets:
-          print('반려동물들..')
-          for title, name in pets.items():
-              print('{} : {}'.format(title, name))
-  
-  print_family_name('아부지','어무이', dog = '멍멍이', cat = '냥냥이')
-  '''
-  father : 아부지
-  mother : 어무니
-  반려동물들...
-  dog : 멍멍이
-  cat : 냥냥이
-  '''
+  def a(**kwargs):
+      return kwargs
+  a(1=1, 2=2) # SyntaxError
   ```
+
+- 가변인자와 가변 키워드 인자를 동시에 사용할 수 있을까?
+
+```python
+def print_family_name(*parents, **pets):
+    print('아버지 :', parents[0])11
+    print('어머니 :', parents[1])
+    if pets:
+        print('반려동물들..')
+        for title, name in pets.items():
+            print('{} : {}'.format(title, name))
+
+print_family_name('아부지','어무이', dog = '멍멍이', cat = '냥냥이')
+'''
+father : 아부지
+mother : 어무니
+반려동물들...
+dog : 멍멍이
+cat : 냥냥이
+'''
+```
 
 ---
 
@@ -235,8 +243,8 @@ baby : 아기
    
    ```python
    def func():
-       a = 20
-       print('local', a)
+      a = 20
+      print('local', a)
    
    func()
    print('global', a) # NameError : name 'a' is not defined
@@ -250,44 +258,47 @@ baby : 아기
   
   1. Local scope
   2. Enclosed scope : 이중 def에 대해서 바깥 구역
-  3. Global scope 
+  3. Global scope
   4. Built-in Scope : ex) print()
   - <mark>함수 내에서는 바깥 scope의 변수에 접근 가능하나 수정은 할 수 없음</mark>
-  - 예시 -  LEGB순의 탐색 순서
-  - ```python
-    print(sum) # <built-in function sum>
-    print(sum(range(2))) # 1 built-in scope에서 sum을 불러왔음
-    
-    sum = 5 # global scope에 sum이 저장됨
-    
-    print(sum) # 5 global scope에서 sum을 불러옴
-    print(sum(range(2))) # TypeError : 'int' object is not callable
-    		# bilt-in scope으로 넘어가지 않고 global에서 찾고 탐색 끝남
-    
-     
-    ```
-  - ```python
-    # 예시
-    a = 0
-    b = 1
-    def enclosed():
-        a = 10
-        c = 3
-        def local(c):
-            print(a, b, c)
-        local(300)
-        print(a, b, c)
-    enclosed()
-    
-    print(a, b)
-    '''
-    10 1 300
-    10 1 3
-    0 1
-    '''
-    ```
-
-
+  - <mark>예시</mark>
+  
+  ```python
+  print(sum) # <built-in function sum>
+  print(sum(range(2))) # 1 built-in scope에서 sum을 불러왔음
+  
+  sum = 5 # global scope에 sum이 저장됨
+  
+  print(sum) # 5 L이나 E에서 실행된 코드가 아니기 때문에 global scope에서 sum을 찾음
+                          # sum = 5를 찾고
+  print(sum(range(2))) #   sum은 현재 함수가 아니라 변수이기 때문에
+                                              # TypeError : 'int' object is not callable
+                                              # bilt-in scope으로 넘어가지 않고 global에서 찾고 탐색 끝남
+  
+  ## LEGB 순의 탐색 순서
+  ```
+  
+  - 예시2
+  
+  ```python
+  a = 0
+  b = 1
+  def enclosed():
+      a = 10
+      c = 3
+      def local(c):
+          print(a, b, c)
+      local(300)
+      print(a, b, c)
+  enclosed()
+  
+  print(a, b)
+  '''
+  10 1 300
+  10 1 3
+  0 1
+  '''
+  ```
 
 ### 4.4 global 문
 
@@ -363,6 +374,41 @@ print(a) # 0
 
 ### 5.1 내장함수(built-in Functions)
 
+- join(iterable) : iterable 가능한 시퀀스의 요소들을 하나씩 빼내서 합쳐줌
+  
+  ```python
+  numbers = [1, 2, 3]
+  # 위의 변수 numbers를 문자열 '123'으로 만드세요. (join 메서드 활용)
+  
+  char = ''.join(map(str, numbers))
+  print(char)
+  # 123
+  
+  # List comprehension 활용
+  new_numbers = ''.join([str(n) for n in numbers])
+  print(new_numbers)
+  # 123
+  ```
+
+- 함수 실행시간 재기
+  
+  ```python
+  import time
+  
+  t0 = time.time()
+  fib(10)
+  t1 = time.time()
+  
+  total = t1 - t0
+  print(total)
+  ```
+
+- `dir(builtins)` : 내장함수 목록 보기
+  
+  - 함수 내부 코드 보기
+    
+    [](https://github.com/python/cpython/blob/master/Lib/random.py#L385)[cpython/random.py at main · python/cpython · GitHub](https://github.com/python/cpython/blob/master/Lib/random.py#L385)
+
 - map(function, iterable) : iterbale 데이터의 모든 요소를 함수에 적용하고 map object로 반환
 
 - filter(function, iterable) : iterable 데이터의 모든 요소를 함수에 적용하고 True인 것만 filter object로 반환
@@ -375,7 +421,7 @@ print(a) # 0
   print(list(result)) # [1, 3]
   ```
 
-- zip(*iterables) : 복수의 iterable을 모아 **튜플**을 원소로 하는 zip object로 반환
+- <mark>**zip(*iterables)</mark>** : 복수의 iterable을 모아 “같은 인덱스끼리” **튜플**을 원소로 하는 zip object로 반환
   
   ```python
   girls = ['jane', 'ashley']
@@ -396,45 +442,81 @@ print(a) # 0
 - 재귀 함수(recursive function) : 자기 자신을 호출하는 함수
   
   - 1 개 이상의 base case(종료되는 상황)가 존재하고, 수렴하도록 작성
-    
-    ```python
-    #factorial 작성
-    def factorial(n):
+  
+  ```python
+  #factorial 작성
+  def factorial(n):
       if n==0 or n==1 : return: 1
       return n * factorial(n-1)
-    
-    print(factorial(4)) # 24
-    ```
+  
+  print(factorial(4)) # 24
+  ```
   
   - <mark>**주의</mark>**
     
     - 메모리 스택이 넘치면 프로그램 동작 안함
     - 파이썬에서 최대 재귀 깊이 1000번(이상은 Recursion Error)
     - 입력값이 커질수록 연산속도가 오래 걸림
+  
+  - 반목문과 재귀함수의 차이
+    
+    - 재귀함수 : 표현이 자연스러움. 변수 사용을 줄일 수 있음
+    - 반목문 : 속도가 휠씬 빠르다
+  
+  - 재귀 횟수 확인 및 설정 방법
+    
+    ```python
+    import sys
+    print(sys.getrecursionlimit()) # 재귀횟수 확인 방법
+    
+    sys.setrecursionlimit(1234)
+    print(sys.getrecursionlimit())
+    ```
 
 - 표현식과 문장의 차이
   
-    print로 찍었을 때 값이 나오면 표현식이라고 할 수 있다.
+  print로 찍었을 때 값이 나오면 표현식이라고 할 수 있다.
   
-    함수 호출은 표현식이다.
+  함수 호출은 표현식이다.
   
-    함수 자체는 문자다.
+  함수 자체는 문자다.
 
 ---
 
 ## 6. 모듈
 
 - 모듈과 패키지
+  
   - 모듈 : 다양한 기능을 하나의 파일로 모은 묶음
   - 패키지 : 다양한 파일을 하나의 폴더로 모은 묶음
+
 - 파이썬 표준 라이브러리
+  
   - 라이브러리 : 다양한패키지를 하나로 모은 묶음. 주도권이 나한테 있는 느낌
   - 프레임워크 : 라이브러리랑 비슷하지만 주도권이 나한테 없는 느낌…
     - pip : 이것을 관리하는 관리자
+
 - 가상환경
+  
   - 패키지의 활용 공간
+
 - 유용한 패키지와 모듈
+
 - 사용자 모듈과 패키지
+
+- **실습**
+  
+  1. 같은 위치에 [check.py](http://check.py) 만들기
+     
+     1. odd/ even 함수만들기
+  
+  2. import check 받아오기
+  
+  3. print(dir(check)) 확인하기
+     
+     `# ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'even', 'odd']`
+  
+  4. check.odd(191) 실행해보기
 
 ### 6.1 모듈과 패키지
 
@@ -456,6 +538,24 @@ print(a) # 0
   from package.module imoport var, function, Class
   ```
 
+- 패키지 실습
+  
+  ```
+  파일구조
+  my_package/__init__.py
+    math/__init__.py
+        tools.py
+    statistics/__init__.py
+        tools.py
+  ```
+  
+  1. my_package 폴더만들기
+  2. 안에 **init**.py만들기
+  3. math폴더만들기
+  4. **[init**.py](http://init.py) / [tools.py](http://tools.py) 만들기
+  5. [tools.py](http://tools.py)마다 함수 넣기
+  6. `from my_package.math.tools import (변수, 함수 ...)`
+
 ### 6.2 파이썬 표준 라이브러리
 
 - 파이썬에 기본적으로 설치된 모듈과 내장함수
@@ -476,7 +576,7 @@ print(a) # 0
   
   - 패키지 관리하기 :
     
-    ```python
+    ```
     $ pip freeze > requirements.txt
     # 패키지 목록을 관리하고
     $ pip install -r requirements.txt
@@ -494,37 +594,37 @@ print(a) # 0
 - 패키지 만들기
   
   - 폴더구조
-    
-    ```python
-    my_package/
+  
+  ```python
+  my_package/
       __init__.py
       check.py
       calculator/
           __init__.py
           tools.py
-    ```
+  ```
   
-  - [tools.py](http://tools.py) 파일만들기
-    
-    ```python
-    # calculator/tools.py
-    def add(num1, num2):
+  - [tools.py](http://tools.py/) 파일만들기
+  
+  ```
+  # calculator/tools.py
+  def add(num1, num2):
       return num1 + num2
-    
-    def minus(num1, num2):
+  
+  def minus(num1, num2):
       return num1 - num2
-    ```
+  ```
   
   - 모듈 활용하기
-    
-    ```python
-    from calculator import tools
-    
-    print(dir(tools)) # tools에 어떤 변수와 메서드를 가지고 있는지 나열
-    '''
-    [ ... , 'add', 'minus']
-    print(tools.add(3, 5)) # 8
-    ```
+  
+  ```
+  from calculator import tools
+  
+  print(dir(tools)) # tools에 어떤 변수와 메서드를 가지고 있는지 나열
+  '''
+  [ ... , 'add', 'minus']
+  print(tools.add(3, 5)) # 8
+  ```
 
 ### 6.4 가상환경
 
@@ -532,9 +632,9 @@ print(a) # 0
 
 - 복수의 프로젝트를 하는 경우 버전이 상이할 수 있음.
   
-    이때 가상환경을 만들어 프로젝트 별로 독립적인 패키지를 관리할 수 있음
+  이때 가상환경을 만들어 프로젝트 별로 독립적인 패키지를 관리할 수 있음
   git bash에서
 1. 가상환경 생성 `$ python -m venv <폴더명>`
-2. 가상환경 활성화(window) : `C:\> <venv> \Scripts\activate.bat`
+2. 가상환경 활성화(window) : `C:\\\\> <venv> \\\\Scripts\\\\activate.bat`
 3. 가상환경 활성화 (git bash) : `$ source venv/Scripts/activate`
    1. 비활성화 : `$ deactivate`
