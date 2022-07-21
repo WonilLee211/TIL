@@ -37,7 +37,7 @@
 
 - `git config —global —list` : 입력한 작성자 정보 확인하기
 
-- `git rm --cached <file>…`  : working directory로 옮기기
+- `git restore --staged <file>…`  : working directory로 옮기기
 
 - git status : 깃의 상태를 확인하기
   
@@ -53,16 +53,12 @@
 - `git remote -v `: 현재 등록된 리모트 레퍼지토리 주소
 
 - `git branch -M (master/main)` : main 브랜치 명 변경
-  
-  
 
 - `git stash apply` : 다시 가져오기
 
 - `git push/pull -u origin master` : 다음부터 git push/pull만 쳐도 됨.
 
 - `git stash` : 현재 나의 수정사항을 stash 공간으로 이동시키고 가장 최근버전으로 되돌리는 명령어
-  
-  
 
 ### 실습 **git bash로 git 실행하기**
 
