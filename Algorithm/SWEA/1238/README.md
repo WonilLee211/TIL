@@ -24,7 +24,7 @@
     3. next_queue가 남아있다면 MaxNum함수 다시호출
     4. answer를 함수에서 전역변수로 선언해서 전역에서 정보받도록 설정
 
-```
+```python
 from collections import deque
 
 def MaxNum(start_q):
