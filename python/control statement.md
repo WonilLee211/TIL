@@ -121,7 +121,7 @@ print(result)
     '''
     ```
   
-  - enumerate( interable, start = 0)
+  - enumerate( iterable, start = 0)
     
     ```python
     members = ['민수', '영희', '철수']

@@ -444,7 +444,7 @@ print('''문자열 안에 '작은 따옴표'나
   - 결과가 확실한 경우 두번째 값 확인하지 않고 첫번째 값 반환
   
   ```python
-  print(3 and 5) # 3
+  print(3 and 5) # 5
   print(3 and 0) # 0
   print(0 and 3) # 0
   print(0 and 0) # 0

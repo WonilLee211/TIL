@@ -77,7 +77,7 @@
 
 - 기본적으로 함수 호출 시 argument는 위치에 따라 함수에 전달됨
 
-```
+```python
 def add(x, y):
     return x + y
 
@@ -90,7 +90,7 @@ add(2, 3) # x = 2, y = 3
 - 직접 변수의 이름으로 특정 Argument를 전달할 수 있음
 - keyword argument 사용 후 postional argument 사용할 수 없음
 
-```
+```python
 def add(x, y):
     return x + y
 
@@ -202,7 +202,7 @@ baby : 아기
 
 ```python
 def print_family_name(*parents, **pets):
-    print('아버지 :', parents[0])11
+    print('아버지 :', parents[0])
     print('어머니 :', parents[1])
     if pets:
         print('반려동물들..')
@@ -606,7 +606,7 @@ print(a) # 0
   
   - [tools.py](http://tools.py/) 파일만들기
   
-  ```
+  ```python
   # calculator/tools.py
   def add(num1, num2):
       return num1 + num2
@@ -617,7 +617,7 @@ print(a) # 0
   
   - 모듈 활용하기
   
-  ```
+  ```python
   from calculator import tools
   
   print(dir(tools)) # tools에 어떤 변수와 메서드를 가지고 있는지 나열

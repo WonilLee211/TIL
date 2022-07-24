@@ -8,8 +8,6 @@
 - 4칸 공백 or 1탭
   - `**주의**` : 한 코드 안에서는 반드시 한 종류의 들여쓰기 사용하기
   - 원칙적으로 space 사용 권장
-    
-    
 
 ### 변수
 
@@ -42,8 +40,6 @@
   - **만일 변수로 사용했다면, `del 변수명` 명령하기!**
   
   ---
-  
-  
 
 ### 수치형
 
@@ -87,7 +83,7 @@ print(super_max)
   
   ```python
   import sys
-  abs(a - b) <= sys.float_info.epsilonla
+  abs(a - b) <= sys.float_info.epsilon
   ```
 
 ---
@@ -139,8 +135,6 @@ print(phone_book.items())
 ```
 
 ---
-
-
 
 # 형변환(Type Conversion, Typecasting)
 
