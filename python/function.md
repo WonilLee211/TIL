@@ -59,7 +59,7 @@
      
      1. 튜플을 활용한 두 개 이상의 값 반환
      
-     ```
+     ```python
      def minus_and_product(x, y):
         return x-y, x*y
      ```
