@@ -21,4 +21,9 @@ for i in range(n , 0, -1):
     print(blank*(n-i) + star*(2*i-1) + blank*(n-i))
 
 for i in range(2, n+1):
+<<<<<<< HEAD
     print(blank*(n-i) + star*(2*i-1) + blank*(n-i))
+=======
+    print(blank*(n-i) + star*(2*i-1) + blank*(n-i))
+
+>>>>>>> 85ed35442be9133b6947987b18d1660cc286b06d
