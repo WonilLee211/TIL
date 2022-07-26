@@ -58,6 +58,7 @@
 ### 1.2 문자열 조회 및 탐색
 
 1. `.find(x)` : x의 첫 번째 위치를 반환. 없으면, -1 반환
+    - <mark> vs `s.index(x)`와의 차이점 숙지하기 </mark>
 
 ```python
 print('apple'.find('p')) # 1
@@ -98,11 +99,11 @@ print('Title Title!'.istitle()) # True
     ```
     
 - `s.strip([chars])`: 공백이나 특정 문자를 제거
-    
+    - 작동방식 : char의 문자가 s의 양옆에 있다면 제거, 없다면 break
     ```python
     print('   와우!\n'.strip()) # 와우!
     print('   와우!\n'.lstrip()) # 와우!
-    print('   와우!\n'.rstrip()) # '   와우!'
+    print('   와우!   \n'.rstrip()) # '   와우!'
     print('안녕하세요????'.rstrip('?')) # 안녕하세요
     ```
     
@@ -117,6 +118,7 @@ print('a b c'.split()) # ['a', 'b', 'c']
 
 - `‘separator’.join([iterable])` : 구분자로 iterable 합침
     - iterable에 문자열이 아닌 값이 있으면 `typeError`
+    - `+`문자열 합치는 거보다 빠르다!!!!
     
     ```python
     print('!'.join('ssafy')) # s!s!a!f!y
@@ -180,7 +182,7 @@ print(msg.swapcase()) # 'hi! eVERYONE,i'M SSAFY'
     ```
     
 3. `L.extend(m)` : 순회형 m의 모든 항목들을 리스트 끝에 추가( +=과 같은 기능)
-    
+    - append()와 차이점 파악하기
     ```python
     cafe = ['starbucks','tomntoms','hollys']
     print(cafe)
@@ -265,14 +267,24 @@ print(msg.swapcase()) # 'hi! eVERYONE,i'M SSAFY'
     print(numbers, result) # [3, 2, 5, 1] [1, 2, 3, 5]
     ```
     
-4. `L.count(x)` : 리스트에서 항목 x가 몇 개 존재하는지 갯수를 반환
+4. <mark>`L.count(x)` : 리스트에서 항목 x가 몇 개 존재하는지 갯수를 반환</mark>
     
     ```python
     numbers = [1, 2, 3, 1, 1]
     print(numbers.count(1)) # 3
     print(numbers.index(100)) # 0
     ```
-    
+    ```python
+    def sum_of_repeat_number(numbers):
+        numbersset = set(numbers)
+
+        total = 0
+        for num in numberset:
+            if numbers.count(num) == 1:
+                total += num
+        
+        return total
+    ```
 
 ## 튜플
 
@@ -406,19 +418,31 @@ print(day_name)
 
 <h4> <mark>조회</mark> </h4>
 
-1. d.get(k[, default]) : 키 k의 값을 반환하는데, **키 k가 딕셔너리 d에 없는 경우, None을 반환**
+1. <mark>d.get(k[, default]) : 키 k의 값을 반환하는데, **키 k가 딕셔너리 d에 없는 경우, None을 반환**</mark>
 2. d.get(k, v) : 키 k의 값을 반환하는데, 키 k가 딕셔너리 d에 없을 경우 v를 반환
     
     ```python
-    my_dict = ('apple':'사과', 'banana':'바나나'}
-    my_dict['pineapple') # KeyError : 'pineapple'
+    my_dict = {'apple':'사과', 'banana':'바나나'}
+    my_dict['pineapple'] # KeyError : 'pineapple'
     
-    my_dict = ('apple':'사과', 'banana':'바나나'}
+    my_dict = {'apple':'사과', 'banana':'바나나'}
     print(my_dict.get('pineapple')) # None
     print(my_dict.get('apple')) # 사과
     print(my_dict.get('pineapple', 0)) # 0 디폴트 값 설정
     ```
-    
+    ```python
+    def count_blood(blood_list):
+        result = {}
+        for blood in blood_list:
+            '''1.
+            if result.get(blood):
+                result[blood] += 1
+            else:
+                result[blood] = 1
+            '''
+            result[blood] = result.get(blood, 0) + 1
+
+    ```
 
 <h4> <mark>추가 및 삭제</mark> </h4>
 
