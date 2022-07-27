@@ -37,7 +37,7 @@ def insertion_sort(data, increasing = True):
             for j in range(i, 0, -1): 
                 if data[j] < data[j-1]:
                     data[j], data[j-1] = data[j-1], data[j]
-                else:
+                else: # 교환되지 않는다면 뒷 부분은 비교할 필요없으니 break
                     break
 
 
@@ -59,6 +59,28 @@ if __name__ == '__main__':
 
     print(insertion_sort(numbers))
     print(insertion_sort(numbers, increasing = False))
+```
+
+</div>
+</details>
+
+<h2>예시 코드2</h2> 
+<details>
+<summary> </summary>
+<div markdown="1">
+
+```python
+def insertion_sort1(arr):
+    for i in range(1, len(arr)):
+        to_insert = arr[i]
+        print(arr)
+
+        while i > 0 and arr[i -1] > to_insert: # 
+            arr[i] = arr[i-1]
+            i -= 1
+        arr[i] = to_insert
+
+    return arr
 ```
 
 </div>
