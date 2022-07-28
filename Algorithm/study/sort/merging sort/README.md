@@ -31,9 +31,47 @@
 <div markdown="1">
 
 ```python
+# 리스트를 쪼개는 부분
 def merge_sort(arr):
+    # 첫 줄에 이 탈출 조건을 다는 것이 중요함.
+    #  리스트를 요소 하나 남을 때까지 merge_sort(쪼개기) 반복
+    if len(arr) < 2: return arr
 
+    md_idx = len(arr)//2 # 입력된 리스트의 중간 인덱스
+    
+    # 8개의 리스트 중 왼쪽편 4개 리스트 >> 왼쪽 2개리스트 >> 왼쪽 1개 리스트 나올때까지 재귀
+    left = merge_sort(arr[:md_idx]) 
+    # 8개의 리스트 중 오른쪽 4개 리스트 >> 오른쪽 2개 리스트 >> 오른쪽 1개 리스트 나올때까지 재귀
+    right = merge_sort(arr[md_idx:])
+    # 합병 시작
+    merged_list = merging(left, right)
+    # 합병된 리스트를 left, right에 순차적으로 반환 >> 최종 정렬된 list 반환
+    return merged_list
+
+# 쪼개진 리스트를 합병하는 부분
+def merging(lft_li, rit_li):
+    merged_li = []
+    # 대소 비교하면서 오른쪽 왼쪽 리스트에서 하나씩 빠지고 마지막 하나가 남음
+    while len(lft_li) > 0 and len(rit_li) > 0:
+        if lft_li[0] > rit_li[0]:
+            merged_li.append(rit_li.pop(0))
+        else:
+            merged_li.append(lft_li.pop(0))
+    
+    # 남는 하나를 처리하는 if문
+    if lft_li:
+        merged_li += lft_li
+    else:
+        merged_li += rit_li
+
+    # 2개 요소를 가진 리스트 반환>> 4개 요소를 가진 리스트 반환>> 8개의 요소를 가진 리스트 반환
+    return merged_li
+
+test_list = [6,4,5,2,3,1,7,9,8]
+sorted_list = merge_sort(test_list)
+print(sorted_list)
 ```
+<h6>참조 : https://bblackscene21.tistory.com/8 </h6>
 
 </div>
 </details>
