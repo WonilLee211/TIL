@@ -121,7 +121,7 @@ print('a b c'.split()) # ['a', 'b', 'c']
     - `+`문자열 합치는 거보다 빠르다!!!!
     
     ```python
-    print('!'.join('ssafy')) # s!s!a!f!y
+    print('!'.join('wonil')) # w!o!n!i!l
     print(' '.join(['3', '5'])) # '3 5'
     ```
     
@@ -132,13 +132,13 @@ print('a b c'.split()) # ['a', 'b', 'c']
 - `s.swapcase()` : 대 소문자 서로 변경
 
 ```python
-msg = 'hI! Everyone, I\'m ssafy'
+msg = 'hI! Everyone, I\'m 원일'
 
-print(msg.capitalize()) # Hi! everyone, i'm ssafy
-print(msg.title()) # Hi! Everyone, I'M Ssafy
-print(msg.upper()) # HI! EVERYONE, I'M SSAFY
-print(msg.lower()) # 'hI! everyone, i'm ssafy'
-print(msg.swapcase()) # 'hi! eVERYONE,i'M SSAFY'
+print(msg.capitalize()) # Hi! everyone, i'm 원일
+print(msg.title()) # Hi! Everyone, I'M 원일
+print(msg.upper()) # HI! EVERYONE, I'M 원일
+print(msg.lower()) # 'hI! everyone, i'm 원일'
+print(msg.swapcase()) # 'hi! eVERYONE,i'M 원일'
 ```
 
 ---

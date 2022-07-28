@@ -982,7 +982,7 @@ class Person:
     @age.setter
     def age(self, new_age):
         if new_age <= 19:
-            raise ValueError('Too Young For SSAFY')
+            raise ValueError('Too Young For here')
             return
 
         self._age = new_age
@@ -999,7 +999,7 @@ print(p1.age) # 33
 # setter 함수에는 '나이가 19세 이하면 안된다는' 조건문이 하나 걸려있습니다.
 # 따라서 나이를 19세 이하인 값으로 변경하게 되면 오류가 발생합니다.
 # 실행시켜 확인해보세요
-p1.age = 19 # ValueError: Too Young For SSAFY
+p1.age = 19 # ValueError: Too Young For here
 ```
 
 - setter 함수가 없어도, protected member는 setter 함수가 내부적으로 실행된다.

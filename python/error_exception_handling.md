@@ -132,7 +132,7 @@ song['BTS'] # KeyError: 'BTS'
 ### ModuleNotFoundError
 
 ```python
-import ssafy #ModulNotFoundError: No module named 'ssafy'
+import wonil #ModulNotFoundError: No module named 'wonil'
 ```
 
 ### ImportError - 모듈 안에 존재하지 않는 클래스/함수를 가져오는 경우
