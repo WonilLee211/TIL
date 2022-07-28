@@ -74,16 +74,16 @@
 - 프로그램에서 사용되는 데이터 또는 식별자에 의해 참조되는 공간을 의미
 - 변수, 자료구조, 메서드가 될 수도 있음
 
-### 예시
+### **예시**
 
 클래스( 설계도 ) - 가수
 
 객체(실제 사례) - 이찬혁
 
-### 객체와 인스턴스
+### **객체와 인스턴스**
 
 클래스로 만든 객체(어떤 클래스의 객체)를 인스턴스라고 한다.
-
+정의된 클래스에 속하는 "객체"를 "해당 클래스의 인스턴스"라고 한다.
 - 이찬혁은 객체이다 ( O ) ( 정보 + 행동이면 전부 객체이다)
 - 이찬혁은 인스턴스다 ( X ) ( 특정 타입의 인스턴스라고 해야 한다.)
 - 이찬혁은 가수의 인스턴스다( O ) ( 어떤 클래스의 인스턴스이다)
@@ -172,7 +172,7 @@ print(type(person1)) # <class '__main__.Person'>
 
 ---
 
-# OPP 속성
+# OOP 속성
 
 ## 1. 속성
 
@@ -222,7 +222,7 @@ print(type(person1)) # <class '__main__.Person'>
 - 같은 클래스의 인스턴스들은 같은 값을 갖게 됨
 - 예) 특정 사이트의 User 수 등의 클래스 변수를 사용해야 함
 - 클래스 선언 내부에서 정의
-- <classname>, <name>으로 접근 및 할당
+- `<classname>.<name>`으로 접근 및 할당
     
     ```python
     class Circle:
@@ -331,18 +331,34 @@ person1.eat('치킨') # 치킨를 냠냠
 
 - 나머지
 - 아규먼트로서 통과되는 변수에 접근 가능
-
+---
 ## 1. 인스턴스 메서드
 
 - 인스턴스 변수를 사용하거나 인스턴스 변수에 값을 설정하는 메서드
 - 클래스 내부에 정의되는 메서드의 기본
 - 호출 시, 첫 번째 인자로 인스턴스 자기자신(self)이 전달됨.
+- 클래스에서 인스턴스 메서드로 접근 불가(접근하면 `TypeError: talk() missing 1 required positional argument: 'self'`
+)
 
 ### self
 
 - 인스턴스 자기자신
 - 파이썬에서 인스턴스 메서드 호출 시 첫 번째 인자로 인스턴스 자신이 전달되게 설계
 - 암묵적인 규칙
+- 아래의 Person 클래스를 통해서 self가 무엇인지 확인해보기
+    ```python
+        class Person:
+            def test(self):
+                print(self)
+
+        # Person 클래스의 인스턴스 p1을 생성하고 test() 메서드를 호출하여 self를 확인
+        p1 = Person()
+        p1.test()
+
+        # <__main__.Person object at 0x000001FB31D34C40>
+        print(p1)
+        # <__main__.Person object at 0x000001FB31D34C40>
+    ```
 
 ### 생성자(constructor) 메서드
 
@@ -350,6 +366,7 @@ person1.eat('치킨') # 치킨를 냠냠
 - 인스턴스 변수들의 초기값 설정
     - 인스턴스 생성
     - `__init__` 메서드 자동 호출
+- 생성자 메서드와 인자의 개수가 맞지 않을 때, 오류발생(키워드 인자 넣으면 됨)
     
     ```python
     class Person:
@@ -362,7 +379,7 @@ person1.eat('치킨') # 치킨를 냠냠
 
 ### 매직 메서드
 
-- Double uderscore(__)가 있는 메서드는 특수한 동작을위해 만들어진 메서드.
+- Double uderscore(__)가 있는 메서드는 특수한 동작을 위해 만들어진 메서드.
 - 스페셜 메서드라고도 불림
 - 특정 상황에서 자동으로 불리는 메서드
 
@@ -377,7 +394,12 @@ person1.eat('치킨') # 치킨를 냠냠
     - 객체의 특수 조작 행위를 지정(함수, 연산자 등)
         - **str** : 해당 객체의 출력 형태를 지정
             - 어떤 인스턴스를 출력하면 `__str__`의 return 값이 출력
-        - `__gt__` : 부등호 연산자(> , greater than)
+        - `__gt__` : 부등호 연산자(> , greater than). 객체에 부등호가 붇으면 함수 실행
+            - 부호의 방향에 따라 self가 바뀐다. 입이 벌려져 있는 방향이 self
+        - `__del__` : 인스턴스를 소멸시키며 실행되는 함수
+        - `__str__` : print()할 때 보여지는, 인스턴스를 문자열로 변경시키는 함수
+        - `_repr__` : 개발자가 주로 보는, 인스턴스를 설명해줄 수 있는. 그리고 화면에 출력할 수 있는 문자열 표현으로 반환하는 함수
+        - `<객체>.__doc__ ` : 클래스 내부의 doc 출력하기
 
 ```python
 class Circle:
@@ -395,13 +417,14 @@ c2 = Circle(1)
 
 print(c1) # [원] radius: 10
 print(c2) # [원] radius: 1
-print(c1 > c2) # True
+print(c1 > c2) # True # 여기서 부호의 방향에 따라 self가 바뀐다. 현재는 c1
 print(c1 > c2) # False
 ```
 
 ### 소멸자(destructor) 메서드
 
 - 인스턴스 객체가 소멸되기 직전에 호출되는 메서드
+- del 객체 실행 시 __del__ 함수 실행됨
 
 ```python
 class Person:
@@ -409,7 +432,9 @@ class Person:
         print('인스턴스가 사라졌습니다')
 
 person1 = Person()
-del person1 # 인스턴스가 사라졌습니다.
+person1.__del__ # 인스턴스가 사라졌습니다.
+person2 = Person()
+del person2 # 인스턴스가 사라졌습니다.
 ```
 
 ## 2. 클래스 메서드
@@ -495,13 +520,35 @@ print_hello()
 - 둘 다 사용하고 싶다면?
     - 클래스는 인스턴스 변수 사용이 불가능
     - 인스턴스 메서드는 클래스 변수, 인스턴스 변수 둘 다 사용 가능
+
+### <mark>객체 생성 방식</mark>
+- 생성자 사용
+- 클래스 메서드 사용
+```python
+import datetime
+class Person:
+
+    year = int(datetime.datetime.now().year)
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
     
+    # 클래스 메서드를 활용한 인스턴스 생성
+    @classmethod
+    def details(cls, name, birth_year):
+        return cls(name, cls.year - birth_year + 1)
+
+p1 = Person('이원일', 18)
+p2 = Person.details('원일', 1995)
+```
 
 ## 3. 스태틱 메서드
 
 ### 스태틱 메서드
 
 - 인스턴스 변수, 클래스 변수를 전혀 다루지 않은 메서드
+- cls, self가 없음
 
 ### 언제사용하는가?
 
@@ -512,7 +559,7 @@ print_hello()
 - 인스턴스 변수, 클래스 변수를 사용하지 않기 때문에 객체 상태나 클래스 상태를 수정할 수 없음
 - @staticmethod 데코레이터를 사용하여 정의
 - 일반 함수처럼 동작하지만, 클래스의 이름 공간에 귀속됨
-- 주로 해당 클래스로 한정하는 용도로 사 용
+- 주로 해당 클래스로 한정하는 용도로 사용
 
 ```python
 class MyClass:
@@ -620,7 +667,7 @@ print(obj.staticmethod()) # static method
 
 # 객체 지향의 핵심 개념
 
-- <mark>상추캐다 외우기</mark>
+- <mark> <h3> 상추캐다 </h3> 외우기</mark>
 
 ## 4가지 핵심 개념
 
@@ -823,9 +870,10 @@ print(isinstance(p2, Person)) # True
     ```python
     print(Firstchild.mro())
     # [<class '__main__,FirstChild'>, <class '__main__.Dad'>, <class '__main__.Mom'>, <class 'object'>]
-    ```
-    
 
+    # 만약 Mom 클래스륾 먼저 상속 받았다면,
+    #  [<class '__main__,FirstChild'>, <class '__main__.Mom'>, <class '__main__.Dad'>, <class 'object'>]
+    ```
 ---
 
 ## 3. 다형성
@@ -883,7 +931,6 @@ print(isinstance(p2, Person)) # True
 ---
 
 ## 4. 캡슐화
-
 - 객체의 일부 구현 내용에 대해 외부로부터의 직접적인 액세스를 차단
     - 예시 :  주민등록번호
 - 파이썬에서 암묵적으로 존재하지만, 언어적으로는 존재하지 않음
@@ -913,8 +960,7 @@ print(isinstance(p2, Person)) # True
     ```
     
 
-### Protected Member ~~(?) 기존 방식이랑 차이점이 뭐지?~~
-
+### Protected Member 
 - 언더바 1개로 시작하는 메서드나 속성
     - <mark>그냥 내꺼라고 표현하는 것</mark>.
     - get_info같은 함수로 정보를 제공해줄 수 있지만 직접적으로 막 바꾸거나 조회하는 걸 방지
@@ -923,9 +969,9 @@ print(isinstance(p2, Person)) # True
     
     ```python
     class Person:
-        def __init__(self, name, age):
+        def __init__(self, name, age): # 파라미터에는 _ 사용하지 않음
             self.name = name
-            self.age = age
+            self._age = age 
     
         def get_age(self):
             return self._age # Protected Member
@@ -979,6 +1025,7 @@ class Person:
     @property
     def age(self):
         return self._age
+
     @age.setter
     def age(self, new_age):
         if new_age <= 19:
@@ -1003,6 +1050,5 @@ p1.age = 19 # ValueError: Too Young For here
 ```
 
 - setter 함수가 없어도, protected member는 setter 함수가 내부적으로 실행된다.
-    
-    
 - 하지만 setter함수를 작성하면 조건문 등을 설정할 수 있다.
+
