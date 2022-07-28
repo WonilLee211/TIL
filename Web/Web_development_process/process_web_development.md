@@ -12,11 +12,12 @@
     - 사이트 맵 작성 > 화면 설계 > 화면별 프로세스 설계 > 데이터베이스 설계
     1. 사이트 맵 작성
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0a553026-a495-452e-ae69-fdf0ec4c302b/Untitled.png)
+        ![Alt text](../../img/processwebdevelop1)
+
         
         - 전체 메뉴별 페이지 명을 빠짐없이 기재해줍니다.
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/39243a8d-8916-4837-8c0c-668ba40d8f65/Untitled.png)
+        ![Alt text](../../img/processwebdevelop2)
         
         - 수정, 삭제, 목록 상세보기 페이지도 모두 표시해주는 것이 좋음
     2. 화면설계
@@ -27,7 +28,7 @@
         - 메소드 명까지 같이 작성한다면 개발할 때 이름 짓는 시간 줄일 수 있음
         - 스프레드 시트 위 정해진 네이밍 룰에 따른 메소드 이름과 메소드 시그니처도 설계하면 더 좋음(ㄱ렇게 하기 힘듬 - 입기획)
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e3478f82-13d4-4c36-810a-eea94b28edcc/Untitled.png)
+        ![Alt text](../../img/processwebdevelop3)
         
     4. 데이터베이스 설계
         - 메뉴별로 구분된 것을 보고 공통으로 사용해야하는 엔터티나 메뉴별로 사용되어야 하는 엔터티 구분
