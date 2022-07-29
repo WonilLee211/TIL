@@ -68,14 +68,14 @@ def quick_sort(arr):
 
 <h2>퀵 정렬 개선 </h2>
 
-
----
-
 <h2>예시 코드</h2> 
 <details>
 <summary> </summary>
 <div markdown="1">
 
+알고리즘
+- 리스트의 정 가운데 있는 값을 피봇 설정
+- 
 ```python
 
 
