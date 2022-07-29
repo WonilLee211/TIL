@@ -2,12 +2,10 @@
 
 <h2>개념</h2>
 
-- 분할 정복(divide and conquer) 알고리즘의 하나
+- 분할 정복(divide and conquer) 알고리즘 중 하나
+- 재귀함수 이용
 - 문제를 작은 2개로 분리하고 각각을 해결한 다음, 결과를 모아서 원래의 문제를 해결하는 전략
 
-- 한번 순환하고 나면 끝 값이 시퀀스의 max value가 위치한다.
-
-- 그 다음 순환에서는 두 번째 max value가 n-1번째에 위치합니다.
   ![Alt text](../../../img/mergesort.PNG)
   
   <h6>출처 : https://gmlwjd9405.github.io/2018/05/08/algorithm-merge-sort.html </h6>

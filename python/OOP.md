@@ -212,7 +212,26 @@ print(type(person1)) # <class '__main__.Person'>
     john.name = 'John Kim' # 인스턴스 변수 할당
     print(john.name) # John Kim
     ```
-    
+- <mark>인스턴스 변수는 다른 클래스의 인자가 되어도 인스턴스 변수에 접근할 수 있다.</mark>
+```python
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+p1 = Point(1, 2)
+p2 = Point(2, 1)
+
+class Rectangle:
+    def __init__(self, p1, p2):
+        self.p1 = p1.x ,p2.y # (1, 2) -- 이런식으로 인자의 <파라미터>.x라고 설정해두면 접근 가능
+        self.p2 = p2.x ,p2.y
+
+    def area(self):
+        width = abs(self.p1[0] - self.p2[0])
+        height = abs(self.p1[1] - self.p2[1])
+        return width * height
+```
 
 ## 3. 클래스 변수
 
