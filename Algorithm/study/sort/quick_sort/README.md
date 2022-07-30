@@ -75,9 +75,49 @@ def quick_sort(arr):
 
 알고리즘
 - 리스트의 정 가운데 있는 값을 피봇 설정
-- 
+- 분할하는 함수와 구간마다 끝 구간을 줄여가며 피봇과 비교후 swap하는 함수 작성
+- 전체 구간에서 피봇 설정
+- 피봇기준으로 끝 인덱스에서 증가시키고 줄여나가면서 비교
+- 왼쪽에서 피봇보다 큰값과 오른쪽에서 피봇보다 작은 값을 찾았다면 교환
+- 끝 인덱스 두 개가 교차했을 때 break - 큰 인덱스 반환
+- 반환된 인덱스 기준으로 위 아래 배열 다시 함수 호출
 ```python
+def quick_sort(arr):
 
+  # 배열을 나눠서 분할 정복하도록 하는 함수
+  def partition(lft_idx, rgt_idx):
+    if lft_idx >= rgt_idx:ㄴ
+      return
+    
+    # 배열에서 입력된 인덱스를 기준으로 양 옆에서 인덱스를 증가시키고 줄여가며 피봇을 기준으로 교환 
+    mid = sort(lft_idx, rgt_idx)
+    #왼쪽 오른쪽 배열에 대해서 입력된 인덱스가 같거나 교차되었을 때까지 분할해서 sort 실행
+    partition(lft_idx, mid - 1)
+    partition(mid, rgt_idx)
+
+    return arr
+
+  # 입력된 인덱스들 구간에서 피봇을 정하고 비교 교환해나가며 끝난 후 새로운 mid_idx 반환
+  def sort(lft_idx, rgt_idx):
+
+    fivot = arr[(lft_idx + rgt_idx)//2]
+
+    # 왼쪽 인덱스와 오른쪽 인덱스가 교차하기 전까지
+    # 왼쪽에서 피봇보다 값이 큰 인덱스 찾고 오른쪽에서 피봇보다 값이 작은 인덱스 찾기
+    while lft_idx <= rgt_idx:
+      while arr[lft_idx] < fivot:
+        lft_idx += 1
+      while arr[rgt_idx] > fivot:
+        rgt_idx -= 1
+    
+    # 인덱스들이 교차되지 않았을 때 교환 진행 및 인덱스 증감
+      if lft_idx <= rgt_idx:
+        arr[lft_idx], arr[rgt_idx] = arr[rgt_idx], arr[lft_idx]
+        lft_idx, rgt_idx = lft_idx + 1, rgt_idx - 1
+    # 다음에 순환할 배열의 구간을 결정할 mid_idx 반환
+    return lft_idx
+
+  return partition(0, len(arr) - 1)
 
 ```
 
