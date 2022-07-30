@@ -15,15 +15,15 @@
 - 구현 방법에 따라 공간복잡도가 달라질 수 있음
 - 입력 배열이 차지하는 메모리만을 사용하는 in-place sorting 방식을 구현할 경우, O(1)의 공간복잡도를 가진 코드의 구현이 가능하다.
 
-  ![Alt text](../../../img/mergesort.PNG)
+  ![Alt text](../../../img/quicksort.png)
   
-  <h6>출처 :  </h6>
+  <h6>출처 : https://www.baeldung.com/cs/quicksort-vs-heapsort  </h6>
 ---
 <h2>알고리즘</h2>
 오름차순
 1. 피봇 설정
 2. 피봇보다 크면 오른쪽 작으면 왼쪽 리스트에 저장
-3. 피봇은 mid리스트에 저장
+3. 피봇은 mid리스트에 저s장
 4. 각 리스트로 퀵 함수 재호출함과 동시에 합치기
 
 ---
