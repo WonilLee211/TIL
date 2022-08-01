@@ -55,7 +55,7 @@
 # HTML
 
 - Hyper Text Markup Language
-- 웹 페이지를 작성(구조화하기 위한 언어)
+- 웹 페이지를 작성(구조화)하기 위한 언어
 - 파일 형식 : `.html`
 
 ### Hyper text
