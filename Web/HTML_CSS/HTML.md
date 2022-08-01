@@ -106,11 +106,11 @@
 
 ### 2.1 head 예시
 
-- <title> : 브라우저 상단 타이틀
-- <meta> : 문서 레벨 메타데이터 요소
-- <link> : 외부 리소스 연결 요소 ( CSS, favicon)
-- <script> : 스크립트 요소(Javascript 파일/코드)
-- <style> : CSS 직접 작성
+- `<title>` : 브라우저 상단 타이틀
+- `<meta>` : 문서 레벨 메타데이터 요소
+- `<link>` : 외부 리소스 연결 요소 ( CSS, favicon)
+- `<script>` : 스크립트 요소(Javascript 파일/코드)
+- `<style>` : CSS 직접 작성
 
 ```html
 <head>
