@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*자손 결합자 : a하위의 모든 b 요소*/
+        div span{
+            color: red;
+        }
+        /*자식 결합자 : a 바로 아래의 b요소*/
+        div > span{
+            color: red;
+        }
+        /*일반 형제 결합자 : a의 형제 요소 중 뒤에 위치하는 b 요소 전부*/
+        p ~ span{
+            color: red;
+        }
+        /*인접 형제 결합자 : a의 형제 요소 중 바로 뒤에 위치하는 b 요소 선택*/
+        p + span{
+            color: red;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div>
+        <h3>자손 결합자</h3>
+        <span>이건 빨강입니다.</span>
+        <p>이건 빨강이 아닙니다.</p>
+        <p>
+            <span>이건 빨강입니다.</span>
+        </p>
+    </div><br><br>
+    <div>
+        <h3>자식 결합자</h3>
+        <span>이건 빨강입니다.</span>
+        <p>이건 빨강이 아닙니다.</p>
+        <p>
+            <span>이건 빨강이 아닙니다.</span>
+        </p>
+    </div><br><br>
+    <div>
+        <h3>일반 형제 결합자</h3>
+        <span>이건 빨강이 아닙니다..</span>
+        <p>이건 빨강이 아닙니다.</p>
+        <p>
+        <span>이건 빨강입니다.</span>
+        <b> 더 있습니다.</b>
+        <span>이것도 형제 이기 때문에 빨강입니다.</span>
+        </p>
+    </div><br><br>
+    <div>
+        <h3>인접 형제 결합자</h3>
+        <span>이건 빨강이 아닙니다..</span>
+        <p>이건 빨강이 아닙니다.</p>
+        <p>
+        <span>이건 빨강입니다.</span>
+        <b> 더 있습니다.</b>
+        <span>이것은 인접하지 않기 때문에 빨강이 아닙니다.</span>
+        </p>
+    </div>
+</body>
+</html>
