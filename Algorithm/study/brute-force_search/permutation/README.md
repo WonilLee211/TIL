@@ -34,3 +34,31 @@ permutation(arr, 0, 3, 2)
 ```
 
 ### 2.2 재귀함수와 visited 배열을 이용하여 처리한 위치에 대해 참으로 설정하여 순열을 구하는 방법(DFS-backtracking)
+![Alt text](../../../img/perm_2.png)
+
+1. depth마다 뽑힐 수 있는 가지 수 저장 
+2. promising 조건
+   1. 해당 요소가 뽑힌 적이 없어야 함
+   2. 뽑힌 기록을 저장
+3. 뽑고 싶은 수만큼 재귀
+
+```python
+
+def dfs(arr, r, depth, visited, result):
+    if depth == r:
+        print(result)
+        return
+    
+    for i in range(len(arr)):
+        if not visited[i]: # 백트래킹 조건
+            result[depth] = arr[i] # 해당 깊이에서 가능한 케이스를 저장
+            visited[i] = True
+            dfs(arr, r, depth + 1, visited, result) # 방문하지 않은 곳을 찾았다면 그곳을 기준으로 한단계 더 깊이 들어간다.
+            visited[i] = False # 다른 케이스에서 visited[i]는 방문하지 않은 상태이다.
+
+arr = [1,2,3]
+r = 3
+visited = [False for _ in range(r)]
+result = [0 for _ in range(r)]
+dfs(arr, r, 0, visited, result)  
+```
