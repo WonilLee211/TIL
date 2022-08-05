@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 선택자 우선순위</title>
+    <style>
+
+        h2 {
+        color: rgb(211, 0, 0) !important;
+        }
+
+        p {
+        color: orange;
+        }
+        
+        .white {
+        color: rgb(240, 240, 241);
+        }
+
+        .green {
+        color: green;
+        }
+
+        #black {
+        color: rgb(12, 7, 7);
+        }
+
+    </style>
+</head>
+<body>
+    <p>p태그 선택자로 인해 주황색 글씨입니다.</p>
+    <p class="white">white 클래스로 인해 흰색 글씨입니다.</p>
+    <p class="white green">green 클래스 아래 선언되었기 때문에 저는 초록색 글씨입니다.</p>
+    <p class="green white">green 클래스 아래 선언되었기 때문에 저는 초록색 글씨입니다.</p>
+    <p class="white" id="black">아이디가 클래스보다 범위가 좁기 때문에, 검정색 글씨입니다.</p>
+    <h2 class="white" id="black">h2의 !important가 가장 우선순위가 높기에, 빨간색입니다.</h2>
+    <p class="white" id="black" style="color: yellow;">직접 선언이 내부 선언보다 우선순위가 높기 때문에 노란색 글씨입니다.</p>
+    <h2 class="white" id="black" style="color: yellow;">h2의 !important가 가장 우선순위가 높기에, 빨간색입니다.</h2>
+    
+    
+
+        
+    
+</body>
+</html>
