@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <style>
+        body{
+            height: 5000px;
+            background-color: black;
+        }
+
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color:darkgreen;
+            border: 2px solid black;
+            color:beige;
+        }
+
+        .bigbox{
+            width: 500px;
+            height: 500px;
+            background-color: darkgreen;
+            border: 2px solid black;
+            color:beige;
+            text-align: center;
+            text-justify: center;
+        }
+
+        
+
+        div,
+        h2 {
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <p class="border border-bottom-2 border-light "></p>
+
+    <h2>position</h2>
+    <!-- <div class="box fixed-top bg-secondary">상단에 고정시키기</div> -->
+    <!-- translate : 정중앙에 정렬 가능  -->
+    <button class="btn btn-primary position-relative">
+        mail<span class="position-absolute start-100 top-0 translate-middle badge rounded-pill bg-success p-1">+99</span>
+    </button>
+
+    <!-- 박스안에 박스 넣어서 위치시키기-->
+    <div class="bigbox position-relative">
+        <div class="box position-absolute top-0 start-0">.top-0/ .start-0</div>
+    </div>
+
+    <p class="border border-bottom-2 border-light "></p>
+
+    <h2>display</h2>
+    <div class="d-inline p-2 text-bg-primary">d-inline</div>
+    <div class="d-inline p-2 text-bg-dark">d-inline</div>
+    <!-- 안보이게 하기 -->
+    <div class="d-none p-2 text-bg-dark">d-inline</div>
+
+    <p class="border border-bottom-2 border-light "></p>
+
+    
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
