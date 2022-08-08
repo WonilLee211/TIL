@@ -62,3 +62,14 @@ visited = [False for _ in range(r)]
 result = [0 for _ in range(r)]
 dfs(arr, r, 0, visited, result)  
 ```
+
+### 2.3 for문을 사용한 순열(1부터 3까지)
+
+```python
+for i in range(1, 4):
+    for j in range(1, 4):
+        if i != j:
+            for k in range(1, 4):
+                if k != i and k != j:
+                    print(i, j, k)
+```

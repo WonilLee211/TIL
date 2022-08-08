@@ -65,56 +65,6 @@ cnt_one = 0
 dfs(N, 0, 0, arr)
 print(max_case)
 '''
-'''
-# 가능한 인덱스 조합만 구하고 최종 단계에서 계산 후 최대 값 구하기
-import sys
-def dfs(N, arr, idx_arr):
-    global crt_i
-    global max_acc
-
-    if crt_i >= N + 1:
-        return
-
-    elif crt_i == N:
-        acc = 0
-
-        for i, bool in enumerate(idx_arr):
-            if bool:
-                acc += arr[i]
-
-        if acc > max_acc:
-            max_acc = acc
-        return
-
-
-    for i in range(1, 3):
-        if i == 1:
-            if idx_arr[crt_i] and idx_arr[crt_i-1]:
-                continue
-        
-        crt_i += i
-        if crt_i < N + 1:
-            idx_arr[crt_i] = i
-            dfs(N, arr, idx_arr)
-            idx_arr[crt_i] = 0
-            crt_i -= i
-        else:
-            crt_i -= i
-            return
-        
-N = int(input())
-arr = [0]
-arr += list(int(sys.stdin.readline()) for _ in range(N))
-# N = 6
-# arr = [0, 10, 20, 15, 25, 10, 20]
-
-idx_arr = [0 for _ in range(N + 1)]
-crt_i = 0
-max_acc = 0
-
-dfs(N, arr, idx_arr)
-print(max_acc)
-'''
 # 가능한 인덱스 조합만 구하고 최종 단계에서 계산 후 최대 값 구하기
 import sys
 def dfs(N, arr, idx_arr):
