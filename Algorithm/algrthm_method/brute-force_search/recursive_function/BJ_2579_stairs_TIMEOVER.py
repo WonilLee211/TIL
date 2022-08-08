@@ -66,6 +66,7 @@ dfs(N, 0, 0, arr)
 print(max_case)
 '''
 # 가능한 인덱스 조합만 구하고 최종 단계에서 계산 후 최대 값 구하기
+'''
 import sys
 def dfs(N, arr, idx_arr):
     global crt_i
@@ -113,3 +114,32 @@ max_acc = 0
 
 dfs(N, arr, idx_arr)
 print(max_acc)
+'''
+
+import sys
+
+n = int(input())
+arr = list(int(sys.stdin.readline()) for _ in range(n))
+
+max_value = 0
+def dfs(n, arr, depth, total, consecutive):
+    global max_value
+
+    if depth <= 0:
+        if depth == 0:
+            total += arr[depth]
+        if total > max_value:        
+            max_value = total
+        return
+
+    for i in range(1, 3):
+        if consecutive == 1:
+            dfs(n, arr, depth-2, total + arr[depth], 0)
+            continue
+        if i == 1:
+            dfs(n, arr, depth-1, total + arr[depth], consecutive + 1)
+        else:
+            dfs(n, arr, depth-2, total + arr[depth], 0)
+
+dfs(n, arr, n-1, 0, 0)
+print(max_value)
