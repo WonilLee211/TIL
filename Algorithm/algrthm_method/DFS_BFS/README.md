@@ -17,10 +17,28 @@
 - 스택
 - 재귀함수
 
-### 1.3 DFS 활용할만한 문제 유형
+### 1.3 DFS 구현
+- 재귀함수
+```python
+graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
+visited = [False for _ in range(len(graph))]
+
+def dfs(graph, start, visited):
+  visited.append(graph[start])
+
+  for node in graph[start]:
+    if node not in visited:
+      dfs(graph, node, visited)
+  
+  return visited
+print(dfs(graph, 1, visited))
+```
+
+### 1.4 DFS 활용할만한 문제 유형
 1. 모든 정점을 방문하는 것이 주요한 문제
 2. 경로의 특징을 저장해둬야 하는 문제
 3. 검색 대상 그래프가 정말 큰 문제
+
 
 ---
 ## 2. 너비 우선 탐색(BFS, breath first search)
