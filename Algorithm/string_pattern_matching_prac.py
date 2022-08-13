@@ -13,7 +13,7 @@ def bruteforce(pattern, text):
             return i -j
     else:
         return -1
-''' bruteforce_while문으로 구현
+
 def bruteforce1(pattern, text):
 
     N = len(text)
@@ -29,8 +29,7 @@ def bruteforce1(pattern, text):
         return i - j
 
     return -1
-'''
-''' KMP 알고리즘
+
 def pre_process(pattern):
     M = len(pattern)
     lps = [0 for _ in range(M)]
@@ -54,7 +53,6 @@ def KMP(pattern, text):
     N, M, i, j = len(text), len(pattern), 0, 0
 
     while i < N and j < M:
-        # 같은 문자라면 다음 문자 비교
         if pattern[j] == text[i]:
             i += 1
             j += 1
@@ -64,11 +62,10 @@ def KMP(pattern, text):
             else:
                 i += 1
 
-        if j == M: # 패턴이 전부 일치할 때
-            return i - M # text의 위치
+        if j == M:
+            return i - M
     return -1
-'''
-'''보이어 무어 알고리즘
+
 def pre_process(pattern):
 
     M = len(pattern)
@@ -82,17 +79,24 @@ def pre_process(pattern):
 def boyer_moore(text, pattern):
     skip_table = pre_process(pattern)
     N, M = len(text), len(pattern)
-
+    11111
+    11
     i = 0
-    while i <= len(text) - M:
-        j = M - 1   # 뒤에서 비교해야 되기 때문 j를 끝에 index
-        k = i + (M-1)  # 비교를 시작할 위치 (현재위치 + M번째 인덱스)
 
-        # 비교할 j가 남아있고, text와 pattern이 일치하면
-        # 그 다음 앞에 글자를 비교하기 위해 인덱스 감소
-        while j >= 0 and pattern[j] == text[k]:
-            j -= 1
-            k -= 1
+    while i < N - M:
+        j = M - 1 # 패턴 비교 시작 위치
+        k = i + (M - 1) # 텍스트 비교 시작 위치
+
+        # i번째 위치에서 패턴 끝부분부터 비교
+        while True:
+            if pattern[j] == text[k]:
+                j, k = j-1, k-1
+            else:
+                break
+
+            if j == -1:
+                break
+
         if j == -1:
             return i
         else: # 일치하지 않는 경우
@@ -102,4 +106,3 @@ def boyer_moore(text, pattern):
             i = skip_table.get(text[i + (M -1)], M)
 
     return -1
-'''
