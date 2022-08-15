@@ -23,16 +23,20 @@
 ---
 
 ## 분류
-
-### [Git](./Git/)
-
-* [Git basic](./Git/Git%20basic.md)
-
 ### [Algorithm](./Algorithm/)
 
 * [study](./Algorithm/study/)
 * [SWEA](./Algorithm/SWEA/)
 
+### [Git](./Git/)
+
+* [Git basic](./Git/Git%20basic.md)
+
+### [Web](./Web/)
+* [CSS](./Web/CSS/)
+* [HTML](./Web/HTML/)
+* [boostrap_prac](./Web/bostrap_prac/)
+* [study](./Web/study/)
 ### [python](./python/)
 
 * [prac_to_realize](./python/prac_to_realize/)
