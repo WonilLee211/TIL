@@ -1,3 +1,4 @@
+'''
 def bruteforce(pattern, text):
 
     N = len(text)
@@ -13,6 +14,8 @@ def bruteforce(pattern, text):
             return i -j
     else:
         return -1
+
+'''
 ''' bruteforce_while문으로 구현
 def bruteforce1(pattern, text):
 
@@ -30,11 +33,12 @@ def bruteforce1(pattern, text):
 
     return -1
 '''
-''' KMP 알고리즘
+'''KMP
+pattern = 'abcdabce'
 def pre_process(pattern):
     M = len(pattern)
     lps = [0 for _ in range(M)]
-
+    j = 0
     for i in range(1, M):
         if pattern[i] == pattern[j]: # 같으면 lps에 중복된 횟수 + 1을 저장
             lps[i] = j + 1
