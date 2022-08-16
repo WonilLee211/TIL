@@ -1,14 +1,14 @@
 import sys
 sys.stdin = open('input.txt')
 
-def recursive(num, next, cnt):
+def recursive(num, next, cnt, arr):
     arr.append(next)
     cnt += 1
 
     if next > num:
-        return cnt
+        return cnt, arr
 
-    return recursive(next, num - next, cnt)
+    return recursive(next, num - next, cnt, arr)
 
 def max_cnt(num):
 
@@ -17,7 +17,7 @@ def max_cnt(num):
 
     for i in range(1, num):
         arr = [num]
-        cnt = recursive(num, i, 1)
+        cnt, arr = recursive(num, i, 1, [num])
 
         if cnt > max_cnt_:
             max_cnt_ = cnt
@@ -27,10 +27,10 @@ def max_cnt(num):
 
 if __name__ == '__main__':
     num = int(input())
-    global arr
+    if num == 1:
+        result = 4, [1, 1, 0, 1]
+    else:
+        result = max_cnt(num)
 
-    arr = [num]
-
-    result = max_cnt(num)
     print(result[0])
     print(*result[1])
