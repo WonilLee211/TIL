@@ -70,7 +70,7 @@ def dfs_stack(graph, node):
     
     if n not in visited:
       visited.append(n)
-      stack.append(graph[n])
+      stack.extend(graph[n])
 
   return visited
 
