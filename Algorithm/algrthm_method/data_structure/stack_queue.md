@@ -3,17 +3,33 @@
 - LIFO(Last in, First out) : 후입선출, `나중에 입력된 데이터가 먼저 반환`되도록 설계한 메모리 구조
 - 보통 웹의 undo 작업할 때 사용되는 자료구조
 - DFS, 깊이우선탐색에 활용되는 자료구조
-- 데이터 입력은 push라 하고 출력은 pop이라 한다.
-- push는 append() 메서드를, pop은 pop() 메서드를 통해 작업한다.
-- pop의 경우, 스택에 데이터가 비어있는지 여부부터 확인해야 함
-    - `isEmpty()` : 스택이 비어있는지 여부 확인
 
+### . 연산
+- 삽입(push) : 저장소에 자료를 저장
+- 삭제(pop) : 저장소에서 자료를 꺼낸다. 삽입한 자료의 역순으로 꺼냄
+- `isEmpty` : 스택이 공백인지 아닌지 확인하는 연산.
+- `peek` : 스택의 top에 있는 item을 반환하는 연산
+- `top` : 스택에서 마지막에 삽입된 원소의 위치
+  
   ![Alt text](../../../img/Data_stack.png)
   
   <h6>출처 : https://ko.wikipedia.org/wiki/스택 </h6>
 
 ## 2. 파이썬에서 스택 구현
-### 2.1 리스트 이용
+### 2.1 직접 구현
+```python
+s = []
+def push(item):
+  s.append(item)
+def pop():
+  if len(s) ==0:
+    return
+  else:
+    return s.pop()
+  
+
+```
+### 2.2 리스트 이용
 - 배열의 뒷 요소를 삭제할 때는 시간 복잡도가 deque와 차이 없음
 ```python 
 stack = []
@@ -21,7 +37,7 @@ stack = []
 stack.append('1st floor')
 stack.append('2nd floor')
 stack.append('3rd floor')
-print(stack) 
+print(stack)
 # ['1st floor', '2nd floor', '3rd floor']
 
 stack.pop() # 3rd floor
@@ -29,9 +45,9 @@ stack.pop() # 2nd floor
 stack.pop() # 1st floor
 ```
 
-### 2.2 deque 클래스 활용
+### 2.3 deque 클래스 활용
 ```python
-from collection import deque
+from collections import deque
 stack = deque()
 
 stack.append('1st floor')
