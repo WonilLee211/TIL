@@ -74,7 +74,7 @@ def dfs_stack(graph, node):
 
   return visited
 
-print(bfs_stack(graph, 1))
+print(dfs_stack(graph, 1))
 
 # [1, 3, 6, 9, 5, 4, 8, 11, 10, 2]
 ```
