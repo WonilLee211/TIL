@@ -55,8 +55,16 @@
     - 자가 루프가 없는 단순 그래프의 경우 인접행렬의 대각선 성분은 0
     - 무향그래프 인접행렬은 대칭행렬
 ```python
-for i in range(1, K):
-    for j in range(1, K):
+# V : 정점의 개수
+V, E = 7, 8
+edge_list = [1, 2, 1, 3, 2, 4, 2, 5, 4, 6, 5, 6, 6, 7, 3, 7]
+graph = list(([0] * (V + 1) for _ in range(V + 1)))
+for idx in range(E):
+    # graph[시작점][끝점] = 1
+    frm = edge_list[idx*2]
+    to = edge_list[idx*2 + 1]
+    graph[frm][to] = 1
+    graph[to][frm] = 1
 
 ```
 
@@ -68,6 +76,11 @@ for i in range(1, K):
 - **공간복잡도** : O(n + m) ( n : 정점의 개수, m : 엣지 개수)
     1. 무향그래프 : n + 2m (양방향이기 때문)
     2. 방향그래프 : n + m (단방향이라 중복 표기가 없음)
-
     
+```python
+# V : 정점의 개수
+graph = list([0] * (V + 1))
+
+```
+
 <h6><참조> : https://daebaq27.tistory.com/25 </h6>
