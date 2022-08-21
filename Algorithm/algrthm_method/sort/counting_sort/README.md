@@ -32,10 +32,10 @@ def countingsort(arr, N):
     for num in arr:
         if num > max_num:
             max_num = num:
-    
+
     temp_arr = [0 for _ in range(N)]
     cnt_arr = [0 for _ in range(max_num + 1)] # 최대값의 인덱스를 갖는 카운팅 리스트 만들기
-    
+
     # 배열의 요소값을 인덱스로 사용해서 cnt_arr에 갯수 세기
     for num in arr:
         cnt_arr[num] += 1
@@ -43,7 +43,7 @@ def countingsort(arr, N):
     for i in range(1, max_num + 1):
         cnt_arr[i] += cnt_arr[i-1]
     # cnt_arr를 의 값을 인덱스로 사용해서 temp_arr에 arr의 뒤쪽 요소부터 배열하기
-    for i in range(N-1, 0, -1):
+    for i in range(N-1, -1, -1):
         cnt_arr[arr[i]] -= 1
         temp_arr[cnt_arr[arr[i]]] = arr[i]
 ```
