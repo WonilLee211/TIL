@@ -79,17 +79,9 @@ print(cnt)
 
 ## 7. 백트래킹 연습
 ### 백트래킹으로 부분집합 구하기
-
-- 백트래킹 기법으로 powerset 구하기
-```python
-
-arr = [1,2,3,4,5,6,7,8,9,10]
-
-```
 - n개의 원소가 들어있는 집합의 n**2개의 부분 집합을 만들 때는, True, False값을 가지는 항목들로 구성된 n개의 배열을 만드는 방법을 이용
-- 
 ```python
-def backtrack(a, cnt, depth)s:
+def backtrack(a, cnt, depth):
     c = [1, 0]
 
     if cnt == depth:
@@ -106,3 +98,124 @@ nmax = 4
 a = [0] * nmax
 backtrack(a, 0, 3)
 ```
+```python
+numbers = list(range(1, 6))
+selected = [False]*len(numbers)
+result = []
+
+def powerset(idx):
+    if idx > len(numbers):
+        selected[idx] = True
+        powerset(idx + 1)
+        selected[idx] = False
+        powerset(idx + 1)
+    else:
+        res = []
+        for i in range(len(numbers)):
+            if selected[i]:
+                res.append(numbers[i])
+        result.append(res)
+```
+- {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}의 powerset 중 원소의 합이 10인 부분집합
+```python
+def dfs(n, i):
+    global answer
+    global cnt # 재귀 횟수 세기
+    cnt += 1
+    if i == n:
+        subsum = 0
+        for i in range(n):
+            if bit[i]:
+                # print(arr[i], end = ' ')
+                subsum += arr[i]
+        # print()
+        if subsum == 30:
+            answer += 1
+    else:
+        bit[i] = 1
+        dfs(n, i + 1)
+        bit[i] = 0
+        dfs(n, i + 1)
+        
+arr = [1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]
+n = len(arr)
+bit = [0] * n
+cnt = answer = 0
+dfs(n, 0)
+print(answer, cnt) # 39 2047
+```
+- 백트래킹 : 목표값보다 큰 경우
+```python
+# 다시보기
+def dfs(n, i, subsum):
+    global answer
+    global cnt
+    cnt += 1
+    if subsum > goals:
+        return
+    
+    if i == n:
+        if subsum == goals:
+            answer += 1
+        return
+
+    else:
+        dfs(n, i+1, subsum + arr[i])
+        dfs(n, i, subsum)
+            
+arr = [1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]
+n = len(arr)
+goals = 30
+cnt = answer = 0
+dfs(n, 0, 0)
+print(answer, cnt) # 39 1585
+```
+
+### 백트래킹으로 순열구하기
+
+```python
+arr = [1, 2, 3]
+n = len(arr)
+r = 2 # 원하는 수열의 길이
+
+def dfs(n, r, i):
+    if i == r:
+        print(arr[:r])
+    else:
+        for j in range(n):
+            arr[i], arr[j] = arr[j], arr[i]
+            dfs(i+1, n, r);
+            arr[i], arr[j] = arr[j], arr[i]
+
+dfs(n, r, 0)
+```
+- 참고
+```python
+def backtrack(a, cnt, depth):
+    global maxcondidates
+    c = [0] * maxcandidates
+
+    if cnt == depth:
+        for i in range(1, cnt + 1):
+            print(a[i], end=' ')
+        print()
+    else:
+        cnt += 1
+        ncandidates = construct_candidates(a, cnt, depth, c)
+        for i in range(ncandidates):
+            a[cnt] = c[i]
+            backtrack(a, cnt, depth)
+
+def construct_candidates(a, cnt, depth, c):
+    in_perm = [False] * nmax
+    for i in range(1, cnt):
+        in_perm[a[i]] = True
+
+    ncandidates = 0
+
+    for i in range(1, depth + 1):
+        if in_perm[i] == i:
+            c[ncandidates] += 1
+    return ncandidates
+```
+
