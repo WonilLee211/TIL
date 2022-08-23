@@ -45,40 +45,51 @@
 
 ## 구현
 ```python
+
+# 1. 후위 표기법 만들기
 state = '(6+5*(2-8)/2)'
 
 # 1. 후위 표기법 만들기
-교수님믿기
-'''
+
+# 토큰:[isp, icp]
+priority = {'+':[1, 1], '-':[1, 1], '/':[2, 2], '*':[2, 2], '(':[0, 3]} 
 operators = ['+', '-', '/', '*', '(']
 stack = []
-arr = []
-for x in state:
-    if x == '(':
-        stack.append(x)
-    
-    elif x in :
-        stack.append(x)
-    elif x == ')':
-        while stack[-1] != '(':
-            top_el = stack.pop()
-            arr.append(top_el)
-    else:
-        arr.append(x)
+postfix_arr = []
 
-for _ in range(len(stack)):
-    x = stack.pop()
+for x in state:
+    
+    if x ==  ')':
+        while len(stack) > 0 and stack[-1] != '(':
+            postfix_arr.append(stack.pop())
+                
+    elif x in operators:
+        
+        while len(stack) > 0 and priority[stack[-1]][0] >= priority[x][1]:
+            top = stack.pop()
+            if top != '(':
+                postfix_arr.append(top)
+
+        stack.append(x)# 우선순위에 따라 stack에 pop 시킨 후 stack에 연산자 넣기
+            
+    else: # 숫사일 때 바로 배열에 저장
+        postfix_arr.append(x) 
+        
+
+while stack: # 스택에 남아있는 연산자 ( 빼고 배열에 저장
+    top = stack.pop()
     if x != '(':
-        arr.append(x)
-'''
-# ['6', '5', '2', '8', '-', '2', '/', '*', '+']
+        postfix_arr.append(top)
+
+print(postfix_arr)
+
+# 6528-*2/+
 
 # 2. 후위 표기법의 수식을 스택을 이용하여 계산하기
 temp = []
 i = 0
-while i < len(arr):
-    x = arr[i]
-    print(temp)
+while i < len(postfix_arr):
+    x = postfix_arr[i]
     if x not in operators:
         temp.append(x)
         i += 1
@@ -97,6 +108,8 @@ while i < len(arr):
         i += 1
         
 result = temp.pop()
+print(result)
+
 
 ```
 
