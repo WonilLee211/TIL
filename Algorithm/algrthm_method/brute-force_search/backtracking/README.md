@@ -146,7 +146,7 @@ print(answer, cnt) # 39 2047
 ```
 - 백트래킹 : 목표값보다 큰 경우
 ```python
-# 다시보기
+
 def dfs(n, i, subsum):
     global answer
     global cnt
@@ -161,14 +161,46 @@ def dfs(n, i, subsum):
 
     else:
         dfs(n, i+1, subsum + arr[i])
-        dfs(n, i, subsum)
+        dfs(n, i+1, subsum)
             
 arr = [1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]
 n = len(arr)
 goals = 30
 cnt = answer = 0
 dfs(n, 0, 0)
-print(answer, cnt) # 39 1585
+print(answer, cnt) # 39 1843
+```
+- 백트래킹 : 남은 값을 더해도 목표값보다 작은 경우
+```python
+def dfs(n, i, subsum):
+    global answer
+    global cnt
+    cnt += 1
+    
+    if subsum > goals:
+        return
+    if goals > subsum + tabul[i]:
+        return
+    if i == n:
+        if subsum == goals:
+            answer += 1
+    else:
+        dfs(n, i + 1, subsum + arr[i])
+        dfs(n, i + 1, subsum)
+
+arr = [1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]
+n = len(arr)
+
+tabul = [0] * (n+1)
+tabul[-1] = arr[-1]
+for i in range(n-1, -1 , -1):
+    tabul[i] += arr[i] + tabul[i + 1]
+    
+goals = 30
+cnt = answer = 0
+dfs(n, 0, 0)
+print(answer, cnt) # 39 1775
+
 ```
 
 ### 백트래킹으로 순열구하기
