@@ -1,45 +1,44 @@
 import sys
 sys.stdin = open('input.txt')
 
+# 주어진 범위 내에 최대 값의 인덱스 반환하는 함수
+def max_in_range(L, R):
+    max_idx = L
+    for i in range(L, R):
+        if col_arr[i][1] > col_arr[max_idx][1]:
+            max_idx = i
+    return max_idx
+
 num_col = int(input())
 col_arr = []
 
 for i in range(num_col):
     col_arr.append(list(map(int, input().split())))
 
-# 정렬
+# 정렬 및 맥스 위치 인덱스 찾기
 for i in range(num_col-1):
     temp = i
     for j in range(i+1, num_col):
         if col_arr[j][0] < col_arr[temp][0]:
             temp = j
-    col_arr[i][0], col_arr[temp][0] = col_arr[temp][0], col_arr[i][0]
+    col_arr[i], col_arr[temp] = col_arr[temp], col_arr[i]
 
-
-max_idx = col_arr[0][0]
-for i in range(1, num_col):
+max_idx = num_col-1
+for i in range(num_col-1):
     if col_arr[i][1] > col_arr[max_idx][1]:
         max_idx = i
 
-# 5 [[2, 4], [4, 4], [5, 8], [8, 6], [11, 3], [13, 10], [15, 6]]
-i = 1
 area = col_arr[max_idx][1]
-max_Ldx, max_Rdx = max_idx, ,max_idx + 1
-max_L = max_R = col_arr[max_idx][1]
-cnt_L,
+max_ldx = max_rdx = max_idx
 
-while max_Ldx -i > 0:
-    if col_arr[max_Ldx - i][1] < col_arr[max_Ldx][1]:
+while max_ldx != 0:
+    next_ldx = max_in_range(0, max_ldx)
+    area += (col_arr[max_ldx][0]-col_arr[next_ldx][0]) * col_arr[next_ldx][1]
+    max_ldx = next_ldx
 
-    if col_arr[max_Ldx - i][1] > col_arr[max_Ldx][1]:
-        area += (max_Ldx - col_arr[max_Ldx-i][0]) * max_L
-        max_Ldx = col_arr[max_Ldx-i][0]
+while max_rdx != len(col_arr)-1:
+    next_rdx = max_in_range(max_rdx+1, len(col_arr))
+    area += (col_arr[next_rdx][0] - col_arr[max_rdx][0]) * col_arr[next_rdx][1]
+    max_rdx = next_rdx
 
-    i -= 1
-
-while max_idx + i < num_col:
-    if col_arr[max_idx + i][1] > col_arr[max_idx][1]:
-        area += (col_arr[max_idx + i][0] - max_idx) * col_arr[max_idx - i][1]
-        max_idx = col_arr[max_idx - i][0]
-
-    i -= 1
+print(area)
