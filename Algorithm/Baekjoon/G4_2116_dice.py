@@ -1,31 +1,38 @@
-import sys
-<<<<<<< HEAD
+import sys, pprint
 sys.stdin =open('input.txt')
 
-# a-f : 1-6
-# c-e : 3-5
-# b-d : 2-4
+
+import copy
 
 n = int(input())
-linklist = []
+
+dice = [0] * n
 
 for i in range(n):
-    a, b, c, d, e, f = map(int, input().split())
-=======
-sys.stdin = open('input.txt')
+    dice[i] = [0] + list(map(int, input().split()))
 
-n = int(input())
+link = {1:6, 2:4, 3:5, 4:2, 5:3, 6:1} # 연결된 인덱스...
+cnt_max = [0] * 6
 
-linklist = []
+for i in range(1, 7): # 일층 주사위 윗면 숫자의 인덱스 결정
+    temp = copy.deepcopy(dice)
 
-for i in range(N):
-    a, b, c, d, e, f = map(int, input().split())
-    linklist = [[a, 6], [b, 4], [c, 5], [d, 2], [e, 3], [f, 1]]
+    dice_bt = temp[0][i]
+    dice_top = temp[0][link[i]]
 
+    j = 0
+    while True:
+        temp[j].remove(dice_top)
+        temp[j].remove(dice_bt)
 
+        cnt_max[i - 1] += max(temp[j])
 
-    # a-f 1-6
-    # b-d 2-4
-    # c-e 3-5
+        if j + 1 == n:
+            break
+        else:
+            j += 1
+            dice_bt = temp[j][temp[j].index(dice_top)]
+            dice_top = temp[j][link[temp[j].index(dice_bt)]]
 
->>>>>>> 2bc358a9614404e2012a80e5b5dc647288d27534
+print(max(cnt_max))
+

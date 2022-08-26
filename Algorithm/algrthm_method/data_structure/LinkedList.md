@@ -28,7 +28,7 @@
  ![Alt text](../../img/linkedlist2.png)
 
 ## 구현
-### 1. dqueue
+### 1. deque
 ```python
 from collections import deque
 
@@ -50,30 +50,9 @@ linked_list.remove('fourth')
 - 제자리 내부반전
 - 성능보다 스토리지가 우선일 때, 요소 모두가 자체로 개별 요소로서 받는 것이 아닐 때
 
-### 1. dqueue
-```python
-from collections import deque
-
-linked_list = deque()
-linked_list.append("first")
-linked_list.append("second")
-linked_list.append("third")
-print(linked_list)
-# deque(['first', 'second', 'third'])
-
-linked_list.insert(1, 'fourth')
-print(linked_list)
-# deque(['first', 'fourth', 'second', 'third'])
-linked_list.pop()
-linked_list.remove('fourth')
-```
-###  deque로 linkedlist를 구현해야 할 때
-- 앞과 뒤에서 요소를 삭제 및 삽입만이 필요할 때(중간 위치에서 하면 시간복잡도 커짐)
-- 제자리 내부반전
-- 성능보다 스토리지가 우선일 때, 요소 모두가 자체로 개별 요소로서 받는 것이 아닐 때
 
 ### 2. llist package사용
-- ``pip install llist
+- `pip install llist`
   
 ```python
 import llist
