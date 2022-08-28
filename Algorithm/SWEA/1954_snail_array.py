@@ -1,3 +1,32 @@
+# 1954 달팽이 숫자
+
+T = int(input())
+for tc in range(1, T + 1):
+    n = int(input())
+    arr = list([0]*n for i in range(n))
+
+    di = [0, 1, 0, -1]
+    dj = [1, 0, -1, 0]
+    i = j = k = 0
+    num = 1
+    arr[i][j] = num
+
+    while num != n**2:
+        if 0 <= i + di[k] < n and 0 <= j + dj[k] < n and arr[i + di[k]][j + dj[k]] == 0:
+            num += 1
+            i, j = i + di[k], j + dj[k]
+            arr[i][j] = num
+        else:
+            k = (k+1) % 4
+
+    print(f'#{tc}')
+
+    for i in range(n):
+        print(*arr[i])
+
+
+
+'''
 from collections import deque
 
 T = int(input())
@@ -57,3 +86,4 @@ for test_case in range(1, T + 1):
         for c in range(n):
             print(result[r][c], end=" ")
         print()
+'''

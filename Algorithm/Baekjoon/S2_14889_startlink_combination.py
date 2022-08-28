@@ -1,6 +1,9 @@
 import sys
 sys.stdin = open('input.txt')
 
+
+'''
+시간초과
 def combination(arr, n, r):
     result = []
 
@@ -16,13 +19,20 @@ def combination(arr, n, r):
             for j in combination(arr[i+1:], n-1, r-1):
                 result.append([arr[i]] + j)
     return result
+'''
+
+import itertools
 
 n = int(input())
 
 arr = list(range(1, n + 1))
 
 synergy = [[0] * (n+1)] + list([0]+list(map(int, input().split())) for i in range(n))
-team_case = combination(arr, n, n//2)
+team_case = []
+
+for i in itertools.combinations(range(1, n + 1), n//2):
+    team_case.append(list(i))
+
 
 min_diff = 0
 for row in synergy:
@@ -34,13 +44,8 @@ for team1 in team_case:
     total1 = total2 = 0
     for i in range(len(team1)-1):
         for j in range(i + 1, len(team1)):
-            total1 += synergy[team1[i]][team1[j]]
-            total1 += synergy[team1[j]][team1[i]]
-            total2 += synergy[team2[i]][team2[j]]
-            total2 += synergy[team2[j]][team2[i]]
-
-        if abs(total1 - total2) > min_diff:
-            break
+            total1 += synergy[team1[i]][team1[j]] + synergy[team1[j]][team1[i]]
+            total2 += synergy[team2[i]][team2[j]] + synergy[team2[j]][team2[i]]
 
     if abs(total1 - total2) < min_diff:
         min_diff = abs(total1 - total2)
