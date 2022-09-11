@@ -5,11 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
 </head>
 
 <body>
-    {% block content %}
+    <h1>  {{ title }} </h1>
+    {% if user.is_authenticated %}
+        <p>{{user.username}}님, 반갑습니다.</p>
+
+        <div>
+            <form action=" {% url 'accounts:logout' %} " method="POST">
+                {% csrf_token %}
+                <input type="submit" value="LOGOUT">
+            </form>
+        </div>
+
+        <div>
+            <form action=" {% url 'accounts:update' %} " method="POST">
+                {% csrf_token %}
+                <input type="submit" value="회원정보수정">
+            </form>
+        </div>
+        
+        <div>
+            <form action=" {% url 'accounts:delete' %} " method="POST">
+                {% csrf_token %}
+                <input type="submit" value="회원탈퇴">
+            </form>
+        </div>
+        
+    {% else %}
+        <div>
+            <a href=" {% url 'accounts:login' %} ">LOGIN</a>
+            <hr>
+        </div>
+        <div>
+            <a href=" {% url 'accounts:signup' %} ">회원가입</a>
+            <hr>
+        </div>
     
+    {% endif %}
+
+    {% block content %}
     {% endblock content %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>
