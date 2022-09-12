@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ArticleForm
 from .models import Article
 from django.views.decorators.http import require_http_methods, require_safe, require_POST
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 @require_safe
 def index(request):
     articles = Article.objects.all()
@@ -13,6 +15,7 @@ def index(request):
     }
     return render(request, 'articles/index.html', context)
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 def create(request):
     if request.method =='POST':
@@ -30,6 +33,7 @@ def create(request):
     }
     return render(request, 'articles/create.html', context)
 
+@login_required
 @require_safe
 def detail(request, pk):
     # article = Article.objects.get(pk=pk)
@@ -40,6 +44,7 @@ def detail(request, pk):
     }
     return render(request, 'articles/detail.html', context)
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 def update(request, pk):
     article = get_object_or_404(Article, pk=pk)
@@ -57,9 +62,11 @@ def update(request, pk):
     }
     return render(request, 'articles/update.html', context)
 
+# @login_required
 @require_POST
 def delete(request, pk):
-    if request.method=='POST':
+    # if request.method=='POST':
+    if request.user.is_authenticated:
         article = get_object_or_404(Article, pk=pk)
         article.delete()
         return redirect('articles:index')

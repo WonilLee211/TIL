@@ -13,7 +13,7 @@ for i in range(1, n + 1):
     for j in range(1, i + 1):
         max_prices[i] = max(card_prices[j] + max_prices[i-j], max_prices[i])
 
-print(max_prices[n])
+print(max_prices[-1])
 
 '''
 ppc = [0] *(n + 1)

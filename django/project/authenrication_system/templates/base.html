@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    <h1>  {{ title }} </h1>
     {% if user.is_authenticated %}
         <p>{{user.username}}님, 반갑습니다.</p>
 
@@ -20,21 +19,10 @@
                 <input type="submit" value="LOGOUT">
             </form>
         </div>
+        <hr>
+        <a href="accounts:update">회원정보수정</a>
+        <hr>
 
-        <div>
-            <form action=" {% url 'accounts:update' %} " method="POST">
-                {% csrf_token %}
-                <input type="submit" value="회원정보수정">
-            </form>
-        </div>
-        
-        <div>
-            <form action=" {% url 'accounts:delete' %} " method="POST">
-                {% csrf_token %}
-                <input type="submit" value="회원탈퇴">
-            </form>
-        </div>
-        
     {% else %}
         <div>
             <a href=" {% url 'accounts:login' %} ">LOGIN</a>
