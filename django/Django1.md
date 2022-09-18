@@ -1004,7 +1004,7 @@ def catch(request):
 
 - url 주소를 변수로 사용하는 것
 - url 일부를 변수로 지정하여 view 함수의 인자로 넘길수있음
-- 변수는 <>에 정의, view함수 인자로 할당
+- 변수는 \<>에 정의, view함수 인자로 할당
 - 기본타입은 str
 - 5가지 타입으로 명시 가능
 - ex) path('hello/<name>/<int:age>/', views.hello, name='hello'),
@@ -1012,7 +1012,7 @@ def catch(request):
 - variable routing -> 주소이동할때 path의 일부분을 변수로 사용/ 사용자입력 x
 - path('hello/<name>/', views.hello)
 - hello/ssafy/ -> name에 할당
-- <name> 뿐아니라 <age>등 추가 인자 받기 가능!
+- \<name> 뿐아니라 \<age>등 추가 인자 받기 가능!
 - Variable routing 사용시 주의점!
     - 변수명과 views.py 함수 매개변수의 이름이 같아야한다!!
     - variable routing이 설정되면 반드시 매개변수로 받아야한다!!
