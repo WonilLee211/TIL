@@ -1007,10 +1007,10 @@ def catch(request):
 - 변수는 \<>에 정의, view함수 인자로 할당
 - 기본타입은 str
 - 5가지 타입으로 명시 가능
-- ex) path('hello/<name>/<int:age>/', views.hello, name='hello'),
+- ex) path('hello/\<name>/\<int:age>/', views.hello, name='hello'),
 - query string parameter -> 사용자의 입력 필요
 - variable routing -> 주소이동할때 path의 일부분을 변수로 사용/ 사용자입력 x
-- path('hello/<name>/', views.hello)
+- path('hello/\<name>/', views.hello)
 - hello/ssafy/ -> name에 할당
 - \<name> 뿐아니라 \<age>등 추가 인자 받기 가능!
 - Variable routing 사용시 주의점!
