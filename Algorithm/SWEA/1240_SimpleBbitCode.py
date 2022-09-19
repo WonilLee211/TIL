@@ -1,49 +1,43 @@
-import sys
-sys.stdin = open('input.txt')
-
 pattern = {
-    0:'001101',
-    1:'010011',
-    2:'111011',
-    3:'110001',
-    4:'100011',
-    5:'110111',
-    6:'001011',
-    7:'111101',
-    8:'011001',
-    9:'101111'
+    0:'0001101',
+    1:'0011001',
+    2:'0010011',
+    3:'0111101',
+    4:'0100011',
+    5:'0110001',
+    6:'0101111',
+    7:'0111011',
+    8:'0110111',
+    9:'0001011'
 }
 
-for i in range(1, int(input()) + 1):
+for tc in range(1, int(input()) + 1):
     n, m = map(int, input().split())
-    code = ['0' * n]
+    code = '0' * m
     flag = True
     for i in range(n):
         temp = input()
         if flag and code != temp:
             code = temp
             flag = False
+    L1 = 0
+    for i in range(m-1, -1, -1):
+        if code[i] == '1':
+            L1 = i
+            break
 
-
-    i = 0
+    code = code[L1-55:L1+1]
     decode = []
-    while i < m:
-        k = 0
-        j = 0
-        while k < 6 and j < 10 and i + 5 < m:
-            if code[i+k] == pattern[j][k]:
-                k += 1
-            else:
-                k = 0
-                j += 1
-
-            if k == 6:
-                decode.append(j)
+    for i in range(8):
+        for k, v in pattern.items():
+            if v == code[i*7:(i+1)*7]:
+                decode.append(k)
                 break
 
-        if k == 6:
-            i += 6
-        else:
-            i += 1
+    total = 0
+    for i in range(8):
+        total += decode[i] if i % 2 else int(decode[i])*3
 
-    print(*decode)
+    ans = sum(decode) if not total % 10 else 0
+    print(f'#{tc} {ans}')
+
