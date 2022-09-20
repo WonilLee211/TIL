@@ -100,7 +100,7 @@
     - 글자의 수가 많을 때 사용
     - max_length 옵션 작성 시 사용자 입력단계에서 반영
     - 모델과 BD단계에 적용되지 않음(CharField를 사용해야 함)
-        - 실제로 저장할 떄 길이에 대한 유효성 검증하지 않음
+        - 실제로 저장할 때 길이에 대한 유효성 검증하지 않음
     
 
 ### 데이터베이스 스키마
@@ -111,12 +111,12 @@
 |---|---|
 |title|VARCHAR(10)|
 |content|TEXT|
-- 이제 DB에 테이블을 생성하기 위한 필요함
+- 이제 DB에 테이블을 생성하기 위한 설계도가 필요함
 ---
 ## - 3. Migration
 
 - **주요 명령어**
-    1. makemigraion
+    1. makemigraions
     2. migrate
     
 ### - makemigrations

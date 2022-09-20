@@ -44,7 +44,7 @@
     ```python
     # articles/urls.py
     from django.urls import path
-    
+    from . import views
     app_name = 'articles'
     urlpattern = [
         path('', views.index, name='index'),
@@ -166,7 +166,7 @@ def new(request):
 - new 페이지로 이동할 수 있는 하이퍼링크 작성
 
 ```html
-<!-- templates/articles/new.html -->
+<!-- templates/articles/index.html -->
 
 {% extends 'base.html' %}
 {% block content %}
@@ -182,7 +182,7 @@ def new(request):
 
 urlpattern = [
     ....
-    path('creat/', view.create, name='create'),
+    path('create/', view.create, name='create'),
 ]
 ```
 
@@ -306,7 +306,7 @@ def create(request):
 ```
 
 - **동작원리**
-    1. 클라이언트가 create urlf로 요청
+    1. 클라이언트가 create url로 요청
     2. create view함수의 redirect함수가 **302 status code**를 응답
     3. 응답 받은 브라우저는 redirect인자에 담긴 주소(index)로 사용자를 이동시키기 위해 index url로 Django에 재요청
     4. index page를 정상적으로 응답받음(200 status code)
@@ -442,6 +442,7 @@ def create(request):
         context = {
             'post':post,
         }
+        return render(request, 'articles/detail.html', context)
     
     # 모든 게시글의 목록을 보여주는 부분
     def index(request):
@@ -454,7 +455,6 @@ def create(request):
         }
     
         return render(request, 'articles/index.html', context)
-        return render(request, 'articles/detail.html', context)
     ```
     
     ```html
@@ -750,7 +750,7 @@ def create(request):
     - 사용자가 아닌 서버의 관리자가 활용하기 위한 페이지
     - 모델 class를 admin.py에 등록하고 관리
     - 레코드 생성 여부 확인에 매우 유용하며 직접 레코드 삽입도 가능
-- `$ python [manage.py](http://manage.py) createsuperuser`
+- `$ python manage.py createsuperuser`
     - username과 password를 입력해 관리자 계정을 생성(email은 선택사항)
 - 접속 주소 : https://127.0.0.1:8000/admin/
 - 모델의 레코드 보기
