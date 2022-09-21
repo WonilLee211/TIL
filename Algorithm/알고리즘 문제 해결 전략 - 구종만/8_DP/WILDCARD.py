@@ -13,6 +13,22 @@
 '''
 import sys
 sys.stdin = open('input.txt')
+
+def match_memo(w, s):
+    return
+
+    w = input()
+
+
+for tc in range(1, int(input()) + 1):
+
+    n = int(input())
+    for i in range(n):
+        s = input()
+        if match(w, s):
+            print(s)
+
+'''
 def match(w, s): # 와일드카드 패턴 w가 문자열 s에 대응하는지 여부 반환
     pos = 0
     # w[pos]와 s[pos] 매칭해나가기
@@ -40,3 +56,4 @@ for tc in range(1, int(input()) + 1):
         s = input()
         if match(w, s):
             print(s)
+'''

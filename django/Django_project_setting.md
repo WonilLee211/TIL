@@ -82,3 +82,38 @@
     3. 프로젝트 폴더에 있는 `urls.py` 에서 방금 생성한 `어플리케이션/urls.py` 를 등록해준다.
         1. include 함수를 import 한다.
         2. include 함수를 이용해서 urlpattern 에 등록한다.
+10) (회원 가입 기능이 있는 경우 진행) User Custom 준비 
+
+1. `models.py` 에 User 모델을 정의한다.
+    - 이 때 상속 받는 클래스는 `AbstractUser` 이다.
+    - `from django.contrib.auth.models import AbstractUser`
+    
+    ```python
+    # accounts/models.py
+    
+    from django.contrib.auth.models import AbstractUser
+    
+    class User(AbstractUser):
+        pass    # 비워두게 되면 에러가 발생하므로 pass 를 작성해둠
+    ```
+    
+2. `settings.py` 에 `AUTH_USER_MODEL` 값을 설정해준다.
+    
+    ```python
+    # settings.py
+    ...
+    
+    # 이 때 accounts 는 User 클래스가 정의된 application 이름
+    AUTH_USER_MODEL = 'accounts.User'
+    ```
+    
+3. (선택사항) admin 페이지에 등록
+    
+    ```python
+    # accounts/admin.py
+    from django.contrib import admin
+    from django.contrib.auth.admin import UserAdmin  # 기존에 사용하는 User 관리 interface 설정
+    from .models import User  # 새롭게 등록한 User 모델
+    
+    admin.site.register(User, UserAdmin)
+    ```
