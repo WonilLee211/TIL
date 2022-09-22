@@ -48,7 +48,7 @@
 def is_promising(r):
     # 열과 대각선상에 있는지 확인하기
     for i in range(r):
-        if chassfield[r]  == chassfield[i] or abs(chassfield[r] - chassfield[i]) == abs(r - i):
+        if chessfield[r]  == chessfield[i] or abs(chessfield[r] - chessfield[i]) == abs(r - i):
             return False
 
     return True
@@ -62,7 +62,7 @@ def dfs(r):
         return
     
     for i in range(n):
-        chassfield[r] = i
+        chessfield[r] = i
         # 현재의 위치가 유망하다면
         if is_promising(r):
             # 다음 열에서 유망한 위치 찾기
@@ -70,7 +70,7 @@ def dfs(r):
         
 n = int(input())
 cnt = 0
-chassfield = [0 for _ in range(n)]
+chessfield = [0 for _ in range(n)]
 dfs(0)
 print(cnt)
 

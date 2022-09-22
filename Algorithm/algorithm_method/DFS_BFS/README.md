@@ -39,6 +39,7 @@
 ### 1.4 DFS 구현
 
 - 재귀함수
+
 - ```python
   # 재귀 사용
   graph = {
@@ -55,12 +56,11 @@
       for node in graph[v]:
           if not visited[node]:
               DFS(node)
-        
+  
   DFS(0) # 0 1 3 5 4 2 6
   ```
-  
-  
-  - 줄기별로 막다른 곳까지 갔을 때 탐색 경로 출력
+
+- 줄기별로 막다른 곳까지 갔을 때 탐색 경로 출력
 
 ```python
 graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
@@ -76,6 +76,7 @@ def dfs(graph, start, visited):
 
   for node in graph[start]:
     if not visited[node]: # 방문이력이 없을 때
+      visited[node] = 1
       dfs(graph, node, visited) # 
       visited[node] = 0
 
@@ -90,6 +91,7 @@ dfs(graph, 1, visited)
 ```
 
 - 스택을 통한 구현
+
 - ```python
   # 스택 사용
   graph = {
@@ -101,7 +103,7 @@ dfs(graph, 1, visited)
       visited = [0] * len(graph)
       stack = [0] * len(graph)
       top = -1
-      
+  
       top += 1
       visited[v] = 1
       print(v)
@@ -121,35 +123,36 @@ dfs(graph, 1, visited)
                   top -= 1
               else: # 스택이 비어있으면
                   break
-  
-  
+  ```
+
   DFS(0) # 0 1 3 5 4 2 6
-  ```
+
+```
 - ```python
-  
-  # 탐색하기
-  def dfs(v):
-  
-      print(v, end = ' ')
-      visited[v] = 1
-  
-      while True:
-          for node in adj_arr[v]:
-              if not visited[node]:
-                  stack.append(v)
-  
-                  v = node
-                  visited[v] = 1
-                  print(node,  end=' ')
-                  break
-          else:
-              if stack:
-                  v = stack.pop()
-              else:
-                  break
-  
-  dfs(1)
-  ```
+
+# 탐색하기
+def dfs(v):
+
+    print(v, end = ' ')
+    visited[v] = 1
+
+    while True:
+        for node in adj_arr[v]:
+            if not visited[node]:
+                stack.append(v)
+
+                v = node
+                visited[v] = 1
+                print(node,  end=' ')
+                break
+        else:
+            if stack:
+                v = stack.pop()
+            else:
+                break
+
+dfs(1)
+```
 
 ```python
 graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
@@ -216,7 +219,7 @@ print(dfs_stack(graph, 1))
 
 - 큐와 재귀함수를 이용
 - 큐를 이용한 구현
-  
+
 ```python
   graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
 
@@ -238,11 +241,13 @@ def bfs(graph, root):
 print(bfs(graph, 1))
 
 # [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]
-
 ```
+
 - 재귀함수를 이용한 구현
-```python
-graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
+  
+  ```python
+  graph = [[], [2, 3], [4], [4, 5 ,6], [8], [], [9],[], [10, 11], [], [], []]
+  ```
 
 from collections import deque
 
@@ -267,8 +272,8 @@ recursive_bfs(graph, queue, visited)
 print(visited)
 
 # [2, 3, 4, 5, 6, 8, 9, 10, 11]
-```
 
+```
 ### 2.4 BFS 활용할만한 문제 유형
 
 1. 그래프의 모든 정점을 방문하는 것이 주요한 문제(경로가 있는지 확인하는 문제)
@@ -276,3 +281,4 @@ print(visited)
 3. 검색 대상의 규모가 크지않고, 검색 시작 지점으로부터 원하는 대상이 별로 멀지 않을 때
 
 ---
+```
