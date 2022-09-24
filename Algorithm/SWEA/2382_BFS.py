@@ -22,6 +22,7 @@ for tc in range(1, int(input()) + 1):
                 orgs[j][2] = orgs[j][2] // 2
                 if orgs[j][2] == 0:
                     del orgs[j]
+
         print(visited)
         keys = list(orgs.keys())
         for j in keys:
