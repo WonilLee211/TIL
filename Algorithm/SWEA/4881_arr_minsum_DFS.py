@@ -26,3 +26,4 @@ for tc in range(1, T + 1):
     dfs(0, N, 0, dupli)
 
     print(f'#{tc} {min_sum}')
+
