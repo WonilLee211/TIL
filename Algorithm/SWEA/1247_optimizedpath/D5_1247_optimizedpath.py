@@ -1,9 +1,9 @@
 from itertools import permutations
 
 t = int(input())
-for tc in range(1,t+1):
+for tc in range(1, t + 1):
     n = int(input())
-    data = list(map(int,input().split()))
+    data = list(map(int, input().split()))
 
     # 리스트 슬라이스를 통해 집과 회사 고객 위치 분리하기
         # 순열 조합 때 튜플 사용할 것이기 때문에 각각 튜플 자료형으로 바꾸기
@@ -19,8 +19,11 @@ for tc in range(1,t+1):
 
         acc = 0
 
-        for i in range(0,len(path)-1):  # path의 경우마다 거리 누적 계산
-            acc += abs(path[i][0]-path[i+1][0])+ abs(path[i][1]-path[i+1][1])
+        for i in range(0, len(path) - 1):  # path의 경우마다 거리 누적 계산
+            acc += abs(path[i][0]-path[i+1][0]) + abs(path[i][1]-path[i+1][1])
+
+            if min_acc < acc:
+                break
 
         if min_acc > acc:   # 최소 거리 구하기
             min_acc = acc

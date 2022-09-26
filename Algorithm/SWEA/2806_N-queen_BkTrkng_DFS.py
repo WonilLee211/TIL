@@ -18,7 +18,6 @@ def dfs(d):
             if flag:
                 dfs(d + 1)
 
-
 for tc in range(1, int(input()) + 1):
     n = int(input())
     case = [0 for i in range(n)]
