@@ -7,7 +7,11 @@
 <h2>종류</h2>
 1. Hoare(호어)
 2. Lomuto(로무토)
+3. pythonic
 - 때에 따라 효율적인 방식이 다름
+<details>
+<summary> </summary>
+<div markdown="1">
 
 ### 피봇값 최적 선택
 - 맨 왼쪽, 중간, 맨 오른쪽 3개의 값중 중간값을 피봇으로 선택하여 swap
@@ -128,6 +132,8 @@
   qsort(arr, 0, n - 1)
   print(arr[500000])
 ```
+</div>
+</details>
 
 <h2>pythonic quick sort</h2>
 - 파이썬이나 자바에서 제공되는 built-in 메서드 sort()는 퀵정렬 기본
@@ -148,7 +154,7 @@
 
 ---
 
-<h2>예시 코드</h2> 
+<h3>예시 코드1</h3> 
 <details>
 <summary> </summary>
 <div markdown="1">
@@ -169,8 +175,13 @@ def quick_sort(arr):
 
   return quick_sort(leftlist) + quick_sort(midlist) + quick_sort(rightlist)
 
-```
+  numbers = [3, 2, 4, 6, 9, 1, 6, 7, 5]
+  print(f'정렬 전 :', numbers)
+  print('------' * 10)
+  numbers = quick_sort(numbers)
+  print(f'정렬 후 :', numbers)
 
+```
 </div>
 </details>
 
@@ -188,12 +199,12 @@ def quick_sort(arr):
 
 <h2>퀵 정렬 개선 </h2>
 
-<h2>예시 코드</h2> 
+<h3>예시 코드</h3> 
 <details>
 <summary> </summary>
 <div markdown="1">
 
-알고리즘
+<h3>알고리즘</h3>
 - 리스트의 정 가운데 있는 값을 피봇 설정
 - 분할하는 함수와 구간마다 끝 구간을 줄여가며 피봇과 비교후 swap하는 함수 작성
 - 전체 구간에서 피봇 설정
@@ -201,6 +212,7 @@ def quick_sort(arr):
 - 왼쪽에서 피봇보다 큰값과 오른쪽에서 피봇보다 작은 값을 찾았다면 교환
 - 끝 인덱스 두 개가 교차했을 때 break - 큰 인덱스 반환
 - 반환된 인덱스 기준으로 위 아래 배열 다시 함수 호출
+  
 ```python
 def quick_sort(arr):
 
@@ -241,21 +253,9 @@ def quick_sort(arr):
 
 ```
 
-
-
-
-
 <h2> 복잡도 </h2>
 - 이상적인 경우 O(nlogn)
 - 최악의 경우 O(n**2)
-<details>
-<summary> </summary>
-<div markdown="1">
-
-
-
-</div>
 </details>
 
-
----
+</div>
