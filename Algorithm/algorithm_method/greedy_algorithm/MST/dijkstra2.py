@@ -14,7 +14,7 @@ def digkstra():
         # 현재 정점의 인접 정점을 선택하여 그 인접 정점을 확인
         for v in range(len(adj_list[now])):
             n_v, n_dist = adj_list[now][v]   # 연결된 정점과 그 거리
-            if not visited[n_v]:
+
                 # 현재까지의 거리와 연결된 정점의 거리를 더한 값이 
                 # 저장된 값보다 작다면 갱신
                 if dist + n_dist < D[n_v]:

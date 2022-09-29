@@ -11,7 +11,7 @@ def dfs(i, N, c):
 
 for tc in range(1, int(input()) + 1):
     N, M = map(int, input().split())
-    adjM = [[o] * (N + 1) for _ in range(N + 1)]
+    adjM = [[0] * (N + 1) for _ in range(N + 1)]
     for _ in range(M):
         a, b = map(int, input().split())
         adjM[a][b] = 1
