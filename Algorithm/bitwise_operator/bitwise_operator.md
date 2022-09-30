@@ -39,7 +39,8 @@ for i in range(1<<n): # 1<<n : 부분 집합의 개수
         if i & (1<<j): # i의 j번 비트가 1인 경우
             print(arr[j], end =", ") # j번째 원소 출력
     print()
-print()
+print().
+
 ```
 
 ### 부분 집합 합 문제

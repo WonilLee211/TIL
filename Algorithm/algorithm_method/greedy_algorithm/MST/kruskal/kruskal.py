@@ -27,3 +27,46 @@ for w, u, v in edge:  # N-1개의 간선 선택 루프
         if cnt == N-1:
             break
 print(total)
+
+# 특정 원소가 속한 집합을 찾기
+def find_parents(x):
+    # 루트 노드가 아니라면 투트 노드를 찾을 때까지 재귀적으로 호출
+    while x != parents[x]:
+        x = parents[x]
+    return x
+
+# 두 원소가 속한 집합 합치기
+def union(x, y):
+    a = find_parents(x)
+    b = find_parents(y)
+    if b > a:
+        parents[b] = a
+    else:
+        parents[a] = b
+
+# 노드의 개수와 간선의 개수 입력 받기
+v, e = map(int, input().split())
+parents = [0 for _ in range(1, v + 1)]
+
+
+# 부모 테이블 상에서 부모를 자기 자신으로 초기화
+for i in range(1, v + 1):
+    parents[i] = i
+
+# 모든 간선에 대한 정보 담기
+# 가중치를 기준으로 정렬하기 위해 첫번째 원소를 가중치로 이동
+edges = []
+for i in range(e):
+    a, b, w = map(int, input().split())
+    edges.append((w, a, b))
+edges.sort()
+
+# 간선을 하나씩 확인하며 
+for edge in edges:
+    w, a, b = edge
+    # 사이클이 발생하지 않는 경우에만 집합에 포함
+    if find_parents[a] != find_parents[b]:
+        union(a, b)
+        res += w
+
+print(res)
