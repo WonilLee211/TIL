@@ -12,7 +12,7 @@ INSERT INTO users
 VALUES
     (1, '미현', '김', 19, '경기도', '011-211-8482', 300),
     (2, NULL, '최', 33, '제주특별자치도', NULL, 300),
-    (3, '미숙', '이', 21, '서울특별시', '010-2122-4958', 280),
+    (3, '미숙', '이', 21, '서울특별시', '010-2122-4958', 480),
     (4, '남석', '박', 18, '경기도', '016-484-8667', 260),
     (5, '철수', '박', 22, '경상남도', '016-295-8989', 500),
     (6, NULL, '박', 45, '전라북도', NULL, 320),
@@ -20,4 +20,35 @@ VALUES
     (8, NULL, '남', 24, '충청남도', '010-5882-5969', 210),
     (9, '신', '유', 29, '경상북도', '010-4949-2848', 290),
     (10, NULL, '김', 18, '대전광역시', NULL, 300);
+
+
+SELECT id, age, balance FROM users 
+WHERE age < 25 ORDER BY age DESC, balance ASC;
+
+SELECT id, first_name, age, balance FROM users 
+WHERE age < 25;
+
+-- IS NOT NULL : NULL이 아닐 때
+SELECT first_name, balance FROM users 
+WHERE first_name IS NOT NULL AND balance > 400;
+
+UPDATE users
+SET balance = 450
+WHERE
+    id = 7;
+
+UPDATE users
+SET
+    phone = '알 수 없음'
+WHERE
+    phone IS NULL;
+
+-- sqlite3에서는 IFNULL 사용
+SELECT id, IFNULL(first_name, '') AS first_name,
+last_name, 
+age, 
+country, 
+phone, 
+balance 
+FROM users;
 
