@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>LOGIN</h1>
+<hr>
+{% comment %}
+    action이 비어있으면 현재 페이지로 보냄
+ {% endcomment %}
+<form action=" {% url '' %} " method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>{{btn_title}}</button>
+</form>
+
+{% endblock content %}
