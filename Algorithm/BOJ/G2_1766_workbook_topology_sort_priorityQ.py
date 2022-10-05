@@ -1,5 +1,8 @@
 import sys
 sys.stdin = open('input.txt')
+
+# 위상정렬과 우선순위 큐 결합
+
 import heapq as hq
 
 n, m = map(int, input().split())

@@ -37,3 +37,34 @@ def bitcount(x):
     return x%2 + bitcount(x//2)
 
 print(bitcount((1<<4) -1))
+
+# 자기자신과 공집합을 제외한 모든 부분집합 순회하기
+origin = int('0b1101', 2) # 13
+subset = origin # 13
+
+# # 12 & 13
+# 1100 & 1101
+# # 11 & 13
+# 1011 & 1101
+# # 10 & 13
+# 1010 & 1101
+# # 9 & 13
+# 1001 1101
+# ...
+# # 1 & 13
+# 0001 1101
+
+while True:
+    # subset -1 : 켜져있던 최하위 비트가 꺼지고 그 밑의 비트들이 켜짐
+    # 그 결과와 origin과의 교집합을 구하면 origin에 속하지 않은 비트는 꺼짐
+    subset = (subset -1) & origin
+
+    if subset == 0:
+        break
+    print(bin(subset))
+    # 0b1100
+    # 0b1001
+    # 0b1000
+    # 0b101
+    # 0b100
+    # 0b1
