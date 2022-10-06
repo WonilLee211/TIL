@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'eithers:create' %}" method="POST">
+    {% csrf_token %}
+    <p>
+        <h6>Title</h6>
+        {{ form.title }}
+    </p>
+    <p>
+        <h6>issue a</h6>
+        {{ form.issue_a }}
+    </p>
+    <p>
+        <h6>issue b</h6>
+        {{ form.issue_b }}
+    </p>
+    <button type="submit" class="btn btn-primary">submit</button>
+
+</form>
+
+{% endblock content %}
+

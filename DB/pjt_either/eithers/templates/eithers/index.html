@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Either game</h1>
+<div class='d-flex'>
+    <p>
+        {% comment %} new Question {% endcomment %}
+        <form action="{% url 'eithers:create' %}">
+            <button type="submit" class="btn btn-primary">New Question</button>
+        </form>
+    </p>
+    <p class='mx-1'>
+        <form action="">
+            <button type="submit" class="btn btn-danger">Random Question</button>
+        </form>
+    </p>
+
+</div>
+<hr>
+{% comment %} either 게임 목록 {% endcomment %}
+{% for either in eithers %}
+    {{ either.title }}
+    <form action="{% url 'eithers:detail' either.id %}">
+        <button type="submit" class="btn btn-warning">play</button>
+    </form>
+{% endfor %}
+
+{% endblock content %}
