@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>DETAIL</h2>
+  <h3>{{ article.pk }} 번째 글</h3>
+  <hr>
+  <p>저자: {{ article.author }}</p>
+  <p>제목: {{ article.title }}</p>
+  <p>내용: {{ article.content }}</p>
+  <p>작성 시각: {{ article.created_at }}</p>
+  <p>수정 시각: {{ article.updated_at }}</p>
+  <hr>
+
+  {% if user == article.author %}
+    <a href="{% url 'articles:update' article.pk %}">UPDATE</a><br>
+    <form action="{% url 'articles:delete' article.pk %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="DELETE">
+    </form>
+  {% endif %}
+  
+  <a href="{% url 'articles:index' %}">[back]</a>
+
+  {% comment %}  댓글 입력창 추가 {% endcomment %}
+  <hr>
+  {% comment %} 
+    action을 비워 두면 detail로 댓글 생성 요청이 가기 때문에 
+    action을 다른 주소로 요청할 수 있게 작성해야 함
+    variable routing으로 글 정보도 같이 보내주기
+    로그인한 사람만 댓글 작성할 수 있도록
+  {% endcomment %}
+  {% if user.is_authenticated %}
+    <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button>댓글 달기</button>
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">[로그인을 해주세요.]</a>
+  {% endif %}
+
+  <hr>
+  {% comment %} 댓글 목록 보여주기 {% endcomment %}
+  {% comment %} 방법 1 views.py에서 정보 받기 {% endcomment %}
+  {% for comment in comments %}
+    <ul class='d-flex'>
+      <div>
+        <li> 
+          <p>{{ comment.content }}</p>
+          <p>-{{ comment.author }}-</p>
+        </li>
+      </div>
+      {% comment %} 댓글 삭제를 위한 버튼 {% endcomment %}
+      {% if user.is_authenticated and user == comment.author %}
+      <form action="{% url 'articles:comment_delete' comment.pk %}" method="POST">
+        {% csrf_token %}
+        <button>X</button>
+      </form>
+
+      {% endif %}
+
+    </ul>
+  {% endfor %}
+
+  {% comment %} 방법 2 역참조_related manager {% endcomment %}
+  {% comment %} {% for comment in article.comment_set.all %}
+    <ul>
+      <li>{{ comment }}</li>
+    </ul>
+  {% endfor %} {% endcomment %}
+{% endblock  %}
