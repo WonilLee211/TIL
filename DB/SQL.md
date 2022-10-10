@@ -336,17 +336,17 @@ DROP TABLE new_contants;
 
 ```sql
 SELECT select_list FROM table_name
-ORDER BY column_1 ACS, COLUMN_2 DESC;
+ORDER BY column_1 ASC, COLUMN_2 DESC;
 ```
 
 - **ORDER BY 위치**
   
   - FROM 절 뒤에 위치
 
-- 하나 이상의 컬럼을 기준으로 결과를 정렬할 수있음
+- 하나 이상의 컬럼을 기준으로 결과를 정렬할 수 있음
   
   - `ASC` : 기본
-  - `DECS`
+  - `DESC`
 
 - sorting NULLS
   
@@ -475,8 +475,6 @@ WHERE search_condition;
 - 1, 0, or NULL을 반환
 - `ALL, AND, ANY, BETWEEN, IN, LIKE, NOT, OR` 등
 
-
-
 <h4>`IS NOT NULL`</h4>
 
 - 값이 NULL이 아닐 때 선택
@@ -486,8 +484,6 @@ WHERE search_condition;
 SELECT first_name, balance FROM users 
 WHERE first_name IS NOT NULL AND balance > 400;
 ```
-
-
 
 ### 2.3 `LIKE` operators
 
@@ -565,10 +561,6 @@ WHERE first_name IS NOT NULL AND balance > 400;
 - SELECT문에서 선택적으로 사용할 수 있는 절
 
 - row_count  : **반환되는 행 수**를 지정하는 **양의 정수**
-
-- **종류**
-  
-  - `BETWEEN` OR `NOT BETWEEN`
 
 - **실습**
   
