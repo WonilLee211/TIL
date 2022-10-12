@@ -142,8 +142,6 @@ def profile(request, username):
 > 
 > accounts/profile.html
 
-
-
 ```python
 {% extends 'base.html' %}
 
