@@ -22,9 +22,9 @@ class Article(models.Model):
 ```
 
 - 에러발생
-    - `user필드와 like_user 필드로 역참조할 때 충돌 !(.article_set 매니저)`
-    - related_name 필수적이다.
-    - 이런 경우 보통 M:N을 related_name 지정함
+  - `user필드와 like_user 필드로 역참조할 때 충돌 !(.article_set 매니저)`
+  - related_name 필수적이다.
+  - 이런 경우 보통 M:N을 related_name 지정함
 
 ```python
 # Create your models here.
@@ -37,13 +37,13 @@ class Article(models.Model):
 ### User-Article 간 사용가능한 related_manager 정리
 
 - article.user
-    - 게시글을 작성한 유저-N:1
+  - 게시글을 작성한 유저-N:1
 - user.article_set
-    - 유저가 작성한 게시글(역참조) - N:1
+  - 유저가 작성한 게시글(역참조) - N:1
 - article.like_users
-    - 게시글을 좋아요한 유저 - M:N
+  - 게시글을 좋아요한 유저 - M:N
 - user.like_articles
-    - 유저가 좋아요한 게시글(역참조) - M:N
+  - 유저가 좋아요한 게시글(역참조) - M:N
 
 ## 1.2 구현
 
@@ -65,11 +65,11 @@ urlpatterns = [
 ```python
 def likes(request, article_pk):
     article = Article.objects.get(pk=article_pk)
-    
+
     # 좋아요를 추가할지 취소할지 무슨 기준으로 if문을 작성할까?
     # 현재 게시글에 좋아요를 누른 유저 목록에 현재 좋아요를 요청하는 유저가 있는지 없는지 확인
     # if request.user in article.like_users.all():
-    
+
     # 현재 게시글에 좋아요를 누른 유저 중에 현재 좋아요를 요청하는 유저를 검색해서 존재하는지를 확인
     if article.like_users.filter(pk=request.user.pk).exists():
         article.like_users.remove(request.user)
@@ -124,10 +124,25 @@ urlpatterns = [
 ]
 ```
 
-- [주의]
-- path(’<str:username>’, viwes.profile, name=’profile’)
-- 위처럼 작성하면 모든 문자열 주소가 저기로 간다! 주의
-- accounts/profile.html
+```python
+# views.py
+def profile(request, username):
+    person = get_object_or_404(User, username=username)
+    context = {
+        'person':person,
+    }
+    return render(request, 'accounts/profile.html', context)
+```
+
+>  [주의]
+> 
+> path(’<str:username>’, viwes.profile, name=’profile’)
+> 
+> 위처럼 작성하면 모든 문자열 주소가 저기로 간다! 주의
+> 
+> accounts/profile.html
+
+
 
 ```python
 {% extends 'base.html' %}
@@ -154,53 +169,54 @@ urlpatterns = [
 ```
 
 - 프로필로 이동할 수 있는 탬플릿으로 이동 하이퍼링크 작성
-    - base.html
+  
+  - base.html
     
     ```python
     <!DOCTYPE html>
     <html lang="en">
     <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">  <title>Document</title>
     </head>
     <body>
-      <div class="container">
-        {% if request.user.is_authenticated %}
-          <h3>{{ user }}</h3>
-          <a href="{% url 'accounts:profile' user.username %}">내 프로필</a>
-          <form action="{% url 'accounts:logout' %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="Logout">
-          </form>
-        ...
+    <div class="container">
+      {% if request.user.is_authenticated %}
+        <h3>{{ user }}</h3>
+        <a href="{% url 'accounts:profile' user.username %}">내 프로필</a>
+        <form action="{% url 'accounts:logout' %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="Logout">
+        </form>
+      ...
     
-      </div>
+    </div>
     
     </body>
     </html>
     ```
-    
-    - articles/index.html
+  
+  - articles/index.html
     
     ```python
     {% extends 'base.html' %}
     
     {% block content %}
-      <h1>Articles</h1>
-      {% if request.user.is_authenticated %}
-        <a href="{% url 'articles:create' %}">CREATE</a>
-      {% endif %}
-      <hr>
-      {% for article in articles %}
-        <p>
-          <b>작성자 : <a href="{% url 'accounts:proflie' article.user.username %}">{{ article.user }}</a></b>
-        </p>
-        <p>글 번호 : {{ article.pk }}</p>
-        <p>제목 : {{ article.title }}</p>
-        <p>내용 : {{ article.content }}</p>
-        <div>
+    <h1>Articles</h1>
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'articles:create' %}">CREATE</a>
+    {% endif %}
+    <hr>
+    {% for article in articles %}
+      <p>
+        <b>작성자 : <a href="{% url 'accounts:proflie' article.user.username %}">{{ article.user }}</a></b>
+      </p>
+      <p>글 번호 : {{ article.pk }}</p>
+      <p>제목 : {{ article.title }}</p>
+      <p>내용 : {{ article.content }}</p>
+      <div>
     ...
     {% endblock content %}
     ```
@@ -223,33 +239,33 @@ class User(AbstractUser):
 ### 2.2 구현
 
 - accounts/urls.py
-    
-    ```python
-    ...
-    app_name = 'accounts'
-    urlpatterns = [
-    ...
-        path('<int:user_pk>/follow/', views.follow, name='follow'),
-    
-    ]
-    ```
-    
+  
+  ```python
+  ...
+  app_name = 'accounts'
+  urlpatterns = [
+  ...
+      path('<int:user_pk>/follow/', views.follow, name='follow'),
+  
+  ]
+  ```
+
 - accounts/views.py
-    
-    ```python
-    def follow(request, user_pk):
-        User = get_user_model()
-        me = request.user
-        you = User.objects.get(pk=user_pk)
-        if me != you:
-            # if me in you.followers.all():
-            if you.followers.filter(pk=me.pk).exists():
-                you.followers.remove(me)
-            else:
-                you.followers.add(me)
-        return redirect('accounts:profile', you.username)
-    ```
-    
+  
+  ```python
+  def follow(request, user_pk):
+      User = get_user_model()
+      me = request.user
+      you = User.objects.get(pk=user_pk)
+      if me != you:
+          # if me in you.followers.all():
+          if you.followers.filter(pk=me.pk).exists():
+              you.followers.remove(me)
+          else:
+              you.followers.add(me)
+      return redirect('accounts:profile', you.username)
+  ```
+
 - 프로필 유저의 팔로잉, 팔로워 수& 팔로우,언팔로우 작성
 
 ```python
@@ -286,7 +302,7 @@ class User(AbstractUser):
 @require_POST
 def follow(request, user_pk):
     if request.user.is_authenticated:
-            
+
         User = get_user_model()
         me = request.user
         you = User.objects.get(pk=user_pk)
