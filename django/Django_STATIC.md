@@ -30,10 +30,12 @@
 
 1. INSTALLED_APP에 'django.contrib.staticfiles'가 존재하는지 확인하기
 2. settings.py에서 STATIC_URL을 정의하기
-3. 앱의 static 폴더에 정적 파일 위치하기
+3. `앱의 static 폴더에 정적 파일 위치`하기
     - `my_app/static/sample_img.jpg`
 4. 탬플릿에서 static 탬플릿 태그를 사용하여 지정된 경로에 있는 `정적 파일의 url 만들기`
-    
+   
+    - load static 주의하기
+
     ```python
     {% load static %}
     <img src="{% static 'sample_img.jpg' %}" alt="sample image">
@@ -50,10 +52,10 @@
     - Default : None
     -  설정 : `STATIC_ROOT = BASE_DIR / 'staticfiles'`
     - `$python manage.py collectstatic` 실행 시, staticfiles를 볼 수 있음
-    - Django 프로젝트에서 사용하는 모든 정적 파일을 한 곳에 모아 놓은 경로
+    - **Django 프로젝트에서 사용하는 모든 정적 파일을 한 곳에 모아 놓은 경로**(기억하기)
     - `collectstatic`이 `배포`를 위해 정적파일을 한 곳에 모아둔 디렉토리의 `절대 경로`
     - `**개발과정에서 settings.py의 DEBUG값이 True라면 해당값은 반영되지 않음**`
-    - 실 서비스 환경(배포 환경)에서 Django의 모든  정적 파일을 다른 웹서버가 직접 제공하기 위해 사용
+    - **실 서비스 환경(배포 환경)에서 Django의 모든  정적 파일을 다른 웹서버가 직접 제공하기 위해 사용**(기억하기)7
     - 배포 환경에서는 Django를 직접 실행하는 것이 아니라, 다른 서버에 의해 실행되기 때문에 실행하는 `다른 서버는 장고에 내장되어있는 정적파일을 사용`
 
 2. **STATICFILES_DIRS**
@@ -141,13 +143,13 @@
     {% load static %}
 
     {% block content %}
-        # 기본경로 정적 파일
+        <!-- 기본경로 정적 파일 static 폴더 내부에 있는 경로 -->
         <img src="{% static 'articles/cutepuppy.jfif' %} " alt="sample">
-        # 127.0.0.1:8000/static/articles/cutepuppy.jfif 로 요청됨
+        <!-- 127.0.0.1:8000/static/articles/cutepuppy.jfif 로 요청됨 -->
 
-        # 추가 경로 정적 파일
+        <!-- 추가 경로 정적 파일 -->
         <img src="{% static 'google1.png' %} " alt="sample2">
-        # 127.0.0.1:8000/static/cutepuppy.jfif 로 요청됨
+        <!-- 127.0.0.1:8000/static/cutepuppy.jfif 로 요청됨 -->
 
     ```
 
