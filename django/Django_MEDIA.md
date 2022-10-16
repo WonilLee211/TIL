@@ -53,6 +53,7 @@ MEDIA_URL = '/media/'
 
 ## 6. 개발 단계에서 사용자가 업로드한 미디어 파일 제공하기
 
+
 ```python
 # crud/urls.py
 
@@ -64,6 +65,7 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+- settings.py와 같은 위치에 있는 urls.py에 작성
 - 사용자로부터 업로드된 파일이 프로젝트에 업로드되고 나서 실제로 사용자에게 제공하기 위해서는 업로드된 파일의 URL이 필요함
     - 업로드된 파일의 URL = settings.py.MEDIA_URL
     - 위 URL을 통해 참조하는 파일의 실제 위치 = settings.MEDIA_ROOT

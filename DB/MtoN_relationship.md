@@ -249,6 +249,7 @@ Out[7]: <QuerySet [<Patient: 2번 환자 dane>]>
 
 - ManyToManyField(to, **options)
 - 다대다 관계 설정 시 사용하는 모델 필드
+`- 필드생성이아니라 중계테이블이 생성됨`
 - 하나의 필수 위치인자가 필요
 - 모델 필드의 RelatedManager를 사용하여 관련 개체를 추가, 제거 또는 만들 수 있음
     - add(), remove(), create(), clear() …
@@ -294,7 +295,7 @@ Out[7]: <QuerySet [<Patient: 2번 환자 dane>]>
     - 내부적으로 QuerySet.delete()를 사용하여 관계가 삭제됨
     - 모델 인스턴스, 필드값(PK)을 인자로 허용
 
-## 3.5 중계 테이블 필드 생성 규칙
+## 3.5 중계 테이블 필드 생성 규칙(쭝요)
 
 1. 소스(source model) 및 대상(target model)이 다른 경우
     1. id
@@ -306,5 +307,5 @@ Out[7]: <QuerySet [<Patient: 2번 환자 dane>]>
 2. ManyToManyField가 동일한 모델을 가르키는 경우
     1. id
     2. from_\<model\>_id
-    3. to_\<model\>_id
+    3. to_\<model\>_id`
 

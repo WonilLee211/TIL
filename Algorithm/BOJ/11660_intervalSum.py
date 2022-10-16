@@ -1,7 +1,12 @@
 import sys
 sys.stdin = open('input.txt')
 
+'''
+전형적인 구간합 문제
+- 모든 구간의 누적합을 구함
+- 누적합 - 누적합을 이용해서 구간합 구하기
 
+'''
 n, m = map(int, input().split())
 
 arr = [0] * n
