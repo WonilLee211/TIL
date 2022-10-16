@@ -109,7 +109,7 @@ User.objects.order_by('age', '-balance').values('first_name', 'age', 'balance')
 ### 주의
 
 ```bash
-User.objects.order_by('age').order_by('-balance')
+User.objects.order_by('age').order_by('-age')
 # 결국 User.objects.order_by('-age')와 같다.
 ```
 
@@ -238,7 +238,7 @@ User.objects.filter(Q(age=30) | Q('last_name'='김')
 
 
 
-## 4. Aaggregation(Grouping data)
+## 4. Aggregation(Grouping data)
 
 ## 4.1 aggregate()
 
@@ -288,7 +288,7 @@ from django.db.models import Count
 User.objects.values('country').annotate(Count('country'))
 
 '''
-<QuerySet [{'country': '강원도', 'country__count': 14}, {'country': '경
+--<QuerySet [{'country': '강원도', 'country__count': 14}, {'country': '경
 기도', 'country__count': 9}, {'country': '경상남도', 'country__count': 9}, {'country': '경상북도', 'country__count': 15}, {'country': '전라남도', 'country__count': 10}, {'country': '전라북도', 'country__count': 11}, {'country': '제주도', 'country__count': 1}, {'country': '제주특별자치도', 'country__count': 9}, {'country': 
 '충청남도', 'country__count': 9}, {'country': '충청북도', 'country__count': 14}]>
 '''

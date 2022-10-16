@@ -77,7 +77,7 @@ class Comment(models.Model):
 
 ![img](../img/db_relationship2.png)
 
-- ForeingnKey 모델 필드로 인해 작성된 컬럼의 이름이 `article_id인 것을 확인`
+- ForeignKey 모델 필드로 인해 작성된 컬럼의 이름이 `article_id인 것을 확인`
 - ForeignKey 인스턴스를 article이 아닌 abcd로 생성했다면, abcd_id로 만들어짐
     - 이처럼 **명시적인** **모델 관계 파악을 위해** **참조하는 클래스 이름의 소문자로 작성하는 것을 권장함**
     - 
@@ -175,8 +175,8 @@ comment.article_id
     - `dir(article)`
 3. 1번 게시글에 작성된 모든 댓글 조회(역참조)
     - `article.comment_set.all()`
-    - >> <QuerySet [<Comment:first comment>, <Comment:second comment>]
-4. 1번 게시들에 작성된 모든 댓글출력하기
+    - >> <QuerySet [<Comment:first comment>, <Comment:second comment>]>
+4. 1번 게시글에 작성된 모든 댓글출력하기
     
     ```python
     comments = article.comment_set.all()
@@ -196,7 +196,7 @@ from django.db import models
 class Article(models.Model):
     # 참조하고 있는 모델의 단수형
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
-    **related_name='comments'**)
+    related_name='comments')
    ...,
 ```
 
@@ -256,11 +256,11 @@ def detail(request, pk):
 	...
   <a href="{% url 'articles:index' %}">[back]</a>
   <hr>
-  **<form action="#" method="POST">
+    <form action="#" method="POST">
     {% csrf_token %}
     {{ comment_form }}
-    <input type="submit">**
-  **</form>**
+    <input type="submit">
+    </form>
 {% endblock  %}
 ```
 
@@ -278,8 +278,8 @@ def detail(request, pk):
             model = Comment
             # fields = '__all__'
     				
-            **# modelform에서 제외시켰기 때문에 입력안해도 is_valid 통과**
-            **exclude = ('article',)** 
+            # modelform에서 제외시켰기 때문에 입력안해도 is_valid 통과
+            exclude = ('article',)
     ```
     
     - urls.py
@@ -475,9 +475,9 @@ def detail(request, pk):
   <a href="{% url 'articles:index' %}">[back]</a>
   <hr>
   <h4>댓글 목록</h4>
-  **{% if comments %}
+  {% if comments %}
   <p>{{ comments|length }}개의 댓글이 있습니다.</p>
-  {% endif %}**
+  {% endif %}
   <ul>
     {% for comment in comments %}
     <li>
@@ -487,8 +487,8 @@ def detail(request, pk):
         <input type="submit" value="DELETE">
       </form>
     </li>
-    **{% empty %}
-    <li>댓글이 없어요..<li>**
+    {% empty %}
+    <li>댓글이 없어요..<li>
     {% endfor %}
   </ul>
   <hr>

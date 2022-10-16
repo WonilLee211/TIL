@@ -14,8 +14,8 @@ from django.conf import settings
 # Create your models here.
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    **user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-   ...,**
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+   ...,
 ```
 
 ### 1.1 migration 과정
@@ -23,7 +23,7 @@ class Comment(models.Model):
 - 새로운 컬럼이 추가되었기 때문에 기존 레코드에 값 넣어주는 과정
 - 1 enter - 1 enter
 - cooment테이블 스키마 변경 및 확인
-    - **user_id 컬럼 추가**
+    - user_id 컬럼 추가
 
 ## 2. CREATE
 
@@ -52,7 +52,7 @@ class Comment(models.Model):
             comment = comment_form.save(commit=False) # 저장은 당장 하지않고 저장하고 나올 객체를 미리 준다.
             # 현재 요청하려는 문서에 요청한 유저 정보 넣기
             comment.article = article
-            **comment.user = request.user**
+            comment.user = request.user
             comment.save()
     
         return redirect('articles:detail', article.pk)
@@ -63,7 +63,7 @@ class Comment(models.Model):
 
 - 댓글 작성자 출력
 
-```python
+```django
 {% extends 'base.html' %}
   ...,
   <hr>
@@ -74,7 +74,7 @@ class Comment(models.Model):
   <ul>
     {% for comment in comments %}
     <li>
-      **{{ comment.user }} - {{ comment.content }}**
+      {{ comment.user }} - {{ comment.content }}
       <form action=" {% url 'articles:comments_delete' article.pk comment.pk %} ">
         {% csrf_token %}
         <input type="submit" value="DELETE">
@@ -98,7 +98,7 @@ class Comment(models.Model):
 
 def comments_delete(request, article_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
-    **if request.user == comment.user:**
+    if request.user == comment.user:
         comment.delete()
     return redirect('articles:detail', article_pk)
 ```
@@ -149,8 +149,8 @@ def comments_delete(request, article_pk, comment_pk):
 
 @require_POST
 def comments_create(request, pk):
-    **# 로그인한 유저만 접근 허용
-    if request.user.is_authenticated:**
+    # 로그인한 유저만 접근 허용
+    if request.user.is_authenticated:
         article = Article.objects.get(pk=pk)
         comment_form = CommentForm(request.POST)
         # modelform에서 제외시켰기 때문에 입력안해도 통과
@@ -162,13 +162,13 @@ def comments_create(request, pk):
             comment.save()
         return redirect('articles:detail', article.pk)
 # 로그아웃이면 로그인 화면으로 보내기
-    **else:
-        return redirect('accounts"login')**
+      else:
+        return redirect('accounts"login')
 ```
 
 - CommentForm을 볼 수 없도록 하기
 
-```python
+```django
 {% extends 'base.html' %}
 
 {% block content %}

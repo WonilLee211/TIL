@@ -106,7 +106,7 @@ def likes(request, article_pk):
 
 # M:N(User-User)
 
-- User자기 자신과의 M:N관계 설정을 통한 `팔로우 기능 구현`
+- User 자기 자신과의 M:N관계 설정을 통한 `팔로우 기능 구현`
 
 # 1. Profile
 
@@ -136,7 +136,7 @@ def profile(request, username):
 
 >  [주의]
 > 
-> path(’<str:username>’, viwes.profile, name=’profile’)
+> path(’\<str:username\>/’, viwes.profile, name=’profile’)
 > 
 > 위처럼 작성하면 모든 문자열 주소가 저기로 간다! 주의
 > 
@@ -266,7 +266,7 @@ class User(AbstractUser):
 
 - 프로필 유저의 팔로잉, 팔로워 수& 팔로우,언팔로우 작성
 
-```python
+```django
 <!-- accounts/profile.html -->
 
 {% extends 'base.html' %}
