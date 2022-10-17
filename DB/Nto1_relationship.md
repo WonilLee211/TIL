@@ -5,7 +5,7 @@
 # many-to-one relationship
 ![alt text](../img/db_relationship.png)
 
-- **외래 키 : foreign key, FK)** : 관계형 데이터 베이스에서 한 테이블의 필드 중 다른 테이블을 감식
+- **외래 키 : foreign key, FK)** : 관계형 데이터 베이스에서 한 테이블의 필드 중 다른 테이블을 감시
 
 ## 1. RDB에서의 관계
 

@@ -128,7 +128,7 @@ class Patient(models.Model):
 ![alt text](../img/MToN2.png)
 
 - Reservation 스키마 없이 자동 생성됨
-- 테이블명 생성 규칙
+- **테이블명 생성 규칙**
     - `Appname_modelname_fieldname`
 
 - 예약 생성(환자가 의사에게 예약)

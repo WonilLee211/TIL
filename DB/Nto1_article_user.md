@@ -15,7 +15,7 @@
 
 ### <mark>장고에서 User모델을 참조하는 방법 정리</mark>
 
-- 문자열과 객체를 반환하는 특징과 Django의 내부적인 실행원링 관련된 것**(외우기)**
+- 문자열과 객체를 반환하는 특징과 Django의 내부적인 실행원리 관련된 것**(외우기)**
 - 내부 실행 순서 차이로 아래와 같이 구분해서 참조해야한다.
 - <mark>User모델을 참조할 때</mark>
     - **models.py 에서는** `settings.AUTH_USER_MODEL`
@@ -42,7 +42,7 @@
     from django.conf import settings
     class Article(models.Model):
         # 참조하고 있는 모델의 단수형
-        user = models.ForeignKey(**settings.AUTH_USER_MODEL**, on_delete=models.CASCADE)
+        user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
         title = models.CharField(max_length = 10)
         content = models.TextField()
         created_at = models.DateTimeField(auto_now_add=True)
@@ -67,7 +67,7 @@ class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         # fields = '__all__'
-        **exclude = ('user',)**
+        exclude = ('user',)
 ```
 
 - views.py : NOT NULL constraint failed 해결하기
@@ -78,10 +78,10 @@ def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST) 
         if form.is_valid():
-            **article = form.save(commit=False)
+            article = form.save(commit=False)
             article.user = request.user
             article.save()
-            return redirect('articles:detail', article.pk)**
+            return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm()
     # print(form.errors)
@@ -119,7 +119,7 @@ def delete(request, pk):
     def update(request, pk):
         article = get_object_or_404(Article, pk=pk)
     # 일치하는지 확인
-        **if request.user == article.user:**
+        if request.user == article.user:
             if request.method == 'POST':
                 # Create a form to edit an existing Article,
                 # but use POST data to populate the form.
@@ -131,8 +131,8 @@ def delete(request, pk):
                 # Creating a form to change an existing article.
                 form = ArticleForm(instance=article)
     # 아닐 때 화면 이동
-        **else:
-            return redirect('articles:index')**
+        else:
+            return redirect('articles:index')
         context = {
             'article': article,
             'form': form,
@@ -169,7 +169,7 @@ def delete(request, pk):
 - 게시글 작성자 출력
     - index 탬플릿과 detail 탬플릿에서 각 게시글의 작성자 출력
     
-    ```python
+    ```django
     <!-- index.html -->
     {% extends 'base.html' %}
     
@@ -177,7 +177,7 @@ def delete(request, pk):
       ...,
       <hr>
       {% for article in articles %}
-      **<p><b>작성자 : {{ article.user }}</b></p>**
+        <p><b>작성자 : {{ article.user }}</b></p>
         <p>글 번호: {{ article.pk }}</p>
         <p>글 제목: {{ article.title }}</p>
         <p>글 내용: {{ article.content }}</p>
@@ -187,7 +187,7 @@ def delete(request, pk):
     {% endblock content %}
     ```
     
-    ```python
+    ```django
     <!-- detail.html -->
     
     {% extends 'base.html' %}
@@ -196,7 +196,7 @@ def delete(request, pk):
       <h2>DETAIL</h2>
       <h3>{{ article.pk }} 번째 글</h3>
       <hr>
-      **<p><b>작성자 : {{ article.user }}</b></p>**
+      <p><b>작성자 : {{ article.user }}</b></p>
       <p>제목: {{ article.title }}</p>
       <p>내용: {{ article.content }}</p>
       <p>작성 시각: {{ article.created_at }}</p>

@@ -99,18 +99,20 @@
 
 1. 값에 둘러싸는 따옴표와 소수점 또는 지수가 없으면 - INTEGER
 2. 값이 작은 따옴표나 큰 따옴표로 묶이면 - TEXT
-3. 값에 따옴표나 소수점, 지수가 없으면 - REAL
+3. 값에 따옴표나 소수점, 지수가 있으면 - REAL
 4. 값이 따옴표 없이 NULL이면 - NULL
 
 ### 1.2 SQLite DATA types 특징
 
-- <mark>**동적 타입 시스템(dynamic type system)</mark>** 사용
-  - 컬럼에 선언된 데이터 타입에 의해서가 아니라 <mark>**컬럼에 저장된 값에 따라 데이터 타입이 결정</mark>**됨
+- <mark>**동적 타입 시스템(dynamic type system)**</mark> 사용
+  - 컬럼에 선언된 데이터 타입에 의해서가 아니라 <mark>**컬럼에 저장된 값에 따라 데이터 타입이 결정**</mark>됨
 - 컬럼에 대해 특정 데이터 타입을 선언하지 않아도 됨
   - 엄격한 데이터베이스에서 불가능한 작업을 유연하게 수행할 수 있음
 - 다른 데이터베이스와의 호환성 문제가 있기 때문에 테이블 생성 시, <mark>데이터 타입을 지정하는 것을 권장</mark>
 - static, rigid typing 데이터 베이스
   - 입력된 데이터 타입을 지정된 데이터 타입으로 형변환도 지원
+
+![img](../img/dbdatatype.PNG)
 
 ### 1.3 Type Affinity
 
@@ -178,11 +180,11 @@ CREATE TABLE contacts (
 - 테이블에 새 행을 삽입할 때마다 정수 값을 자동으로 할당
   - 값은 1에서 시작
   - 데이터 삽입 시 ROWID 또는 INTEGER PRIMARY KEY 컬럼에 명시적으로 값이 지정되지않은 경우, SQLite는 가장 큰 rowid보다 하나 큰 다음 순차 정수를 자동으로 할당
-- 만약 INTEGER PRIMARY KEY 키워드를 가진 컬럼을 직접 만들면 이 컬럼은 rowid컬럼의 별칭(alias)이됨
+- 만약 **INTEGER PRIMARY KEY** 키워드를 가진 컬럼을 직접 만들면 이 컬럼은 rowid컬럼의 별칭(alias)이됨
   - 즉, 새 컬럼 이름으로  rowid에 액세스할 수 있으며, rowid 이름으로도 여전히 액세스 가능
 - 데이터가 최대 값에 도달하고 새행을 삽입하려고 하면, 사용되지 않은 정수를 찾아 사용
   - 찾을 수 없으면 SQLITE_FULL 에러
-  - 일무 행 삭제 후 새 행을 삽입하면,  삭제된 행의  rowid 값을 재사용하려고 시도
+    - 일부 행 삭제 후 새 행을 삽입하면, 삭제된 행의 rowid 값을 재사용하려고 시도(오토인크리먼트가 없다면)
 
 ## 4. ALTER TABLE
 
@@ -204,7 +206,7 @@ ALTER TABLE contacts RENAME TO new_contacts;
 
 ```sql
 -- 2. Rename a column
-ALTER TABLE new_contants RENAME COLUMN name TO last_name;
+ALTER TABLE new_contacts RENAME COLUMN name TO last_name;
 ```
 
 ### 4.3 ALTER TABLE  ADD COLUMN
@@ -240,7 +242,7 @@ ALTER TABLE new_contants DROP COLUMN address;
     - FOREIGN KEY(외래 키) 제약조건에서 사용되는 경우
   - PRIMARY KEY 인 경우
   - UNIQUE 제약조건이 있는 경우
-    - `
+
 
 ## 5. DROP TABLE
 
@@ -360,7 +362,7 @@ ORDER BY column_1 ASC, COLUMN_2 DESC;
     SELECT first_name, age FROM users ORDER BY age; --ASC;
     ```
   
-  - 이름, 나이, 계좌 잔고를나이가 어린 순으로, 만약 같은 나이라면, 계좌 잔고가 많은 순으로 조회
+  - 이름, 나이, 계좌 잔고를 나이가 어린 순으로, 만약 같은 나이라면, 계좌 잔고가 많은 순으로 조회
     
     ```sql
     SELECT first_name, age, balance FROM users
@@ -371,7 +373,7 @@ ORDER BY column_1 ASC, COLUMN_2 DESC;
 
 - 데이터를 필터링하여 중복 제거, 조건 설정 등 쿼리를 제어하기
 - **Clause**
-  - SELECT DISTINT
+  - SELECT DISTINCT
   - WHERE
   - LIMIT
 - **Operator**
@@ -536,7 +538,7 @@ WHERE first_name IS NOT NULL AND balance > 400;
 
 ### 2.5 `BETWEEN` operators
 
-- 값이 값 범위에 있는 테스트\
+- 값이 값 범위에 있는 테스트
 
 - **종류**
   
@@ -587,7 +589,7 @@ WHERE first_name IS NOT NULL AND balance > 400;
 - 11번째 20번째 데이터의 rowid와 이름 조회
   
   ```sql
-  SELECT rowid, first_name FROM users **LIMIT 10 OFFSET 10;**
+  SELECT rowid, first_name FROM users LIMIT 10 OFFSET 10;
   ```
 
 ---
@@ -641,6 +643,7 @@ GROUP BY column_1, column_2;
     ```sql
     SELECT country, COUNT(*) FROM users GROUP BY country;
     -- 각 지역별로 그룹이 나누어졌기 때문에 COUNT(*)는 지역별로 개수를 세게 됨
+    -- COUNT(*)라는 이름의 컬럼이 생성됨
     ```
   
   - 각 성씨가 몇 명씩 있는지 조회
@@ -746,9 +749,10 @@ WHERE
 ```sql
 UPDATE classmates
 SET name = '김철수한무두루미',
-        address = '제주도'
+    address = '제주도'
 WHERE
     rowid = 2;
+  -- WHERE이 없으면 전체 레코드가 변경됨
 ```
 
 ## 3. `DELETE` statement
