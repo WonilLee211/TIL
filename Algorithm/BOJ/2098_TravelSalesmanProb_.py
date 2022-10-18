@@ -22,7 +22,20 @@ W[i][j] :각 도시 i에서 도시 j로 이동하는데 드는 비용 행렬(비
 
 비트필드를 이용한 다이나믹 프로그래밍
 
+논리
+- 각 노드에서 연결리스트 생성
+- 모든 노드를 시작점으로 dp를 구해야 함
+    - 
+- 한 시작점에서 최소 사이클은 모든 지점에서의 최소 사이클이다
+
 '''
+
+from collections import deque
+
 n = int(input())
 w = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
 
+check = 1 << n
+visited = [check for i in range(n)]
+
+q = deque()
