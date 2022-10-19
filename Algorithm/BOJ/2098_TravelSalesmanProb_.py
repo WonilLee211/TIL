@@ -30,12 +30,10 @@ W[i][j] :각 도시 i에서 도시 j로 이동하는데 드는 비용 행렬(비
 
 '''
 
-from collections import deque
+input = sys.stdin.readline
 
 n = int(input())
-w = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
+w = [list(map(int, input().split())) for _ in range(n)]
+INF = n * 1000000
+dp = [[INF] * (1 << n) for i in range(n)] # 도시 번호 * 도시 연결 경우의 수
 
-check = 1 << n
-visited = [check for i in range(n)]
-
-q = deque()
