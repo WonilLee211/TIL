@@ -8,6 +8,7 @@ m번에 걸쳐 채굴자가 얻을 수 있는 금의 최대 크기
 
 논리
 - 제한 시간 1초
+- dp 필드를 만들어서 각 위치에 올 수 있는 모든 가능성의 경우를 두 비교
 - m번째 위치에서 계산한 값이 m + 1번째 dp 값보다 클 때 다음 단계로 넘어감
 - 최종값이 얻을 수 있는 최댓값
 
@@ -15,8 +16,6 @@ m번에 걸쳐 채굴자가 얻을 수 있는 금의 최대 크기
 
 import sys
 sys.stdin = open('input.txt')
-
-from collections import deque
 
 for tc in range(int(input())):
 
@@ -28,27 +27,18 @@ for tc in range(int(input())):
     # [[1, 3, 3, 2], [2, 1, 4, 1], [0, 6, 4, 7]]
 
     max_v = 0
-    for i in range(n): # 행별로 시작점 정해서 검사
+    dp = [[0] * m for i in range(n)]
+    for i in range(n):
+        dp[i][0] = mines[i][0]
 
-        dp = [0 for i in range(n + 1)]
-        dp[0] = mines[i][0]
-        q = deque([(i, 0)])
+    for c in range(m - 1):
+        for r in range(n):
+            for nr, nc in [(r + 1, c + 1), (r, c + 1), (r - 1, c + 1)]:
+                if 0 <= nr < n and 0 <= nc < m and dp[nr][nc] < dp[r][c] + mines[nr][nc]:
+                    dp[nr][nc] = dp[r][c] + mines[nr][nc]
 
-        while q:
-            r, c = q.popleft()
-            if c == m:
-                if dp[-1] > max_v:
-                    max_v = dp[-1]
-            else:
-                for nr, nc in [(r + 1, c + 1), (r, c + 1), (r - 1, c + 1)]:
-
-                    if 0 <= nr < n and 0 <= nc <= m and dp[nc] < dp[c] + mines[nr][nc]:
-                        print(nr, nc)
-                        dp[nc] = dp[c] + mines[nr][nc]
-                        q.append((nc, nr))
-            print(dp)
+    max_v = 0
+    for i in range(n):
+        if max_v < dp[i][-1]:
+            max_v = dp[i][-1]
     print(max_v)
-
-
-
-
