@@ -13,13 +13,53 @@ D = 첫번째 수 버리기
 - D가 나오면 배열 자르기 또는 pop 시키기
 - 시간을 줄이기 위해서 중복되서 나오는 경우 중복되는 수를 세기
 
-
+주의할 점
+- 함수를 조합해서 한번에 사용할 수 있음
 '''
 
 import sys
 sys.stdin = open('input.txt')
 
+from collections import deque
 
+for tc in range(int(input())):
+    rd = input()
+    n = int(input())
+    arr = input()[1:-1]
+    if len(arr) != 0:
+        arr = deque(arr.split(','))
+
+    m = len(rd)
+    cnt_R = rd.count('R')
+    cnt_D = m - cnt_R       # D 갯수
+
+    if cnt_D > len(arr):
+        print('error')
+        continue
+    elif cnt_D == len(arr):
+        print('[]')
+        continue
+
+    reverse = False
+    for op in rd:
+        if op == 'R':
+            reverse = not reverse
+        else:
+            if not reverse:
+                arr.popleft()
+            else:
+                arr.pop()
+
+    if reverse:
+        arr = list(arr)[-1::-1]
+
+    print('[' + ','.join(arr) + ']')
+
+
+
+
+
+'''
 for tc in range(int(input())):
     rd = input()
     n = int(input())
@@ -77,4 +117,6 @@ for tc in range(int(input())):
         ans = arr[-1::-1]
     else:
         ans = arr
-    print(list(ans))
+    print('[' + ','.join(list(ans)) + ']')
+
+'''
