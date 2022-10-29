@@ -21,25 +21,30 @@ homes = list(int(input()) for _ in range(n))
 homes.sort()
 
 max_distance = homes[-1] - homes[0]
-distanceRange = list(range(1, max_distance))
-
 res = 0
 
 def binary_search(fr, to):
     global res
 
-    mid = (to + fr) // 2
-    distance = distanceRange[mid]
+    if fr > to:
+        return
+
+    distance = (to + fr) // 2
 
     cnt = 1
-    i, j = 0, 0
+    now = homes[0]
 
-    while cnt < c and i + j < n:
-        j += 1
-        if homes[i + j] - homes[i] >= distance:
-            cnt + 1
-            i = i + j
-            j = 0
+    for i in range(1, n):
+        if homes[i] >= now + distance:
+            now = homes[i]
+            cnt += 1
 
+    if cnt >= c:
+        res = distance
+        binary_search(distance + 1, to)
+    elif cnt < c:
+        binary_search(fr, distance - 1)
 
-    if cnt == c:
+binary_search(1, max_distance)
+
+print(res)
