@@ -14,34 +14,35 @@ queries = ['fro??', '????o', 'fr???', 'fro???', 'pro?']
 
 
 def count_match(arr, min_query, max_query):
-    min_idx, max_idx = 0, 0
-    length = len(arr)
-    fr, to = 0, length
 
+    min_idx, max_idx = 0, 1
+    length = len(arr)
+
+    fr, to = 0, length
     while fr <= to:
         mid = (to + fr) // 2
-        if min_query <= arr[mid] <= max_query:
-            for i in range(mid + 1, length):
-                if arr[i] > max_query:
-                    max_idx = i
-                    break
-            else:
-                max_idx = length
-
-            for i in range(mid - 1, -1, -1):
-                if arr[i] < min_query:
-                    min_idx = i
-                    break
-            else:
-                min_idx = -1
-
+        if mid in [-1, length]:
             break
-        elif arr[mid] < min_query:
+        if arr[mid] < min_query:
             fr = mid + 1
-        elif arr[mid] > max_query:
+        elif arr[mid] > min_query:
             to = mid - 1
 
-    return max_idx - min_idx - 1
+    min_idx = mid
+
+    fr, to = 0, length
+    while fr <= to:
+        mid1 = (to + fr) // 2
+        if mid1 in [-1, length]:
+            break
+        if arr[mid1] < max_query:
+            fr = mid1 + 1
+        elif arr[mid1] > max_query:
+            to = mid1 - 1
+    max_idx = mid1
+
+    return max_idx - min_idx + 1
+
 
 arr_suffix = [[] for i in range(10001)]
 arr_prefix = [[] for i in range(10001)]
