@@ -12,63 +12,45 @@ result = [3, 2, 4, 1, 0]
 words = ['frodo', 'front', 'frost', 'frozen', 'frame', 'kakao']
 queries = ['fro??', '????o', 'fr???', 'fro???', 'pro?']
 
+from bisect import bisect_left, bisect_right
+
 
 def count_match(arr, min_query, max_query):
-
-    min_idx, max_idx = 0, 1
-    length = len(arr)
-
-    fr, to = 0, length
-    while fr <= to:
-        mid = (to + fr) // 2
-        if mid in [-1, length]:
-            break
-        if arr[mid] < min_query:
-            fr = mid + 1
-        elif arr[mid] > min_query:
-            to = mid - 1
-
-    min_idx = mid
-
-    fr, to = 0, length
-    while fr <= to:
-        mid1 = (to + fr) // 2
-        if mid1 in [-1, length]:
-            break
-        if arr[mid1] < max_query:
-            fr = mid1 + 1
-        elif arr[mid1] > max_query:
-            to = mid1 - 1
-    max_idx = mid1
-
-    return max_idx - min_idx + 1
+    right_index = bisect_right(arr, max_query)
+    left_index = bisect_left(arr, min_query)
+    return right_index - left_index
 
 
-arr_suffix = [[] for i in range(10001)]
-arr_prefix = [[] for i in range(10001)]
+def solution(words, queries):
+    arr_suffix = [[] for i in range(10001)]
+    arr_prefix = [[] for i in range(10001)]
 
-for word in words:
-    n = len(word)
-    arr_prefix[n].append(word[::-1])
-    arr_suffix[n].append(word)
+    for word in words:
+        n = len(word)
+        arr_prefix[n].append(word[::-1])
+        arr_suffix[n].append(word)
 
-for i in range(10001):
-    if arr_prefix[i]:
-        arr_prefix[i].sort()
-    if arr_suffix[i]:
-        arr_suffix[i].sort()
+    for i in range(10001):
+        if arr_prefix[i]:
+            arr_prefix[i].sort()
+        if arr_suffix[i]:
+            arr_suffix[i].sort()
 
+    answer = []
 
-for query in queries:
-    res = 0
+    for query in queries:
+        res = 0
 
-    if query[-1] == '?' and len(arr_suffix[len(query)]) != 0:
-        res = count_match(arr_suffix[len(query)], query.replace('?', 'a'), query.replace('?', 'z'))
-    elif query[0] == '?' and len(arr_prefix[len(query)]) != 0:
-        res = count_match(arr_prefix[len(query)], query.replace('?', 'a')[::-1], query.replace('?', 'z')[::-1])
-    print(res)
-print(arr_prefix)
-print(arr_suffix)
+        if query[-1] == '?':
+            res = count_match(sorted(arr_suffix[len(query)]), query.replace('?', 'a'), query.replace('?', 'z'))
+        else:
+            res = count_match(sorted(arr_prefix[len(query)]), query.replace('?', 'a')[::-1],
+                              query.replace('?', 'z')[::-1])
+
+        answer.append(res)
+
+    return answer
+
 '''
 arr_suffix = sorted(words)
 arr_prefix = sorted(words, key=lambda word: word[-1::-1])
