@@ -15,8 +15,11 @@ result = [3, 2, 4, 1, 0]
 words = ['frodo', 'front', 'frost', 'frozen', 'frame', 'kakao']
 queries = ['fro??', '????o', 'fr???', 'fro???', 'pro?']
 
+from bisect import bisect_left, bisect_right
+
 
 def count_match(arr, min_query, max_query):
+<<<<<<< HEAD
     min_idx, max_idx = 0, 1
     length = len(arr)
     fr, to = 0, length
@@ -64,6 +67,43 @@ for query in queries:
     print(res)
 print(arr_prefix)
 print(arr_suffix)
+=======
+    right_index = bisect_right(arr, max_query)
+    left_index = bisect_left(arr, min_query)
+    return right_index - left_index
+
+
+def solution(words, queries):
+    arr_suffix = [[] for i in range(10001)]
+    arr_prefix = [[] for i in range(10001)]
+
+    for word in words:
+        n = len(word)
+        arr_prefix[n].append(word[::-1])
+        arr_suffix[n].append(word)
+
+    for i in range(10001):
+        if arr_prefix[i]:
+            arr_prefix[i].sort()
+        if arr_suffix[i]:
+            arr_suffix[i].sort()
+
+    answer = []
+
+    for query in queries:
+        res = 0
+
+        if query[-1] == '?':
+            res = count_match(sorted(arr_suffix[len(query)]), query.replace('?', 'a'), query.replace('?', 'z'))
+        else:
+            res = count_match(sorted(arr_prefix[len(query)]), query.replace('?', 'a')[::-1],
+                              query.replace('?', 'z')[::-1])
+
+        answer.append(res)
+
+    return answer
+
+>>>>>>> 5b5b4d0ac5f8ef4f4077dae23157524bc2b83fe8
 '''
 arr_suffix = sorted(words)
 arr_prefix = sorted(words, key=lambda word: word[-1::-1])
