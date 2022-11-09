@@ -8,34 +8,37 @@
 - 일단 가사단어 길이마다 배열
 
 result = [3, 2, 4, 1, 0]
+
+답은 맞는데 시간초과
+
 '''
 words = ['frodo', 'front', 'frost', 'frozen', 'frame', 'kakao']
 queries = ['fro??', '????o', 'fr???', 'fro???', 'pro?']
 
 
 def count_match(arr, min_query, max_query):
-    min_idx, max_idx = 0, 0
+    min_idx, max_idx = 0, 1
     length = len(arr)
     fr, to = 0, length
 
     while fr <= to:
         mid = (to + fr) // 2
         if min_query <= arr[mid] <= max_query:
-            for i in range(mid + 1, length):
+            for i in range(mid, length):
                 if arr[i] > max_query:
                     max_idx = i
                     break
             else:
                 max_idx = length
 
-            for i in range(mid - 1, -1, -1):
+            for i in range(mid, -1, -1):
                 if arr[i] < min_query:
                     min_idx = i
                     break
             else:
                 min_idx = -1
-
             break
+
         elif arr[mid] < min_query:
             fr = mid + 1
         elif arr[mid] > max_query:
@@ -51,20 +54,13 @@ for word in words:
     arr_prefix[n].append(word[::-1])
     arr_suffix[n].append(word)
 
-for i in range(10001):
-    if arr_prefix[i]:
-        arr_prefix[i].sort()
-    if arr_suffix[i]:
-        arr_suffix[i].sort()
-
-
 for query in queries:
     res = 0
 
     if query[-1] == '?' and len(arr_suffix[len(query)]) != 0:
-        res = count_match(arr_suffix[len(query)], query.replace('?', 'a'), query.replace('?', 'z'))
+        res = count_match(sorted(arr_suffix[len(query)]), query.replace('?', 'a'), query.replace('?', 'z'))
     elif query[0] == '?' and len(arr_prefix[len(query)]) != 0:
-        res = count_match(arr_prefix[len(query)], query.replace('?', 'a')[::-1], query.replace('?', 'z')[::-1])
+        res = count_match(sorted(arr_prefix[len(query)]), query.replace('?', 'a')[::-1], query.replace('?', 'z')[::-1])
     print(res)
 print(arr_prefix)
 print(arr_suffix)
