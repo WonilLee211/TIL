@@ -19,55 +19,7 @@ from bisect import bisect_left, bisect_right
 
 
 def count_match(arr, min_query, max_query):
-<<<<<<< HEAD
-    min_idx, max_idx = 0, 1
-    length = len(arr)
-    fr, to = 0, length
 
-    while fr <= to:
-        mid = (to + fr) // 2
-        if min_query <= arr[mid] <= max_query:
-            for i in range(mid, length):
-                if arr[i] > max_query:
-                    max_idx = i
-                    break
-            else:
-                max_idx = length
-
-            for i in range(mid, -1, -1):
-                if arr[i] < min_query:
-                    min_idx = i
-                    break
-            else:
-                min_idx = -1
-            break
-
-        elif arr[mid] < min_query:
-            fr = mid + 1
-        elif arr[mid] > max_query:
-            to = mid - 1
-
-    return max_idx - min_idx - 1
-
-arr_suffix = [[] for i in range(10001)]
-arr_prefix = [[] for i in range(10001)]
-
-for word in words:
-    n = len(word)
-    arr_prefix[n].append(word[::-1])
-    arr_suffix[n].append(word)
-
-for query in queries:
-    res = 0
-
-    if query[-1] == '?' and len(arr_suffix[len(query)]) != 0:
-        res = count_match(sorted(arr_suffix[len(query)]), query.replace('?', 'a'), query.replace('?', 'z'))
-    elif query[0] == '?' and len(arr_prefix[len(query)]) != 0:
-        res = count_match(sorted(arr_prefix[len(query)]), query.replace('?', 'a')[::-1], query.replace('?', 'z')[::-1])
-    print(res)
-print(arr_prefix)
-print(arr_suffix)
-=======
     right_index = bisect_right(arr, max_query)
     left_index = bisect_left(arr, min_query)
     return right_index - left_index
