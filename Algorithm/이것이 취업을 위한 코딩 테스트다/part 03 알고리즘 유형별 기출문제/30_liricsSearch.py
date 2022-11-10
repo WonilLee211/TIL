@@ -8,6 +8,9 @@
 - 일단 가사단어 길이마다 배열
 
 result = [3, 2, 4, 1, 0]
+
+답은 맞는데 시간초과
+
 '''
 words = ['frodo', 'front', 'frost', 'frozen', 'frame', 'kakao']
 queries = ['fro??', '????o', 'fr???', 'fro???', 'pro?']
@@ -16,6 +19,7 @@ from bisect import bisect_left, bisect_right
 
 
 def count_match(arr, min_query, max_query):
+
     right_index = bisect_right(arr, max_query)
     left_index = bisect_left(arr, min_query)
     return right_index - left_index
@@ -51,6 +55,7 @@ def solution(words, queries):
 
     return answer
 
+>>>>>>> 5b5b4d0ac5f8ef4f4077dae23157524bc2b83fe8
 '''
 arr_suffix = sorted(words)
 arr_prefix = sorted(words, key=lambda word: word[-1::-1])
