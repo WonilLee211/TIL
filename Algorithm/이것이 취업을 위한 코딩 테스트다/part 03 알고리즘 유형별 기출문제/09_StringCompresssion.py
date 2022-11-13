@@ -12,12 +12,13 @@ s = input()
         - 카운트
     - 다를 때
         - comp에 cnt + pattern (cnt == 1, + pattern)
-        - cnt 초기화 pattern 변경
+        -  cnt 초기화pattern 변경
     - 인덱스 변경
 - 끝값 처리
     - 마지막에 패턴와 남은 문자열 길이가 딱맞게 안떨어지는 경우 처리
     
 '''
+
 length = len(s)
 unit_range = length // 2
 
