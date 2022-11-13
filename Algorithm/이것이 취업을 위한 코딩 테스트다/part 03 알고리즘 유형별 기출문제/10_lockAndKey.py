@@ -19,6 +19,7 @@ lock = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
 n = len(lock)
 m = len(key)
 
+
 min_i, min_j = n, n
 cnt_zero = 0
 for i in range(n):
@@ -26,6 +27,7 @@ for i in range(n):
         if lock[i][j] == 0:
             min_i, min_j = min(i, min_i), min(j, min_j)
             cnt_zero += 1
+
 
 def rotation(arr):
     k = len(arr)
@@ -37,6 +39,9 @@ def rotation(arr):
     # print(temp)
     return temp
 
+
+
+'''
 cnt_rotate = 0
 ans = False
 
@@ -92,3 +97,4 @@ while cnt_rotate < 4:
         break
 
 print(ans)
+'''
