@@ -8,8 +8,61 @@
 각 친구가 이동할 수 있는 거리 dist
 취약지점을 점검하기 위해 보내야하는 친구의 수 최솟값
 
+n  = 1 ~ 200
+weak = 1 ~ 15
+
+
 논리
 - 취약점 배열을 2배로 만들어서 시계방향으로만 탐색하기
--
+- 친구의 순서도 결과에 영향을 주기 때문에 모든 순열을 탐색
+- 시작점은 weak[0] / cnt = 1
+- weak[0] + 친구[0]이 weak[1]보다 크면 cnt += 1
+- weak[0] + 친구[0]이 weak[1]보다 작으면, weak[0] + 친구[0] + 친구[1]
+- 만약 cnt == len(weak)일 때 친구 수 작은 수로 갱신
+- 다돌았는데 cnt < len(weak)일 땐 pass
+- 현재의 친구 수보다 커지면 break
+
+weak
+1 5 6 10 13 17 18 22
+ 457 11
+  8 911
+    9101317
+      13 14 16
+3124
+
+
 
 '''
+
+n = 12
+weak = [1, 5, 6, 10]
+m = len(weak)
+dist = [1, 2, 3, 4]
+num_friends = len(dist)
+weak += [i + n for i in weak]
+ans = len(dist) + 1
+
+def check_wall(friends):
+    for i in  range(m):
+        now = weak[i] + friend[0]
+        j = cnt = 1
+
+        for friend in friends:
+            if now > weak[j]:
+                cnt += 1
+                j += 1
+            else:
+                now += friend
+
+def perm(arr, d, visited):
+    if d == num_friends:
+        check_wall(arr)
+    else:
+        for i in range(num_friends):
+            if visited & 1 << i:
+                continue
+            arr.append(dist[i])
+            perm(arr, d + 1, visited ^ (1 << i))
+            arr.pop()
+
+perm([], 0, 0)
