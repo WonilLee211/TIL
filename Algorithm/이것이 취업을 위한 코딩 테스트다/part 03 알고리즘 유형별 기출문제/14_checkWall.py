@@ -34,35 +34,72 @@ weak
 
 '''
 
-n = 12
-weak = [1, 5, 6, 10]
+n = 6
+weak = [1, 2, 4, 5]
+dist =[1, 1]
+
 m = len(weak)
-dist = [1, 2, 3, 4]
 num_friends = len(dist)
 weak += [i + n for i in weak]
 ans = len(dist) + 1
 
 def check_wall(friends):
-    for i in  range(m):
-        now = weak[i] + friend[0]
-        j = cnt = 1
+    global ans
 
-        for friend in friends:
-            if now > weak[j]:
-                cnt += 1
+    for i in range(m):
+        now = weak[i] + friends[0]
+        j = cnt = 1
+        k = 1
+        while k < len(dist):
+
+            while now >= weak[i + j]:  # 현재가 취약 지점보다 클 때까지 취약지점 이동
+                if j == m:
+                    break
                 j += 1
-            else:
-                now += friend
+
+            if j < m:
+                # 현재가 취약지점보다 작다면
+                now = weak[i + j] + friends[k]
+                j += 1
+                k += 1
+                cnt += 1
+
+            if cnt > ans or j == m:
+                break
+
+        for friend in friends[1:]:
+            while now >= weak[i + j]:  # 현재가 취약 지점보다 클 때까지 취약지점 이동
+                if j == m:
+                    break
+                j += 1
+
+            if j < m:
+                # 현재가 취약지점보다 작다면
+                now = weak[i + j] + friend
+                j += 1
+                cnt += 1
+
+            if cnt > ans or j == m:
+                break
+
+        if j == m:
+            ans = min(ans, cnt)
+
 
 def perm(arr, d, visited):
     if d == num_friends:
         check_wall(arr)
     else:
         for i in range(num_friends):
-            if visited & 1 << i:
+            if visited & (1 << i):
                 continue
             arr.append(dist[i])
             perm(arr, d + 1, visited ^ (1 << i))
             arr.pop()
 
 perm([], 0, 0)
+
+if ans == len(dist) + 1:
+    ans = -1
+
+print(ans)
