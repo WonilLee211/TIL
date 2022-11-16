@@ -32,32 +32,19 @@ weak
 
 '''
 
-<<<<<<< HEAD
-n = 12
-weak = [1, 3, 4, 9,  10]
-m = len(weak)
-dist = [3, 5, 7]
-=======
+
 n = 6
 weak = [1, 2, 4, 5]
 dist =[1, 1]
 
->>>>>>> 3622f2e41010e839832a4598eecd52477454e753
 m = len(weak)
 num_friends = len(dist)
 weak += [i + n for i in weak]
 ans = len(dist) + 1
 
-<<<<<<< HEAD
-
 def check_wall(friends):
     global ans
 
-=======
-def check_wall(friends):
-    global ans
-
->>>>>>> 3622f2e41010e839832a4598eecd52477454e753
     for i in range(m):
         now = weak[i] + friends[0]
         j = cnt = 1
@@ -78,21 +65,10 @@ def check_wall(friends):
 
             if cnt > ans or j == m:
                 break
-
-        for friend in friends[1:]:
-            while now >= weak[i + j]:  # 현재가 취약 지점보다 클 때까지 취약지점 이동
-                if j == m:
-                    break
-                j += 1
-
-            if j < m:
-                # 현재가 취약지점보다 작다면
-                now = weak[i + j] + friend
-                j += 1
-                cnt += 1
-
-            if cnt > ans or j == m:
+        while now >= weak[i + j]:  # 현재가 취약 지점보다 클 때까지 취약지점 이동
+            if j == m:
                 break
+            j += 1
 
         if j == m:
             ans = min(ans, cnt)
@@ -113,10 +89,6 @@ def perm(arr, d, visited):
 perm([], 0, 0)
 
 if ans == len(dist) + 1:
-<<<<<<< HEAD
-    ans = -1
-=======
     ans = -1
 
 print(ans)
->>>>>>> 3622f2e41010e839832a4598eecd52477454e753
