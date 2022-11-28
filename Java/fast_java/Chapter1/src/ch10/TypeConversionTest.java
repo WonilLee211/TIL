@@ -18,7 +18,5 @@ public class TypeConversionTest {
 		double dNum = 3.14;
 		int iNum3 = (int)dNum;
 		System.out.print(iNum3); // 3 명시적 형변환
-
 	}
-
 }
