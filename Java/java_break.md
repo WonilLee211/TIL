@@ -42,7 +42,7 @@ public class BreakTest {
 
 - 1부터 100까지 숫자 중 3의 배수를 출력하세요
 
-```
+```java
 package ch21;
 
 public class ContinueTest {
