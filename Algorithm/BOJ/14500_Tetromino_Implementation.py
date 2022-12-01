@@ -19,9 +19,10 @@ n개의 줄에 종이에 쓰여 있는 수
 논리
 - 모든 정점에 대해서 dfs
 - 그 중 가장 큰 값을 저장하고 다음 점으로 s
+- 연산을 줄이기 위해서 백트래킹 넣어주기
 - dfs는 한붓그리기가 가능할 때만 된다.
     - ㅗ 모양은 따로 처리해야 함.
-
+[[(1, 0), (2, 0), (1, 1)], [(1, 0), (2, 0), (1, -1)], [(0, 1), (0, 2), (1, 1)], [(0, 1), (0, 2), (-1, 1)]] 
 '''
 import sys
 input = sys.stdin.readline
@@ -36,6 +37,22 @@ for i in range(n):
     board.append(temp)
 
 direc = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+Oshapes = [[(1, 0), (2, 0), (1, 1)], [(1, 0), (2, 0), (1, -1)], [(0, 1), (0, 2), (1, 1)], [(0, 1), (0, 2), (-1, 1)]]
+
+def check_Oshape(i, j):
+    maxSum = 0
+
+    for Oshape in Oshapes:
+        sum = board[i][j]
+        for block in Oshape:
+            ni, nj = i + block[0], j + block[1]
+            if not(0 <= ni < n) or not (0 <= nj < m):
+                break
+            sum += board[ni][nj]
+        else:
+            maxSum = max(maxSum, sum)
+    return maxSum
+
 
 def dfs(i, j, depth, acc):
     global cnt
@@ -50,7 +67,7 @@ def dfs(i, j, depth, acc):
             if 0 <= ni < n and 0 <= nj < m and (ni, nj) not in visited:
                 visited.append((ni, nj))
                 dfs(ni, nj, depth + 1, acc + board[ni][nj])
-                # visited.pop()
+                visited.pop()
 
 ans = 0
 
@@ -61,6 +78,8 @@ for i in range(n):
         visited = [(i, j)]
         cnt += board[i][j]
         dfs(i, j, 0, cnt)
+        cnt = max(cnt, check_Oshape(i, j))
         ans = max(ans, cnt)
+
 
 print(ans)
