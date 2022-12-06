@@ -185,3 +185,8 @@ public class GenericPrinterTest {
 	ArrayList<String> list = new ArrayList<String>()  => var list = new ArrayList<String>();
 
 
+- Generic의 경우 선언과 생성시 타입 파라미터를 중복해서 사용해야 했기 때문에 사용이 불편해서 나옴
+  
+- <>연산자의 기능
+  
+- 제너릭 생성 시 추론 타입 파라미터의 사용을 줄이는 데 사용
