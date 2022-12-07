@@ -1,0 +1,8 @@
+12월 07, 2022 8:13:25 오후 ch11_logger.MyLogger log
+경고: test
+12월 07, 2022 8:13:25 오후 ch11_logger.MyLogger log
+심각: test
+12월 07, 2022 8:17:20 오후 ch11_logger.MyLogger warning
+경고: name must not be null
+12월 07, 2022 8:17:20 오후 ch11_logger.MyLogger warning
+경고: 이름이 너무 길어요

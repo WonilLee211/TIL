@@ -30,7 +30,6 @@ arr  : 이닝별 각 선수가 이닝에서 얻는 결과
 '''
 
 import sys
-import time
 sys.stdin = open('input.txt')
 
 input = sys.stdin.readline

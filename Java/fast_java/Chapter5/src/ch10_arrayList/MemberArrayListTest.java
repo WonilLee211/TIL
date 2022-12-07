@@ -1,4 +1,4 @@
-package ch10_ArrayList;
+package ch10_arrayList;
 
 public class MemberArrayListTest {
 
