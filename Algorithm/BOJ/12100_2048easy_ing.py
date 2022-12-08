@@ -23,15 +23,19 @@ sys.stdin = open('input.txt')
     2. 같으면 합치기
     3. 다르면 쌓기
     4. 이동 다하면 최대 값 찾기
+    
+에러
+- max_value 비교 위치가 잘못되어 있었다.
+- 0이 아닌 값을 찾는 함수에 idx out of range 에러가 발생했다.
 '''
 
 
-import sys
+import sys, copy
 
 input = sys.stdin.readline
 
 n = int(input())
-board = list(list(map(int, input().split())) for _ in range(n))
+board1 = list(list(map(int, input().split())) for _ in range(n))
 
 
 start_point = [(0, n-1), (0, 0), (n-1, 0), (0, 0)] # 비교 시작점
@@ -55,7 +59,8 @@ def find_value(r, c, dir, board):
 # 이동 조합 만들기
 def play(case, _board):
     global max_value
-    board = _board
+    board = copy.deepcopy(_board)
+
     for move in case:
         for t in range(n):
             r, c = start_point[move][0] + next[move][0] * t, start_point[move][1] + next[move][1] * t
@@ -72,15 +77,18 @@ def play(case, _board):
 
                 # 현재 위치가 0이 아닐 때
                 # 0이 아닌 다음 값 찾기
-                idx1 = find_value(r + d[move][0], c + d[move][1], d[move], board)
-                if idx1 is False:
-                    break
+                if 0 <= r + d[move][0] < n and 0 <= c + d[move][1] < n:
+                    idx1 = find_value(r + d[move][0], c + d[move][1], d[move], board)
+                    if idx1 is False:
+                        break
 
                 if board[r][c] == board[idx1[0]][idx1[1]]:
                     board[r][c], board[idx1[0]][idx1[1]] = board[r][c] * 2, 0
-                    max_value = max(max_value, board[r][c])
-
                 r, c = r + d[move][0], c + d[move][1]
+
+    for row in range(n):
+        max_value = max(max_value, max(board[row]))
+
 
 def dfs(depth, board):
     if depth == 5: # 이동 조합 만들어지면 play 2048
@@ -88,38 +96,15 @@ def dfs(depth, board):
         # print(case)
     else:
         for i in range(4):
-            if depth == 0:
-                case.append(i)
-                dfs(depth + 1, board)
-                case.pop()
+            case.append(i)
+            dfs(depth + 1, board)
+            case.pop()
 
-            elif case[depth-1] != i:
-                case.append(i)
-                dfs(depth + 1, board)
-                case.pop()
 
 max_value = 0
 case = []
-dfs(0, board)
-
-print(max_value)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if n == 1:
+    print(board1[0][0])
+else:
+    dfs(0, board1)
+    print(max_value)

@@ -22,7 +22,7 @@ public class UserInfoClient {
         //     DB의 연결정보 등을 저장해두는 용도로 많이 쓰임
 		Properties prop = new Properties();
 		prop.load(fis);
-		
+
 		// db.properties 파일 안에 DBTYPE 키의 value 가져오기
 		String dbType = prop.getProperty("DBTYPE");
 		
