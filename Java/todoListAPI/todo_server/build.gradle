@@ -34,15 +34,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     // jpa기능 사용을 위한 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
     // 리메모리 관계형 데이터베이스 사용
     runtimeOnly 'com.h2database:h2'
     // 디펜던시에 추가 후 인텔리제이에서 추가적인 설정이 필요함
     annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    // 테스트에 필요한 라이브러리
+//    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+//        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+//    }
 }
 
 test {
