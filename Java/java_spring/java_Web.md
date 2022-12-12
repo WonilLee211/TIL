@@ -9,7 +9,7 @@
  - User Interface
    - Chrome, Safari, Explorer, Smartwatch, IP TV 등
 
-![img](/img/web.png)
+![img](../img/web.png)
 
 # REST（Representational State Transfer: 자원의 상태 전달） 네트워크 아키텍처
 
@@ -150,13 +150,13 @@
 
 ## Client-Server HTTP 통신 방법
 
-![Client-ServerHTTP](/img/web1.png)
+![Client-ServerHTTP](../img/web1.png)
 
 ## HTTP 8 Methods
 
-![methods](/img/methods.png)
+![methods](../img/methods.png)
 
 ## HTTP Status Code
 
-![statuscode](/img/statusCode.png)<br>
-![statuscode](/img/statusCode1.png)
+![statuscode](../img/statusCode.png)<br>
+![statuscode](../img/statusCode1.png)
