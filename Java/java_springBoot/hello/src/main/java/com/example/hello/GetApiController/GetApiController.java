@@ -71,7 +71,6 @@ public class GetApiController {
 
     // query parameter 받아오는 방법 3 (가장 많이 쓰는 방법)
     // dto 폴더에 UserRequest 선언
-
     @GetMapping("query-param03")
     public String queryParam03(UserRequest userRequest){
         System.out.println(userRequest.getUser());
