@@ -21,18 +21,16 @@ sys.stdin = open('input.txt')
 - 저장될 때부터 모든 토마토가 익어있는 상태이면 0을 출력
 - 모두 익지는 못하는 상황이면 -1을 출력
 
-- 처음에 모든 0에 대해서 주변이 벽이거나 -1인 경우가 하나라도 있으면 -1출력
 - 1이 없는 경우 -1 출력
 - 0이 없는 경우 0 출력
 - 1의 위치 저장
-
 - bfs
 - 0이 다 사라질 때까지 돌기
 - Cnt 세기
 
-
- 처음부터 다시 짜야한다.
- 그냥 완전 탐색해야 함
+에러
+- 마지막에 엣지케이스 외에 모든 토마토가 익지 않을 수도 있는 경우를 고려하지 못했음
+- bfs이후에 cnt0이 0이 되지 않은 경우 -1 출력
 '''
 
 import sys
@@ -70,60 +68,30 @@ elif cnt1 == 0: # 1이 없는 경우 -1 출력
     print(-1)
 
 else:
-    flag = False
-    for i in range(n):
-        for j in range(m):
-            # 익지 않은 토마토의 상하좌우에 한 곳이도 뚤려 있으면 다음 단계
-            # 아니라면 -1 출력 break
-            if board[i][j] == 0:
-                for d in moves:
-                    ni, nj = i + d[0], j + d[1]
-                    if 0 <= ni < n and 0 <= nj < m and board[ni][nj] in [0, 1]:
-                        break
-                else:
-                    print(-1)
-                    flag = True
-                    break
-        if flag:
-            break
+    t = 0
 
-    if not flag:
-        check = [0 for _ in range(len(idx1))]
+    visited = [[0] * m for _ in range(n)]
 
-        for x, tomato1 in enumerate(idx1):
-            for d in moves:
-                ni, nj = tomato1[0] + d[0], tomato1[1] + d[1]
-                if 0 <= ni < n and 0 <= nj < m and board[ni][nj] in [0, 1]:
-                    check[x] = 1
-                    break
+    q = deque(idx1)
 
-        if 1 not in check:
-            print(-1)
-            flag = True
+    while cnt0 != 0 and q:
 
-    if not flag: # 모든 익지 않은 토마토가 익을 수 있을 때
+        node = q.popleft()
 
-        t = 0
+        for d in moves:
+            ni, nj = node[0] + d[0], node[1] + d[1]
 
-        visited = [[0] * m for _ in range(n)]
+            if 0 <= ni < n and 0 <= nj < m and board[ni][nj] == 0 and visited[ni][nj] == 0:
 
-        q = deque(idx1)
+                visited[ni][nj] = visited[node[0]][node[1]] + 1
+                cnt0 -= 1
+                q.append((ni, nj))
 
-        while cnt0 != 0 and q:
+            if cnt0 == 0:
+                t = visited[ni][nj]
+                break
 
-            node = q.popleft()
-
-            for d in moves:
-                ni, nj = node[0] + d[0], node[1] + d[1]
-
-                if 0 <= ni < n and 0 <= nj < m and board[ni][nj] == 0 and visited[ni][nj] == 0:
-
-                    visited[ni][nj] = visited[node[0]][node[1]] + 1
-                    cnt0 -= 1
-                    q.append((ni, nj))
-
-                if cnt0 == 0:
-                    t = visited[ni][nj]
-                    break
-
+    if cnt0 != 0:
+        print(-1)
+    else:
         print(t)

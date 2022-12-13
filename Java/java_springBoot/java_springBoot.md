@@ -1,4 +1,35 @@
+
+
+# Spring
+
+> Spring 1.0버전은 2004년 3월 출시
+>   - 지난 20년 가까지의 세월 동안 단 한번도 자바 엔터프라이즈 어플리케이션 개발의 최고의 자리를 차지 
+> 스프링 프레임워크의 구성은 20여가지로 구성 (https://spring.io/projects/spring-framework)
+>   - 이러한 모듈들은 스프링의 핵심기능 (미, AOP, etc)을 제공해 주며, 필요한 모듈만 선택하여 사용 가능.
+> 현재 단일 아키텍처(모놀리스) 마이크로서비스 아키텍처로 변환 중
+>   - 여기에 맞취서 스프링도 진화하고 있는 상태.
+> 여러 가지 모듈이 있지만 그 중에서 단연 **스프링 부트, 스프링 클라우드, 스프링 데이터, 스프링 배치, 스프링 시큐리티**에 중점을 둔다
+
+
+## 스프링의 과제
+
+### “테스트의 용이성”, “느슨한 결합”에 중점을 두고 개발
+
+- 200년대 초 자바EE 애플리케이션은 작성/테스트가 매우 어려웠고 번거로웠음
+- 이로인해 느슨한 결합이 된 어플리케이션 개발이 힘든 상태
+- 데이터베이스와 같이 외부에 의존성을 두는 경우 단위 테스트 불가능
+
+### IoC 등장
+
+- 스프링이 다른 프레임워크와 가장 큰 차이점 : **IoC를 통한 개발 진행**
+
+### AOP
+
+- AOP를 사용하여 로깅, 트랜잭션 관리, 시큐리티에서의 적용 등 AspectJ와 같이 완벽하게 구현된 AOP와 통합하여 사용 가능
+  
+  
 # Spring Boot
+
 
 ## Port 번호 변경
 
@@ -326,36 +357,175 @@ public class DeleteApiController {
 ### 1. text 반환
 
 ```java
+package com.example.post.controller;
+
+import com.example.post.dto.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+
+    // TEXT
+    public String text(@RequestParam String account){
+        return account;
+    }
+
+}
 
 
 ```
 ### 2. json 반환
 
 ```java
+package com.example.post.controller;
+
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+
+    //JSON
+    // req -> object mapper -> object -> method -> object -> object mapper -> json -> response
+    @PostMapping("/json")
+    public User json(@RequestBody User user){
+        return user; //200 ok
+    }
+}
+
 ```
 
 ### 3. response customizing (권장)
 
 - `ResponseEntity`
+- `ok()`, `status()`, `body()` 등
+```java
+package com.example.post.controller;
+
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+    
+    // ResponseEntity 사용 권장
+    @PostMapping("/put")
+    public ResponseEntity<User> put(@RequestBody User user){
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+}
+```
+
+### 4. PageController
+
+- `@RestController`가 아닌 `@Controller` 사용
+- 문자열 "main.html" 반환
+- resources/static/main.html 생성
 
 ```java
+package com.example.post.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class PageController {
+
+    @RequestMapping("/main")
+    public String main(){
+        return "main.html";
+    }
+}
+```
+```html
+<!-- resources/static/main.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Main Html Spring Boot
+
+</body>
+</html>
+
+```
+### PageController에서 객체 내려주는 방법
+
+- ResponseEntity를 사용
+  - `@ResponseBody` : html을 찾는 것이 아닌 객체를 반환하도록 함
+  - **일반적으로 PageController에서는 객체를 내려주지 않음.**(ApiController의 역할)
+
+- int 타입 Default 반환값 : 0
+- null을 반환하고 싶다면 Integer 타입 사용
+
+```java
+package com.example.post.controller;
+
+import com.example.post.dto.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class PageController {
+
+    //ResponseEntity
+    @ResponseBody // 객체를 반환할 때 리소스를 찾지 않고 리스폰스바디를 만들어서 보내겠다는 annotation
+    @GetMapping("/user")
+    public User user(){
+        // 타입 명시할 때 이름이 길면 추후헤 불편함. 그런한 불편함을 해소. java 11버전부터 제공
+        var user = new User();
+        user.setName("steve");
+        user.setAddress("패스트 캠퍼스");
+
+        return user;
+    }
+//    {
+//        "name": "steve",
+//            "age": 0,
+//            "phone_number": null,
+//            "address": "패스트 캠퍼스"
+//    }
+
+    // int 타입 Default 반환값 : 0
+    // null을 반환하고 싶다면 Integer 타입 사용
+}
 
 ```
 
-# 스프링의 핵심
+- `@JsonInclude(JsonInclude.Include.NON_NULL)` : null값을 제외하고 싶을 때 annotation
+
+```java
+package com.example.post.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(value= PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User {
+    ...
+    public int getAge() {
+        return age;
+    }
+//    public Integer getAge() {
+//        return age;
+//    }
+    ...    
+}
+
+// return 값
+//    {
+//        "name": "steve",
+//        "age": 0,
+//        "address": "패스트 캠퍼스"
+//    }
+
+```
 
 
-> Spring 1.0버전은 2004년 3월 출시
->   - 지난 20년 가까지의 세월 동안 단 한번도 자바 엔터프라이즈 어플리케이션 개발의 최고의 자리를 차지 
-> 스프링 프레임워크의 구성은 20여가지로 구성 (https://spring.io/projects/spring-framework)
->   - 이러한 모듈들은 스프링의 핵심기능 (미, AOP, etc)을 제공해 주며, 필요한 모듈만 선택하여 사용 가능.
-> 현재 단일 아키텍처(모놀리스) 마이크로서비스 아키텍처로 변환 중
->   - 여기에 맞취서 스프링도 진화하고 있는 상태.
-> 여러 가지 모듈이 있지만 그 중에서 단연 **스프링 부트, 스프링 클라우드, 스프링 데이터, 스프링 배치, 스프링 시큐리티**에 중점을 둔다
-
-
-## 스프링의 과제
-
-- “테스트의 용이성”, “느슨한 결합”에 중점을 두고 개발
-  

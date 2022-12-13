@@ -1,12 +1,15 @@
 package com.example.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(value= PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     private String name;
     private int age;
+//    private Integer age;
     private String phoneNumber;
     private String address;
 
@@ -21,6 +24,10 @@ public class User {
     public int getAge() {
         return age;
     }
+//    public Integer getAge() {
+//        return age;
+//    }
+
 
     public void setAge(int age) {
         this.age = age;
