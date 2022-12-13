@@ -1,5 +1,12 @@
 # Spring Boot
 
+## Port 번호 변경
+
+1. resources/application.properties/
+2. server.port=9090 입력
+
+
+
 ## 공식문서
 
 - https://docs.spring.io/spring-boot/docs/2.1.x/referecne/html/getting-started-introducing-spring-boot.html
@@ -8,6 +15,29 @@
 ## spring initializer
 
 - https://start.spring.io
+
+## 실습
+
+```java
+package com.example.hello.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController // 해당 class는 REST API 처리하는 controller임을 지정하는 데코레이터
+@RequestMapping("/api") // URI를 지정해주는 Annotation
+public class ApiController {
+
+    @GetMapping("/hello") // http://localhost/api/hello url 매핑
+    public String hell(){
+        return "hello spring boot!";
+    }
+}
+
+
+```
+
 
 ## GET API
 
