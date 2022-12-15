@@ -24,9 +24,7 @@
 - `@AfterThrowing` : 메소드 호출 실패 예외 발생(Throws)
 - `@Around` : Before / after  모두 제어
 
-## 실습
-
-### log 찍기
+## 실습 1. log 찍기
 
 - `@Pointcut("execution()")
 
@@ -106,4 +104,198 @@ public class ParameterAop {
 // post method : User{id='user01', pw='pw01', email='steve@gmail.com'}
 // return obj : 
 // User{id='user01', pw='pw01', email='steve@gmail.com'}
+```
+### @Bean() VS @Component()
+- @Bean() : method에 붙어 bean에 등록
+- @Componenet() : 클래스 단위에 붙어 Bean 등록
+- @Configuration() : 하나의 클래스에 여러가지 Bean을 적용함
+
+
+## 실습 2. PC status logging
+
+- annotation customizing을 통해 해당 annotation이 설정된 메소드만 기록되도록 하기
+
+1. annotation 만들기
+
+```java
+
+package com.example.aop.aop;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Timer {}
+
+```
+
+- 제작한 annotationd인 `@Timer`가 위치를 잡을 수 있도록 aop클래스 메서드에 `@Around` 붙여주기
+  
+```java
+package com.example.aop.aop;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
+
+
+@Aspect
+@Component
+public class TimerAop {
+
+    @Pointcut("execution(* com.example.aop.controller..*.*(..))")
+    private void cut(){}
+
+    // 해당 패키지에 선언된 annotation이 선언된 클래스를 Pointcut하고 logging할거다!
+    @Pointcut("@annotation(com.example.aop.annotation.Timer)")
+    private void enableTimer(){}
+
+    // Timer는 Before After로 위치 못정함. 이때 쓰는게 Around
+    @Around("cut() && enableTimer()")
+    public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Object result = joinPoint.proceed();
+        stopWatch.stop();
+
+        System.out.println("total time : " + stopWatch.getTotalTimeSeconds());
+    }
+
+}
+
+```
+
+- controller에 메소드에 제작한 annotation 붙임
+  
+```java
+
+package com.example.aop.controller;
+
+import com.example.aop.aop.Timer;
+import com.example.aop.dto.User;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class RestApiController {
+    
+    ...
+    
+    @Timer // 직접 만든 annotation
+    @DeleteMapping("/delete")
+    public void delete() throws InterruptedException {
+
+        // db logic
+        Thread.sleep(1000 * 2); // 2초 있다가 종료되도록 설정
+    }
+}
+
+```
+
+- 외부에서 암호화된 필드나 파일이 들어올 때 AOP layer에서 복호화해서 들어오게 할 수 있음
+- 또는 자료를 조작할 수 있음
+
+## 메서드 입출력 데이터 변경하기
+
+- 메서드가 실행되기 전 특정 데이터를 decoding
+- 메서드가 반환될 때 특정 데이터를 encoding
+
+
+### @Decode annotation 생성
+
+```java
+package com.example.aop.annotation;
+
+public @interface Decode {}
+
+```
+
+### DecodeAop 설계
+
+```java
+
+package com.example.aop.aop;
+
+import com.example.aop.dto.User;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+
+@Aspect
+@Component
+public class DecodeAop {
+    @Pointcut("execution(* com.example.aop.controller..*.*(..))")
+    private void cut(){}
+
+    @Pointcut("@annotation(com.example.aop.annotation.Decode)")
+    private void enableDecode(){}
+
+    @Before("cut() && enableDecode()") // 메서드가 실행이 될 때
+    public void before(JoinPoint joinPoint) throws UnsupportedEncodingException {
+        Object[] args = joinPoint.getArgs();
+
+        for(Object arg : args){ // 메서드의 인자들 중에
+            if(arg instanceof User){ // 내가 원하는 유저라는 클래스가 있으면
+                User user = User.class.cast(arg); // User클래스로 형변환
+                String base64Email = user.getEmail();
+                // Decoding by Base64
+                String email = new String(Base64.getDecoder().decode(base64Email), "UTF-8");
+                user.setEmail(email); // inserting decoded data
+            }
+        }
+    }
+    @AfterReturning(value = "cut() && enableDecode()", returning = "returnObj" )
+    public void afterReturn(JoinPoint joinPoint, Object returnObj){
+        if(returnObj instanceof User){
+            User user = User.class.cast(returnObj); // User클래스로 형변환
+            String email = user.getEmail(); // get the decoded email Data
+            // encoding the Decoded email
+            String base64Email = Base64.getEncoder().encodeToString(email.getBytes());
+            user.setEmail(base64Email); // inserting the encoded data
+        }
+
+    }
+}
+
+```
+
+### DecodeAop 입히기
+
+```java
+package com.example.aop.controller;
+
+import com.example.aop.annotation.Decode;
+import com.example.aop.annotation.Timer;
+import com.example.aop.dto.User;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class RestApiController {
+    ...
+
+    @Decode
+    @PutMapping("/put")
+    public User put(@RequestBody User user){
+        // 메서드가 실행되기 전에는 encoded data를 Decoding해서 출력
+        System.out.println("put");
+        System.out.println(user);
+        // 값이 외부로 반환될 때는 다시 encoding 형태로 출력
+        return user;
+    }
+}
+
 ```

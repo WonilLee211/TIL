@@ -1,2 +1,4 @@
-package com.example.aop.annotation;public @interface Decode {
+package com.example.aop.annotation;
+
+public @interface Decode {
 }

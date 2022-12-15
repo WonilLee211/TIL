@@ -182,3 +182,176 @@ public class User {
 // {"name":"steve","age":20,"phone_number":null} // snake-case
 // User{name='steve', age=20, phoneNumber='null'} // camelCase
 ```
+
+
+## object mapper로 Json node에 접근하기
+
+### java library 활용
+
+- maven repository >> Jackson Databind 2.12 버전 dependencies 추가
+- 사용할 json 설계
+
+```java
+package dto;
+
+import java.util.List;
+
+public class User {
+    private String name;
+    private int age;
+    private List<Car> cars;
+    ...
+}
+// --------------------------
+package dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Car {
+    private String name;
+
+    @JsonProperty("car_number")
+    private String carNumber;
+    @JsonProperty("TYPE")
+    private String type;
+...
+
+}
+
+```
+
+- 기존 objectMapper를 이용한 json 작성
+
+```java
+
+public class Main {
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        User user = new User();
+        user.setName("Fideleo");
+        user.setAge(28);
+
+        Car car1 = new Car();
+        car1.setName("K5");
+        car1.setCarNumber("11가 1111");
+        car1.setType("sedan");
+
+        Car car2 = new Car();
+        car2.setName("Q5");
+        car2.setCarNumber("22가 2222");
+        car2.setType("SUV");
+
+        List<Car> carList = Arrays.asList(car1, car2);
+        user.setCars(carList);
+
+        System.out.println(user);
+
+        String json = objectMapper.writeValueAsString(user);
+        System.out.println(json);
+
+        // 지금까지 objectmapper 이용한 json 작성
+    }
+}
+
+```
+
+### JsonNode에 직접 접근하여 json 조작하기
+
+1. json parsing
+
+   - `objectMapper.readTree()`
+   - json 표준 스펙을 알 때 parsing 방법
+     - `ArrayNode` : json 내 속성 값의 타입이 Array일 때 ArrayNode로 형변환
+     - `objectMapper.convertValue(객체, new TypeReference<변경할 클래스타입>(){});` : 최종 형변환 완료
+
+
+
+   
+```java
+
+public class Main {
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // 1. json parsing
+
+        JsonNode jsonNode = objectMapper.readTree(json);
+        String _name = jsonNode.get("name").asText();
+        int _age = jsonNode.get("age").asInt();
+
+        System.out.println("name : " + _name);
+        System.out.println("age : " + _age);
+//        name : Fideleo
+//        age : 28
+
+//        String _list = jsonNode.get("cars").asText();
+//        System.out.println(_list);
+        // 타입이 맞지 않아 아무 것도 안찍힘
+
+        // 이미 json 표준 스펙을 알 떄 parsing 방법
+        JsonNode cars = jsonNode.get("cars");
+        ArrayNode arrayNode = (ArrayNode)cars; // ArrayNode : value가 Array 타입일 때
+        // objectMapper.convertValue : json이 아닌 우리가 원하는 클래스로 맵핑시키기
+        List<Car> _cars = objectMapper.convertValue(arrayNode, new TypeReference<List<Car>>(){});
+        System.out.println(_cars);
+//        [Car{name='K5', carNumber='11가 1111', type='sedan'}, Car{name='Q5', carNumber='22가 2222', type='SUV'}]
+
+    }
+}
+
+
+```
+
+
+2. json 속성 값 변경하기
+
+   - 기본적으로  ObjectMapper를 통해 직접 Json 내에 값을 변경할 수 없음
+   - `ObjectNode`클래스 사용
+     - `put()`, `set()`을 이용한 데이터 변경
+
+```java
+
+public class Main {
+
+    public static void main(String[] args) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        ...
+        
+        // 1. json parsing
+
+        JsonNode jsonNode = objectMapper.readTree(json);
+  
+        // ObjectNode : 기본적으로 ObjectMapper로 Json값을 직접 변경하지 못함. 이를 해결하는 클래스
+        ObjectNode objectNode = (ObjectNode)jsonNode;
+        objectNode.put("name", "steve");
+        objectNode.put("age", 20);
+        
+
+        System.out.println(objectNode.toPrettyString());
+//        {
+//            "name" : "steve",
+//            "age" : 20,
+//            "cars" : [ {
+//                "name" : "K5",
+//                        "car_number" : "11가 1111",
+//                        "TYPE" : "sedan"
+//                }, {
+//                "name" : "Q5",
+//                        "car_number" : "22가 2222",
+//                        "TYPE" : "SUV"
+//            } ]
+//        }
+        // Json 바디의 특정 값을 변경할 때 사용
+
+
+    }
+}
+
+```
