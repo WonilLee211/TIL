@@ -50,41 +50,75 @@ public class GlobalControllerAdvice {
 
 
 - 특정 ApiController에 국한시키기
-    -  ApiController 클래스 내부에 ExceptionHandler 작성하기
+    1.  ApiController 클래스 내부에 ExceptionHandler 작성하기
 
-```java
-package com.example.exception.controller;
+    ```java
+    package com.example.exception.controller;
 
-@RestController
-@RequestMapping("/api/user")
-public class ApiController {
+    @RestController
+    @RequestMapping("/api/user")
+    public class ApiController {
 
-    @GetMapping("")
-    public User get(@RequestParam(required = false) String name, @RequestParam(required = false) Integer age){
-        // required = false : 해당 매개변수가 없어도 동작하지만 null 할당됨
-        User user = new User();
-        user.setName(name);
-        user.setAge(age);
+        @GetMapping("")
+        public User get(@RequestParam(required = false) String name, @RequestParam(required = false) Integer age){
+            // required = false : 해당 매개변수가 없어도 동작하지만 null 할당됨
+            User user = new User();
+            user.setName(name);
+            user.setAge(age);
 
-        int a = 10 + age;
+            int a = 10 + age;
 
 
-        return user;
+            return user;
+        }
+
+        @PostMapping("")
+        public User post(@Valid @RequestBody User user){
+            System.out.println(user);
+            return user;
+        }
+
+        @ExceptionHandler(value= MethodArgumentNotValidException.class)
+        public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e){
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
     }
 
-    @PostMapping("")
-    public User post(@Valid @RequestBody User user){
-        System.out.println(user);
-        return user;
+    ```
+    2. GlobalControllerAdvice에 옵션 주기
+        - `@RestControllerAdvice(basePackageClasses = ApiController.class)`
+
+    ```java
+
+    package com.example.exception.advice;
+
+    @RestControllerAdvice(basePackageClasses = ApiController.class)
+    public class GlobalControllerAdvice {
+
+        @ExceptionHandler(value=Exception.class) // value : 어떤 에러를 잡을 건지 작성하는 부분(Exception.class : 모든 예외를 의미)
+        public ResponseEntity exception(Exception e){
+
+            System.out.println("__________________________________");
+            System.out.println(e.getClass().getName());
+    //        org.springframework.web.bind.MethodArgumentNotValidException
+
+            System.out.println(e.getLocalizedMessage());
+
+
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+
+        }
+
+        @ExceptionHandler(value= MethodArgumentNotValidException.class)
+        public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e){
+            System.out.println("out of class");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+        }
     }
 
-    @ExceptionHandler(value= MethodArgumentNotValidException.class)
-    public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e){
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-    }
-}
-
-```
-
+    ```
