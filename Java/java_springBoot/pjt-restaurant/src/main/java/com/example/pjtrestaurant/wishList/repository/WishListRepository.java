@@ -8,7 +8,4 @@ import org.springframework.stereotype.Repository;
 public class WishListRepository extends MemoryDbRepositoryAbstract<WishListEntity> {
     // generic type, T가 WishListEntity가 된다.
 
-
-
-
 }
