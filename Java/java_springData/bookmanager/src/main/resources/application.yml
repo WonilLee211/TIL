@@ -1,0 +1,11 @@
+
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true # sql 명령들이 실제 db에서 어떻게 동작하는지 log 출력
+    properties:
+      hibernate:
+        format_sql: true # query를 포맷에 맞춰서 출력
+    defer-datasource-initialization: true
