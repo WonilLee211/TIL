@@ -1,5 +1,11 @@
+## 목차
+
+1. queryMethod naming rules
+2. queryMethod를 통한 paging과 sort 구현
+
 # QueryMethod 활용
 
+- logical predicate keyword로 orm 작성
 - 코드 가독성을 높이기 위한 다양한 키워드 사용
 
 
@@ -826,6 +832,169 @@ Hibernate:
     where
         usertable0_.name=?
 -- findUserByNameEqual : [UserTable(id=1, name=martin, email=martin@fastcampus.com, createdAt=2022-12-21T21:46:07.920241, updatedAt=2022-12-21T21:46:07.920241), UserTable(id=5, name=martin, email=martin@another.com, createdAt=2022-12-21T21:46:07.923235, updatedAt=2022-12-21T21:46:07.923235)]
+
+
+```
+
+## 2. ueryMethod를 통한 paging과 sort 구현
+
+### 키워드를 이용한 sorting
+
+```java
+    List<UserTable> findTop1ByName(String name);
+    List<UserTable> findTop1ByNameOrderByIdDesc(String name);
+    List<UserTable> findFirstByNameOrderByIdDescEmailAsc(String name);
+
+    //---------------------------
+    System.out.println("findTop1ByName : " + userTableRepository.findTop1ByName("martin"));
+    System.out.println("findTop1ByNameOrderByIdDesc : " + userTableRepository.findTop1ByNameOrderByIdDesc("martin"));
+    System.out.println("findFirstByNameOrderByIdDescEmailAsc : " + userTableRepository.findFirstByNameOrderByIdDescEmailAsc("martin"));
+
+```
+
+```sql
+
+Hibernate: 
+    select
+        usertable0_.id as id1_1_,
+        usertable0_.created_at as created_2_1_,
+        usertable0_.email as email3_1_,
+        usertable0_.name as name4_1_,
+        usertable0_.updated_at as updated_5_1_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=? limit ?
+-- findTop1ByName : [UserTable(id=1, name=martin, email=martin@fastcampus.com, createdAt=2022-12-21T22:02:53.952966, updatedAt=2022-12-21T22:02:53.952966)]
+
+Hibernate: 
+    select
+        usertable0_.id as id1_1_,
+        usertable0_.created_at as created_2_1_,
+        usertable0_.email as email3_1_,
+        usertable0_.name as name4_1_,
+        usertable0_.updated_at as updated_5_1_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=? 
+    order by
+        usertable0_.id desc limit ?
+-- findTop1ByNameOrderByIdDesc : [UserTable(id=5, name=martin, email=martin@another.com, createdAt=2022-12-21T22:02:53.963938, updatedAt=2022-12-21T22:02:53.963938)]
+
+Hibernate: 
+    select
+        usertable0_.id as id1_1_,
+        usertable0_.created_at as created_2_1_,
+        usertable0_.email as email3_1_,
+        usertable0_.name as name4_1_,
+        usertable0_.updated_at as updated_5_1_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=? 
+    order by
+        usertable0_.id desc,
+        usertable0_.email asc limit ?
+-- findFirstByNameOrderByIdDescEmailAsc : [UserTable(id=5, name=martin, email=martin@another.com, createdAt=2022-12-21T22:23:44.666843, updatedAt=2022-12-21T22:23:44.666843)]
+
+```
+
+### parameter를 활용한 sorting
+
+
+```java
+
+    List<UserTable> findByName(String name, Sort sort);
+
+    //-----------------------
+    System.out.println("findByName(String name, Sort sort) : " + userTableRepository.findByName("martin", Sort.by(Sort.Order.desc("id"))));
+    
+```
+```sql
+
+Hibernate: 
+    select
+        usertable0_.id as id1_1_,
+        usertable0_.created_at as created_2_1_,
+        usertable0_.email as email3_1_,
+        usertable0_.name as name4_1_,
+        usertable0_.updated_at as updated_5_1_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=? 
+    order by
+        usertable0_.id desc
+
+-- findByName(String name, Sort sort) : [UserTable(id=5, name=martin, email=martin@another.com, createdAt=2022-12-22T00:37:25.226473, updatedAt=2022-12-22T00:37:25.226473), UserTable(id=1, name=martin, email=martin@fastcampus.com, createdAt=2022-12-22T00:37:25.223479, updatedAt=2022-12-22T00:37:25.223479)]
+
+
+```
+  
+- 코드의 가독성 측면에서 메서드가 계속 길어지는 것보다 좋음
+- 매개변수로 Order클래스를 필요한 정렬에 따라 커스텀해서 전달할 수 있음
+
+    ```java
+        System.out.println("findByName(String name, Sort sort) : " + userTableRepository.findByName("martin", getSort()));
+
+        private Sort getSort(){
+        return Sort.by(
+                Sort.Order.desc("id"),
+                Sort.Order.asc("email"),
+                Sort.Order.desc("createdAt"),
+                Sort.Order.asc("updatedAt")
+
+        )}
+
+
+    ```
+
+### pageable 클래스를 이용한 sort
+
+- `Page` 클래스
+  - `Slice` 클래스를 상속받음
+    - 데이터 묶음의 일부 덩어리를 의미함
+    - 현재 slice에 대한 값을 처리하는 메서드 제공
+  - `getTotalPages()`, `getTotalElements()`, `empty()` 메서드 제공
+  - 전체 레코드에 대한 값을 처리하는 메서드 제공
+    - 즉, **전체 레코드에 대한 값 처리, 일부에 대한 레코드 값 처리 메서드를 가지고 있음**
+  - 응답 값
+
+- `Pageable` 클래스
+  - 요청 값
+  - `Page` 클래스와 메서드가 유사함
+
+```java
+    Page<UserTable> findByName(String name, Pageable pageable);
+    // --------------------
+    System.out.println("findByName(String name, Pageable pageable) : " + userTableRepository.findByName("martin", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+```
+
+```sql
+Hibernate: 
+    select
+        usertable0_.id as id1_1_,
+        usertable0_.created_at as created_2_1_,
+        usertable0_.email as email3_1_,
+        usertable0_.name as name4_1_,
+        usertable0_.updated_at as updated_5_1_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=? 
+    order by
+        usertable0_.id desc limit ?
+
+Hibernate: -- getContent() 메서드에 대한 query
+    select
+        count(usertable0_.id) as col_0_0_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.name=?
+
+-- findByName(String name, Pageable pageable) : [UserTable(id=5, name=martin, email=martin@another.com, createdAt=2022-12-22T01:30:19.994463, updatedAt=2022-12-22T01:30:19.994463)]
 
 
 ```
