@@ -47,3 +47,4 @@ if (set(visited) & set(places)) == set(places): # visited : [2, 3, 4]
     print("YES")
 else:
     print("NO")
+

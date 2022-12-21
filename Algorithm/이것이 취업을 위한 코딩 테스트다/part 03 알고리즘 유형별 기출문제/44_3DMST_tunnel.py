@@ -8,7 +8,6 @@ sys.stdin = open('input.txt')
 min(abs(x1-x2),abs(y1-y2),abs(z1-z2))
 터널을 n-1개 건설해서 최소 비용으로 구하는 프로그램
 
-
 n : 행성의 수 1 <= n <= 100,000
 x, y, z : n개의 줄 행성별 위치 
 

@@ -41,7 +41,6 @@ root = 0
 cnt = p
 ans = 0
 
-
 while cnt != 0:
 
     cnt -= 1
@@ -54,7 +53,6 @@ while cnt != 0:
 
     union(parent[info]-1, info)
     ans += 1
-
 
 print(ans)
 
