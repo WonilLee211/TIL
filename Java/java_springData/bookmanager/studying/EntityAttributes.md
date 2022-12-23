@@ -124,7 +124,15 @@ public @interface GeneratedValue {
 
 - table의 name, catalog, schema, uniqueConstraints, indexes 옵션 제공
 - `uniqueConstraints`
+  
+    - 복합키를 만들 때 주로 사용
+    - 그 외에 컬럼 하나에 unique 제약 조건을 주고 싶을 땐 `@Column`에서 unique조건 설정
+
 - `indexes`
+
+    - 선언 컬럼에 인덱스 생성
+- 이런 조건은 db에 맡기고 보통은 Entity 옵션에서 설정하지 않음
+  
 
 ```java
 package com.jpa.fedeleo.bookmanager.domain;
@@ -148,7 +156,7 @@ public class UserTable {
 
 ### 5. `@Column`
 
-- db의 컬럼명을 지정
+- db의 필드에 대한 속성들을 제어
 
 ```java
 @Target({METHOD, FIELD}) 
@@ -223,7 +231,6 @@ public @interface Column {
     int scale() default 0;
 }
 
-
 ```
 
 - `name` : 대개 DB는 그대로 유지하되, 어플리케이션을 리빌딩하려할 때 사용
@@ -231,4 +238,137 @@ public @interface Column {
 - `unique` : unique 제약조건을 지정
 - `length` : varchar 길이의 조절(default = 255)
 - `insertable`
+
     - DML에 영향을 줌
+    - false : 생성(insert) 시에 값이 입력이 안되고 수정(update) 시에 값이 삽입됨
+  
+- `upatable`
+
+    - false : 생성(insert) 시에 값이 입력되고 수정(update) 시에 값 변경이 되지 않음
+
+```java
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Data
+@Entity // 객체를 entity로 선언. 내부에 primaery key 선언이 필수
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Table(indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+public class UserTable {
+    
+    ...
+
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(insertable = false)
+    private LocalDateTime updatedAt;
+
+}
+
+```
+```sql
+
+    insert 
+    into
+        user_table
+        (created_at, email, name, id) 
+    values
+        (?, ?, ?, ?)
+
+    -- ----------------------------------
+    update
+        user_table 
+    set
+        email=?,
+        name=?,
+        updated_at=? 
+    where
+        id=?
+
+```
+
+-  `@Transient`
+
+   - entity가 db의 데이터와 별개의 데이터를 가지고 싶을 때 사용
+   - 해당 객체와 생명 주기를 같이 함
+
+- `@Enumerated`
+    - java에서 상수를 사용할 때 Enum클래스를 생성하여 상수값을 반환한다.
+    - 이 때 entity 객체에서 enum클래스를 이용하여 값을 db에 저장하면 enum클래스 내부 상수의 순서에 매칭되는 값으로 저장된다.
+    - 이는 `@Entity`에서 enum클래스를 참조할 때 EnumType의 Default가 ORDINAL이기 때문임.
+      - 이 enum 클래스의 값을 수정할 때 잠재적 버그의 원인이 될 수 있음
+      - 이를 피하기 위해 EnumType을 String으로 설정하는 것이 중요하다.
+
+```java
+
+package com.jpa.fedeleo.bookmanager.domain;
+
+public enum Gender {
+    MALE,
+    FEMALE
+}
+//--------------------------------------------
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Data
+@Entity // 객체를 entity로 선언. 내부에 primaery key 선언이 필수
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Table(indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+public class UserTable {
+
+    ...
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+}
+// ---------------------------------------------
+
+package com.jpa.fedeleo.bookmanager.repository;
+
+public interface UserTableRepository extends JpaRepository<UserTable, Long> {
+    
+    ...
+
+    @Query(value="select * from user_table limit 1", nativeQuery = true)
+    Map<String, Object> findRawRecord();
+}
+
+
+```
+
+```java
+
+package com.jpa.fedeleo.bookmanager.repository;
+
+@SpringBootTest
+class UserTableRepositoryTest {
+
+    @Autowired
+    private UserTableRepository userTableRepository;
+
+    ...
+
+    @Test
+    void EnumTest(){
+        UserTable user = userTableRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setGender(Gender.MALE);
+        userTableRepository.save(user);
+
+        userTableRepository.findAll().forEach(System.out::println);
+
+        System.out.println(userTableRepository.findRawRecord().get("gender"));
+
+        // MALE
+
+    }
+}
+
+```
+

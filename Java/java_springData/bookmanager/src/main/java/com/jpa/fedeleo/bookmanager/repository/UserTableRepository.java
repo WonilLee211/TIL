@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface UserTableRepository extends JpaRepository<UserTable, Long> {
@@ -59,6 +61,10 @@ public interface UserTableRepository extends JpaRepository<UserTable, Long> {
 //    List<UserTable> findTop1ByNameOrderByIdDesc(String name);
 //    List<UserTable> findFirstByNameOrderByIdDescEmailAsc(String name);
 //    List<UserTable> findByName(String name, Sort sort);
-    Page<UserTable> findByName(String name, Pageable pageable);
+//    Page<UserTable> findByName(String name, Pageable pageable);
+//    @Query(value="select * from user_table limit 1", nativeQuery = true)
+//    Map<String, Object> findRawRecord();
+
+    List<UserTable> findByEmail(String email);
 
 }

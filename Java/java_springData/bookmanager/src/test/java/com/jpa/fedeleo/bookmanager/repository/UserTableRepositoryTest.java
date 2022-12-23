@@ -1,5 +1,6 @@
 package com.jpa.fedeleo.bookmanager.repository;
 
+import com.jpa.fedeleo.bookmanager.domain.Gender;
 import com.jpa.fedeleo.bookmanager.domain.UserTable;
 import org.apache.catalina.User;
 import org.assertj.core.util.Lists;
@@ -20,6 +21,9 @@ class UserTableRepositoryTest {
 
     @Autowired
     private UserTableRepository userTableRepository;
+
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
 
     @Test
     void crud() {
@@ -87,7 +91,7 @@ class UserTableRepositoryTest {
 
 //        System.out.println("findByName(String name, Sort sort) : " + userTableRepository.findByName("martin", Sort.by(Sort.Order.desc("id"))));
 //        System.out.println("findByName(String name, Sort sort) : " + userTableRepository.findByName("martin", getSort()));
-        System.out.println("findByName(String name, Pageable pageable) : " + userTableRepository.findByName("martin", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+//        System.out.println("findByName(String name, Pageable pageable) : " + userTableRepository.findByName("martin", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
 
     }
     private Sort getSort(){
@@ -113,5 +117,65 @@ class UserTableRepositoryTest {
 
         userTableRepository.save(user2);
 
+    }
+
+    @Test
+    void EnumTest(){
+        UserTable user = userTableRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setGender(Gender.MALE);
+        userTableRepository.save(user);
+
+        userTableRepository.findAll().forEach(System.out::println);
+
+//        System.out.println(userTableRepository.findRawRecord().get("gender"));
+    }
+
+    @Test
+    void Listener(){
+        UserTable user = new UserTable();
+        user.setName("martin");
+        user.setEmail("martin@naver.com");
+
+        userTableRepository.save(user);
+
+        UserTable user2 = userTableRepository.findById(4L).orElseThrow(RuntimeException::new);
+        user2.setName("marrrrrtin");
+
+        userTableRepository.save(user2);
+        userTableRepository.deleteById(4L);
+
+    }
+
+    @Test
+    void prePersistTest(){
+        UserTable user = new UserTable();
+        user.setEmail("martin@fastcampus.com");
+        user.setName("martin");
+
+        userTableRepository.save(user);
+        System.out.println(userTableRepository.findByEmail("martin@fastcampus.com"));
+    }
+    @Test
+    void preUpdateTest(){
+        UserTable user = userTableRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setName("marrrrin");
+
+        userTableRepository.save(user);
+        System.out.println(userTableRepository.findById(1L).orElseThrow(RuntimeException::new));
+
+    }
+
+    @Test
+    void UserHistoryTest(){
+        UserTable user = new UserTable();
+        user.setEmail("martin-new@fastcampus.com");
+        user.setName("martin-new");
+
+        userTableRepository.save(user);
+
+        user.setName("martin-new-new");
+        userTableRepository.save(user);
+
+        userHistoryRepository.findAll().forEach(System.out::println);
     }
 }

@@ -14,7 +14,7 @@ class UserTableTest {
         userTable.setCreatedAt(LocalDateTime.now());
         userTable.setUpdatedAt(LocalDateTime.now());
 
-        UserTable userTable1 = new UserTable(null, "martin", "martin@naver.com", LocalDateTime.now(), LocalDateTime.now());
+//        UserTable userTable1 = new UserTable(null, "martin", "martin@naver.com", LocalDateTime.now(), LocalDateTime.now());
         UserTable userTable2 = new UserTable("martin", "martin@naver.com");
 
         UserTable userTable3 = UserTable.builder()
