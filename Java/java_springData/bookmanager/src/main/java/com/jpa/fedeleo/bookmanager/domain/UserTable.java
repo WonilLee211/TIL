@@ -9,16 +9,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-@Data
-@Entity // 객체를 entity로 선언. 내부에 primaery key 선언이 필수
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@EntityListeners(value = UserEntityListener.class)
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Builder
+@Entity
+@EntityListeners(value = { UserEntityListener.class })
 public class UserTable extends BaseEntity{
 
     @Id // pk
@@ -30,5 +32,17 @@ public class UserTable extends BaseEntity{
     private String email;
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
+
+    //nullPointException을 피하기 위해 기본 리스트 생성
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @ToString.Exclude
+    private List<UserHistory> userHistories = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
+
 
 }

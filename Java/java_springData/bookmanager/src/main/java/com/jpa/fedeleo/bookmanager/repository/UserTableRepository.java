@@ -16,7 +16,7 @@ import java.util.Set;
 public interface UserTableRepository extends JpaRepository<UserTable, Long> {
 //    List<UserTable> findByName(String name);
 
-//    UserTable findByEmail(String email);
+    UserTable findByEmail(String email);
 //    UserTable getByEmail(String email);
 //    UserTable readByEmail(String email);
 //    UserTable queryByEmail(String email);
@@ -65,6 +65,6 @@ public interface UserTableRepository extends JpaRepository<UserTable, Long> {
 //    @Query(value="select * from user_table limit 1", nativeQuery = true)
 //    Map<String, Object> findRawRecord();
 
-    List<UserTable> findByEmail(String email);
+//    List<UserTable> findByEmail(String email);
 
 }

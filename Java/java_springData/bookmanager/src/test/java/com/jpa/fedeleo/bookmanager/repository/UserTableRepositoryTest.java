@@ -1,6 +1,7 @@
 package com.jpa.fedeleo.bookmanager.repository;
 
 import com.jpa.fedeleo.bookmanager.domain.Gender;
+import com.jpa.fedeleo.bookmanager.domain.UserHistory;
 import com.jpa.fedeleo.bookmanager.domain.UserTable;
 import org.assertj.core.util.Lists;
 import org.hibernate.criterion.Order;
@@ -145,16 +146,16 @@ class UserTableRepositoryTest {
 
     }
 
-    @Test
+//    @Test
     void prePersistTest(){
         UserTable user = new UserTable();
         user.setEmail("martin@fastcampus.com");
         user.setName("martin");
 
         userTableRepository.save(user);
-        System.out.println(userTableRepository.findByEmail("martin@fastcampus.com"));
+//        System.out.println(userTableRepository.findByEmail("martin@fastcampus.com"));
     }
-    @Test
+//    @Test
     void preUpdateTest(){
         UserTable user = userTableRepository.findById(1L).orElseThrow(RuntimeException::new);
         user.setName("marrrrin");
@@ -164,7 +165,7 @@ class UserTableRepositoryTest {
 
     }
 
-    @Test
+//    @Test
     void UserHistoryTest(){
         UserTable user = new UserTable();
         user.setEmail("martin-new@fastcampus.com");
@@ -180,14 +181,37 @@ class UserTableRepositoryTest {
 
     @Test
     void userRelationTest(){
-        UserTable user = new UserTable();
-//        user.setName("david");
-//        user.setEmail("david@fastcampus.com");
-//        user.setGender(Gender.MALE);
 
+        UserTable user = new UserTable();
+        user.setName("david");
+        user.setEmail("david@fastcampus.com");
+        user.setGender(Gender.MALE);
         userTableRepository.save(user);
 
+        user.setName("daniel");
+        userTableRepository.save(user);
+        user.setEmail("daniel@fastcampus.com");
+        userTableRepository.save(user);
+
+
 //        userHistoryRepository.findAll().forEach(System.out::println);
+        // 쿼리 메서드로 userId에 일치하는 userHistory 레코드 조회하기
+//        List<UserHistory> result = userHistoryRepository.findByUserId(
+//                userTableRepository
+//                        .findByEmail("daniel@fastcampus.com")
+//                        .getId()
+//        );
+//
+//        result.forEach(System.out::println);
+
+        // jpa @OneToMany relation으로 위의 쿼리 대체하기
+        List<UserHistory> result = userTableRepository
+                .findByEmail("daniel@fastcampus.com")
+                .getUserHistories();
+
+        result.forEach(System.out::println);
+
+        System.out.println("UserHistory.getUser() : " + userHistoryRepository.findAll().get(0).getUser());
 
     }
 }
