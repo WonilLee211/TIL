@@ -15,7 +15,7 @@ public class BookRepositoryTest {
     void BookTest(){
         Book book = new Book();
         book.setName("spring boot data");
-        book.setAuthor("fideleo");
+        book.setAuthorId(1L);
 
         bookRepository.save(book);
 

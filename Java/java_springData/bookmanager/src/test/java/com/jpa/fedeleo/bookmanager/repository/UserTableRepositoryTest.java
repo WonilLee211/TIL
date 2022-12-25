@@ -2,7 +2,6 @@ package com.jpa.fedeleo.bookmanager.repository;
 
 import com.jpa.fedeleo.bookmanager.domain.Gender;
 import com.jpa.fedeleo.bookmanager.domain.UserTable;
-import org.apache.catalina.User;
 import org.assertj.core.util.Lists;
 import org.hibernate.criterion.Order;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ class UserTableRepositoryTest {
     @Test
     void crud() {
 
-        userTableRepository.save(new UserTable("david", "david@fastcumpus.com"));
+//        userTableRepository.save(new UserTable("david", "david@fastcumpus.com"));
 
         UserTable user = userTableRepository.findById(1L).orElse(null);
         user.setEmail("martin-updated@fastcampus.com");
@@ -177,5 +176,18 @@ class UserTableRepositoryTest {
         userTableRepository.save(user);
 
         userHistoryRepository.findAll().forEach(System.out::println);
+    }
+
+    @Test
+    void userRelationTest(){
+        UserTable user = new UserTable();
+//        user.setName("david");
+//        user.setEmail("david@fastcampus.com");
+//        user.setGender(Gender.MALE);
+
+        userTableRepository.save(user);
+
+//        userHistoryRepository.findAll().forEach(System.out::println);
+
     }
 }

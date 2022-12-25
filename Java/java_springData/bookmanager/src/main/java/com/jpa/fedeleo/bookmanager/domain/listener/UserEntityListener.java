@@ -1,5 +1,7 @@
-package com.jpa.fedeleo.bookmanager.domain;
+package com.jpa.fedeleo.bookmanager.domain.listener;
 
+import com.jpa.fedeleo.bookmanager.domain.UserHistory;
+import com.jpa.fedeleo.bookmanager.domain.UserTable;
 import com.jpa.fedeleo.bookmanager.repository.UserHistoryRepository;
 import com.jpa.fedeleo.bookmanager.support.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ public class UserEntityListener {
         userHistory.setEmail(user.getEmail());
 
         userHistoryRepository.save(userHistory);
-
 
     }
 }

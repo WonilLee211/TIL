@@ -1,40 +1,28 @@
 package com.jpa.fedeleo.bookmanager.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@EntityListeners(value = MyEntityListener.class)
-public class Book implements Auditable{
+public class Book extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    private String author;
+    private String category;
 
-    private LocalDateTime createdAt;
+    private Long authorId;
 
-    private LocalDateTime updatedAt;
+    private Long publisherId;
 
-//    @PrePersist
-//    public void prePersist(){
-//        this.createdAt = LocalDateTime.now();
-//        this.updatedAt = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    public void preUpdate(){
-//        this.updatedAt = LocalDateTime.now();
-//    }
+    @OneToOne(mappedBy = "book")
+    @ToString.Exclude
+    private BookReviewInfo bookReviewInfo;
 }

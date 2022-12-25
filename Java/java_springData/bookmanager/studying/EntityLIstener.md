@@ -488,3 +488,294 @@ public class UserTable implements Auditable{
 
 }
 ```
+
+### 4. spring jpa 기본 Listener
+
+- 애플리케이션에 `@EnableJpaAuditing` 달기
+
+```java
+
+package com.jpa.fedeleo.bookmanager;
+
+@SpringBootApplication
+@EnableJpaAuditing
+public class BookmanagerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BookmanagerApplication.class, args);
+	}
+}
+
+```
+
+- EntityListeners에 `AuditingEntityListener` 클래스 추가
+- 각 필드에 `@CreatedDate`, `@LastModifiedDate` 추가
+
+```java
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Data
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@EntityListeners(value = {AuditingEntityListener.class, UserEntityListener.class})
+public class UserTable implements Auditable{
+
+    ...
+
+    @Column(updatable = false)
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(insertable = false)
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+}
+// -------------------------------------------------------------
+
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(value = AuditingEntityListener.class)
+public class Book implements Auditable{
+
+    ...
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+}
+//------------------------------------------------------
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Entity
+@NoArgsConstructor
+@Data
+@EntityListeners(value = AuditingEntityListener.class)
+public class UserHistory implements Auditable{
+    ...
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+}
+
+```
+
+> `AuditingEntityListener`
+> - `@LastModifiedBy`/ `@CreatedBy` 등
+>  예 
+    ```java
+
+    package org.springframework.data.annotation;
+
+    ...
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(value = { FIELD, METHOD, ANNOTATION_TYPE })
+    public @interface CreatedBy {
+    }
+    ```
+
+## 실전형 refactoring
+
+### `@MappedSuperclass`
+
+![mappedSuperClass](img/mappedSuperClass.png)
+
+- 상속광계 매핑이 아니다.
+- MappedSuperclass가 선언되어 있는 클래스는 엔티티가 아니다. 당연히 테이블과 매핑도 안된다.
+- 단순히 부모 클래스를 상속 받는 자식 클래스에 매핑 정보만 제공한다.
+- 조회, 검색이 불가하다. 부모 타입으로 조회하는 것이 불가능하다는 이야기.(em.find(BaseEntity) 불가능)
+- 직접 생성해서 사용할 일이 없으므로 추상 클래스로 만드는 것을 권장한다.
+- 테이블과 관계가 없고, 단순히 엔티티가 공통으로 사용하는 매핑 정보를 모으는 역할을 한다.
+- 주로 등록일, 수정일, 등록자, 수정자 같은 전체 엔티티에서 공통으로 적용하는 정보를 모을 때 사용한다.
+
+```java
+
+package com.jpa.fedeleo.bookmanager.domain;
+
+@Data
+@MappedSuperclass // 객체별로 공통매핑정보가 필요할 때 부모클래스에 선언하고 속성만 상속받아서 사용하고 싶을 때
+@EntityListeners(value = AuditingEntityListener.class)
+public class BaseEntity {
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+}
+
+
+```
+
+- 공통 매핑 정보가 필요한 객체에 상속시킴
+- `@ToString(callSuper=true)` : 부모의 toString()함꼐 호출할 수 있도록 함
+- `@EqualsAndHashCode(callSuper = true)` : callSuper 속성을 통해 eqauls와 hashCode 메소드 자동 생성 시 부모 클래스의 필드까지 감안할지의 여부를 설정
+  
+> 주의 BaseEntity클래스의 ToString, EqualsAndHashCode 메서드를 사용해야할 때 `@Data`를 사용하면 callSuper 옵션을 줄 수 없다.
+>  - 각자의 어노테이션을 달아서 callSuper옵션을 달아줘야 함
+
+```java
+package com.jpa.fedeleo.bookmanager.domain;
+
+@ToString(callSuper = true) // 부모의 toString()함꼐 호출할 수 있도록 함
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Entity // 객체를 entity로 선언. 내부에 primaery key 선언이 필수
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@EntityListeners(value = {UserEntityListener.class})
+public class UserTable extends BaseEntity  implements Auditable {
+
+    @Id // pk
+    @GeneratedValue // autoincrement,
+    private Long id;
+    @NonNull
+    private String name;
+    @NonNull
+    private String email;
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+}
+// ----------------------------------------------
+
+package com.jpa.fedeleo.bookmanager.domain;
+
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Book extends BaseEntity implements Auditable {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    private String author;
+
+}
+// ----------------------------------------
+
+package com.jpa.fedeleo.bookmanager.domain;
+
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@NoArgsConstructor
+@Data
+public class UserHistory extends BaseEntity implements Auditable {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private Long UserId;
+
+    private String name;
+
+    private String email;
+
+}
+// ------------------------------------
+@Test
+void UserHistoryTest(){
+    UserTable user = new UserTable();
+    user.setEmail("martin-new@fastcampus.com");
+    user.setName("martin-new");
+
+    userTableRepository.save(user);
+
+    user.setName("martin-new-new");
+    userTableRepository.save(user);
+
+    userHistoryRepository.findAll().forEach(System.out::println);
+}
+
+```
+```sql
+Hibernate: 
+    call next value for hibernate_sequence
+Hibernate: 
+    call next value for hibernate_sequence
+Hibernate: 
+    insert 
+    into
+        user_history
+        (created_at, updated_at, user_id, email, name, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        user_table
+        (created_at, updated_at, email, gender, name, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        usertable0_.id as id1_3_0_,
+        usertable0_.created_at as created_2_3_0_,
+        usertable0_.updated_at as updated_3_3_0_,
+        usertable0_.email as email4_3_0_,
+        usertable0_.gender as gender5_3_0_,
+        usertable0_.name as name6_3_0_ 
+    from
+        user_table usertable0_ 
+    where
+        usertable0_.id=?
+Hibernate: 
+    call next value for hibernate_sequence
+Hibernate: 
+    insert 
+    into
+        user_history
+        (created_at, updated_at, user_id, email, name, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        user_table 
+    set
+        created_at=?,
+        updated_at=?,
+        email=?,
+        gender=?,
+        name=? 
+    where
+        id=?
+Hibernate: 
+    select
+        userhistor0_.id as id1_2_,
+        userhistor0_.created_at as created_2_2_,
+        userhistor0_.updated_at as updated_3_2_,
+        userhistor0_.user_id as user_id4_2_,
+        userhistor0_.email as email5_2_,
+        userhistor0_.name as name6_2_ 
+    from
+        user_history userhistor0_
+        
+-- UserHistory(super=BaseEntity(createdAt=2022-12-24T16:22:58.977690, updatedAt=2022-12-24T16:22:58.977690), id=6, UserId=null, name=martin-new, email=martin-new@fastcampus.com)
+-- UserHistory(super=BaseEntity(createdAt=2022-12-24T16:22:59.129710, updatedAt=2022-12-24T16:22:59.129710), id=8, UserId=7, name=martin-new-new, email=martin-new@fastcampus.com)
+
+
+```

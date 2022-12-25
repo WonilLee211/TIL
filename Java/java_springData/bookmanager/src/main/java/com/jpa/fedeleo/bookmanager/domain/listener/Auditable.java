@@ -1,4 +1,4 @@
-package com.jpa.fedeleo.bookmanager.domain;
+package com.jpa.fedeleo.bookmanager.domain.listener;
 
 import java.time.LocalDateTime;
 
