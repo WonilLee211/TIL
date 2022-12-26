@@ -26,7 +26,7 @@ public class BookRepositoryTest {
     void BookTest(){
         Book book = new Book();
         book.setName("spring boot data");
-        book.setAuthorId(1L);
+//        book.setAuthorId(1L);
 
         bookRepository.save(book);
 
@@ -43,8 +43,6 @@ public class BookRepositoryTest {
         System.out.println("Review : " + user.getReviews());
         System.out.println("Book : " + user.getReviews().get(0).getBook());
         System.out.println("Publisher : " + user.getReviews().get(0).getBook().getPublisher());
-
-
 
     }
 

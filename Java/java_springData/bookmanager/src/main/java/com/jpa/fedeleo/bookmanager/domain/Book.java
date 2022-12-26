@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @ToString(callSuper = true)
@@ -20,7 +22,7 @@ public class Book extends BaseEntity {
 
     private String category;
 
-    private Long authorId;
+//    private Long authorId;
 
 //    private Long publisherId;
 
@@ -36,5 +38,15 @@ public class Book extends BaseEntity {
     @ManyToOne
     @ToString.Exclude
     private Publisher publisher;
+
+//    @ManyToMany
+    @OneToMany
+    @JoinColumn(name = "book_id")
+    @ToString.Exclude
+    private List<BookAndAuthor> bookAndAuthors = new ArrayList<>();
+
+    public void addBookAndAuthors(BookAndAuthor... bookAndAuthors){
+        Collections.addAll(this.bookAndAuthors, bookAndAuthors);
+    };
 
 }
