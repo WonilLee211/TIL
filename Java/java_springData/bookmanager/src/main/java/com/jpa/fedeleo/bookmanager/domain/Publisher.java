@@ -22,7 +22,12 @@ public class Publisher extends BaseEntity{
 
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "publisher_id")
+    @ToString.Exclude // 순환참조를 제거하여 lazyLoading을 필요없게 함
     private List<Book> books = new ArrayList<>();
+
+    public void addBook(Book book){
+        this.books.add(book);
+    }
 }

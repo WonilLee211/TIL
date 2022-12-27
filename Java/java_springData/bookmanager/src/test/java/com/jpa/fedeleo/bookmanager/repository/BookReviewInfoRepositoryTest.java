@@ -18,9 +18,10 @@ class BookReviewInfoRepositoryTest {
     private BookReviewInfoRepository bookReviewInfoRepository;
     @Test
     void crudTest(){
-
+        Book book = givenBook();
         BookReviewInfo bookReviewInfo = new BookReviewInfo();
 //        bookReviewInfo.setBookId(1L);
+        bookReviewInfo.setBook(book);
         bookReviewInfo.setAverageReviewScore(4.5f);
         bookReviewInfo.setReviewCount(2);
 
@@ -34,6 +35,7 @@ class BookReviewInfoRepositoryTest {
     void crudTest2(){
 
         bookReviewInfo();
+        givenBook();
 
         Book result = bookReviewInfoRepository
                 .findById(1L)

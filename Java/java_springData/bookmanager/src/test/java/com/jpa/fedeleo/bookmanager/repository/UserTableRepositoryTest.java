@@ -138,7 +138,7 @@ class UserTableRepositoryTest {
 
         userTableRepository.save(user);
 
-        UserTable user2 = userTableRepository.findById(4L).orElseThrow(RuntimeException::new);
+        UserTable user2 = userTableRepository.findById(6L).orElseThrow(RuntimeException::new);
         user2.setName("marrrrrtin");
 
         userTableRepository.save(user2);
