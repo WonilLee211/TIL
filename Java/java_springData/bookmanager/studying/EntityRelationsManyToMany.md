@@ -350,3 +350,4 @@ Book(super=BaseEntity(createdAt=2022-12-26T17:23:42.135967600, updatedAt=2022-12
 Book(super=BaseEntity(createdAt=2022-12-26T17:23:42.139956500, updatedAt=2022-12-26T17:23:42.139956500), id=4, name=개발책2, category=null)
 
 ```
+ 
