@@ -9,9 +9,55 @@ sys.stdin = open('input.txt')
     
 - 순열별로 계산하기
 - 계산결과 대소 비교
+- 시간 초과
 
 '''
 
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+arr = list(map(int, input().split())) # 수의 배열
+
+add, sub, mul ,div = map(int, input().split())
+
+min_value = 1e9
+max_value = -1e9
+
+def dfs(d, value):
+    global min_value, max_value, add, sub, mul, div
+
+    if d == n:
+        max_value = max(max_value, value)
+        min_value = min(min_value, value)
+
+    else:
+        if add > 0:
+            add -= 1
+            dfs(d + 1, value + arr[d])
+            add += 1
+        if sub > 0:
+            sub -= 1
+            dfs(d + 1, value - arr[d])
+            sub += 1
+        if mul > 0:
+            mul -= 1
+            dfs(d + 1, value * arr[d])
+            mul += 1
+        if div > 0:
+            div -= 1
+            dfs(d + 1, int(value / arr[d]))
+            div += 1
+
+
+dfs(1, arr[0])
+
+print(max_value)
+print(min_value)
+
+
+
+'''
 import sys
 input = sys.stdin.readline
 
@@ -23,7 +69,9 @@ operators_idx = []
 for i in range(4):
     operators_idx += [i] * info[i] # 각 연산자 갯수 만큼 각 연산자를 의미하는 숫자들을 합친 배열
 
-def compare_value(case):
+def compare_value(case, isMax):
+    global min_max
+
     acc = arr[0]
     for i in range(n - 1):
 
@@ -38,30 +86,34 @@ def compare_value(case):
                 acc = -(abs(acc) // arr[i + 1])
             else:
                 acc //= arr[i + 1]
+        if isMax and acc >
+    if min_max[0] > acc:
+        min_max[0] = min(min_max[0], acc)
+    if min_max[1] < acc:
+        min_max[1] = max(min_max[1], acc)
 
-    return [min(min_max[0], acc), max(min_max[1], acc)]
 
 def dfs(d, case):
 
-    global min_max
     if d == n - 1 and case not in cases:
         cases.append(case)
-        min_max = compare_value(case)
+        compare_value(case)
+
     else:
         for i in range(n - 1):
             if visited[i] == 0:
                 visited[i] = 1
-                case.append(operators_idx[i])
-                dfs(d + 1, case)
+                dfs(d + 1,  case + [operators_idx[i]])
                 visited[i] = 0
-                case.pop()
+
 
 min_max = [int(1e9), int(-1e9)]
 cases = []
 visited = [0] * (n - 1)
 
 dfs(0, [])
-print(len(cases))
 
 print(min_max[1])
 print(min_max[0])
+
+'''

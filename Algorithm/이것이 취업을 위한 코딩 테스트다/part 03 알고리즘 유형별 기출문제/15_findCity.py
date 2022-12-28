@@ -5,8 +5,6 @@ sys.stdin = open('input.txt')
 단방향 도로
 최단거리가 k인 도시 번호 출력
 
-
-
 논리
 -  bfs
 '''
@@ -32,8 +30,6 @@ visited[x] = 1
 
 while q:
     now = q.popleft()
-
-
 
     for city in adjList[now]:
 
