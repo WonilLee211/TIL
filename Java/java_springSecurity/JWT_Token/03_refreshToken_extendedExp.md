@@ -42,7 +42,7 @@ JWT 서비스를 구현하기
 
 
 public class JWTUtil {
-
+    // 동일한 알고리즘과 서명을 가지고 테스트
     private static final Algorithm algorithm = Algorithm.HMAC256("wonil");
     private static final long AUTH_TIME = 20 * 60; // JWT expiration = 20분
     private static final long REFRESH_TIME = 60 * 60 * 24 * 7; // refresh token expiration : 일주일
@@ -63,11 +63,14 @@ public class JWTUtil {
                 .sign(algorithm);
     }
 
-    // 토큰 유효성 검사
+    // 토큰 유효성 검사_ 토큰 검증 성공 여부 및 유저 이름을 가진 verifyResult return
     public static VerifyResult verify (String token){
         try{
 
+            // 토큰 유효성 검사 
             DecodedJWT verify = JWT.require(algorithm).build().verify(token);
+
+            // 유효성 검사 성공 시 코드
             return VerifyResult.builder()
                     .success(true)
                     .username(verify.getSubject())
@@ -75,6 +78,7 @@ public class JWTUtil {
 
         }catch (Exception e){
 
+            // 토큰 유효성 실패 시 코드
             DecodedJWT decode = JWT.decode(token);
             return VerifyResult.builder()
                     .success(false)
@@ -85,15 +89,18 @@ public class JWTUtil {
     }
 }
 
-
 ```
 
 <br>
 
 ## test 구현
 
+- 토큰이 잘 유통되는지 확인
+
 ### 1. controller
-  - 메소드 실행 전 권한 검증이 필요함
+
+- 메소드 실행 전 권한 검증이 필요함
+- 인증조건 : 로그인 여부
 
 
 ```java
@@ -102,7 +109,7 @@ package com.sp.fc.web.controller;
 @RestController
 public class HomeController {
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // 인증조건 : 로그인 여부
     @GetMapping("/greeting")
     public String greeting(){
         return "hello";
@@ -112,7 +119,10 @@ public class HomeController {
 
 ```
 
-### 2. MethodSecurity 사용하기 위해 SecurityConfig 설정 클래스 만들기
+- MethodSecurity 사용하기 위해 SecurityConfig 설정 클래스 만들어야 함
+
+
+### 2. `SecurityConfig extends WebSecurityConfigurerAdapter`
 
  - 인증&인가 API를 만들어서 보안성 높힘
  - `WebSecurityConfigurerAdapter` : 스프링 시큐리티의 웹 보안 기능 초기화 및 설정
@@ -121,8 +131,48 @@ public class HomeController {
  - `@EnableGlobalMethodSecurity` : controller 메서드에 직접 롤을 부여할 수 있음
      - `prePostEnabled` : `@PreAuthorize` annotation을 사용 여부 결정 옵션
 
+
+```java
+package com.sp.fc.web.config;
+
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class AdvancedSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private SpUserService userService;
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        
+        JWTLoginFilter loginFilter = new JWTLoginFilter(authenticationManager(), userService);
+        JWTCheckFilter checkFilter = new JWTCheckFilter(authenticationManager(), userService);
+        
+        http
+                .csrf().disable()
+                .sessionManagement(session->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(checkFilter, BasicAuthenticationFilter.class)
+                ;
+
+    }
+}
+
+```
+
+
+
 > ### 주의 csrf.disable
 >  rest api를 이용한 서버라면, session 기반 인증과는 다르게 stateless하기 때문에 서버에 인증정보를 보관하지 않는다. rest api에서 client는 권한이 필요한 요청을 하기 위해서는 요청에 필요한 인증 정보를(OAuth2, jwt토큰 등)을 포함시켜야 한다. 따라서 서버에 인증정보를 저장하지 않기 때문에 굳이 불필요한 csrf 코드들을 작성할 필요가 없다.
+
+
 
 
 ### 인증을 위해 필요한 2가지 filter
