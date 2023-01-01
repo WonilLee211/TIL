@@ -16,10 +16,10 @@ import java.util.List;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 
-@SpringBootTest
+@SpringBootTest // 스프링 컨텍스트를 로딩해서 테스트에 활용하겠다!
 class UserTableRepositoryTest {
 
-    @Autowired
+    @Autowired // 스프링 컨텍스트에서 빈을 가져오는 annotation
     private UserTableRepository userTableRepository;
 
     @Autowired

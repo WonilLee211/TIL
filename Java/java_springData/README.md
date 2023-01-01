@@ -10,12 +10,15 @@
 # JPA(java Persistence API)
 
 - 자바 진영에서 ORM(Object-Relational Mapping) 기술 표준으로 사용되는 인터페이스의 모음
-- 최근 Jakarta Persistence로 renamed됨
-- Java의 `ORM`
 
-    >  `ORM`
-    >  - Object-Relational Mapping
-    >  - 애플리케이션 Class와 RDB(Relational DataBase)의 테이블을 매핑
+- 최근 Jakarta Persistence로 renamed됨
+
+- Java의 `ORM`
+  
+  >  `ORM`
+  > 
+  > - Object-Relational Mapping
+  > - 애플리케이션 Class와 RDB(Relational DataBase)의 테이블을 매핑
 
 ## hibernate
 
@@ -26,5 +29,3 @@
 
 - 자주 사용하는 Hibernate의 일부를 사용하기 편하도록 한번 더 추상 객체를 감싸서 만든 것
 - Entity에 대한 접근을 좀 더 쉽게 수행할 수 있도록 함
-
-
