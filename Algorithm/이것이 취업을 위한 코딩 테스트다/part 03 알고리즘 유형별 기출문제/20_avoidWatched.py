@@ -26,10 +26,11 @@ n : (3 ≤ N ≤ 6)
 
 '''
 
-import sys
+import sys, collections, itertools
 
 input = sys.stdin.readline
-
+deque = collections.deque
+combination = itertools.combinations
 n = int(input())
 
 student = []
@@ -46,4 +47,56 @@ for i in range(n):
             student.append((i, j))
         elif row[j] == "T":
             teacher.append((i, j))
+
+watchline = []
+
+for i, j in teacher:
+
+    for dr, dc in move:
+        r, c = i, j
+
+        while True:
+
+            r, c = r + dr, c + dc
+
+            if not(0 <= r < n) or not(0 <= c < n) or corridor[r][c] == "S":
+                break
+
+            watchline.append((r, c))
+
+watchline = list(set(watchline))
+
+
+def find_student(case):
+    for i, j in teacher:
+
+        q = deque()
+        q.append((i, j))
+
+        while q:
+            r, c = q.popleft()
+            for dr, dc in move:
+                nr, nc = r, c
+                while True:
+                    nr, nc = nr + dr, nc + dc
+
+                    if not (0 <= nr < n) or not (0 <= nc < n) or (nr, nc) in case:
+                        break
+                    elif (nr, nc) in student:
+                        return False
+
+    print("YES")
+    return True
+
+
+m = len(watchline)
+
+for case in combination(watchline, 3):
+
+    flag = find_student(case)
+    if flag:
+        break
+
+if not flag:
+    print("NO")
 
