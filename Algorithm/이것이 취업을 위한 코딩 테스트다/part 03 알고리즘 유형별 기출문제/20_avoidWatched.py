@@ -23,7 +23,6 @@ n : (3 ≤ N ≤ 6)
 - 선생님 위치 저장
 - teacher의 감시 범위 인덱스 저장
 - 인덱스 3개 조합만들어서 벽 세우고 테스트하기
-- 
 
 '''
 
@@ -47,65 +46,4 @@ for i in range(n):
             student.append((i, j))
         elif row[j] == "T":
             teacher.append((i, j))
-
-watchline = []
-
-for i, j in teacher:
-
-    for dr, dc in move:
-        r, c = i, j
-
-        while True:
-
-            r, c = r + dr, c + dc
-
-            if not(0 <= r < n) or not(0 <= c < n) or corridor[r][c] == "S":
-                break
-
-            watchline.append((r, c))
-
-
-
-m = len(watchline)
-flag = True
-
-for i in range(1, 1<<m):
-    case = []
-    for j in range(m):
-        if i & (1 << j):
-            case.append(watchline[j])
-
-    if len(case) != 3:
-        continue
-
-    find_student = False
-
-    for r, c in teacher:
-
-        for dr, dc in move:
-            nr, nc = r, c
-            while True:
-                nr, nc = nr + dr, nc + dc
-                if not(0 <= nr < n) or not(0 <= nc < n) or (nr, nc) in case:
-                    break
-
-                elif (nr, nc) in student:
-                    find_student = True
-                    break
-
-            if find_student:
-                break
-        if find_student:
-            break
-
-    if not find_student:
-        print("YES")
-        flag = False
-        break
-
-
-if flag:
-    print("NO")
-
-
 
