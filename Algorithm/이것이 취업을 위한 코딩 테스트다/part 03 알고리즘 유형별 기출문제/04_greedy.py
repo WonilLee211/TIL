@@ -12,7 +12,7 @@ import sys
 sys.stdin = open("input.txt")
 
 n = int(input())
-arr = [0] + list(map(int, input().split()))
+arr = list(map(int, input().split()))
 arr.sort()
 ans = 1
 
