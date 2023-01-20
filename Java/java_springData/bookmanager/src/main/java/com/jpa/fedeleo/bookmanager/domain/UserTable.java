@@ -44,5 +44,4 @@ public class UserTable extends BaseEntity{
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
 
-
 }
