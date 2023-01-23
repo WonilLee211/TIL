@@ -10,16 +10,21 @@ sys.stdin = open("input.txt")
 
 '''
 
-
-
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(10**4)
+
 def dfs(node, weight):
+    global max_value, end_point
+    if weight > max_value:
+        max_value, end_point = weight, node
+
+    visited[node] = 1
+
     for next, w in adjList[node]:
-        if visited[next] != -1:
-            continue
-            
-        visited[next] = weight + w
+        if visited[next]:
+           continue
+
         dfs(next, weight + w)
 
 n = int(input())
@@ -31,13 +36,13 @@ for i in range(n - 1):
     adjList[p].append((c, w))
     adjList[c].append((p, w))
 
-visited = [-1] * (n + 1)
-visited[1] = 0
+
+max_value, end_point = 0, 0
+visited = [0] * (n + 1)
 dfs(1, 0)
 
-end_point = visited.index(max(visited))
-visited = [-1] * (n + 1)
-visited[end_point] = 0
+visited = [0] * (n + 1)
 dfs(end_point, 0)
 
-print(max(visited))
+
+print(max_value)
