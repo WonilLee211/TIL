@@ -12,6 +12,7 @@ sys.stdin = open("input.txt")
 1: 일반일 때 자식이 얼리일 경우 최소 얼리 어답터 수
 
 '''
+
 import sys
 sys.setrecursionlimit(int((1e6)))
 input = sys.stdin.readline
@@ -40,4 +41,5 @@ def count_early_adapter(node):
         dp[node][1] += dp[child][0]
 
 count_early_adapter(1)
+
 print(min(dp[1]))
