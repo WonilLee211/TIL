@@ -1,4 +1,5 @@
 import sys
+
 sys.stdin = open("input.txt")
 
 '''
@@ -18,6 +19,43 @@ import copy
 copy = copy.deepcopy
 input = sys.stdin.readline
 
+
+def mark_cctvline(i, j, direction, office_):
+    for di, dj in direction:
+        ni, nj = i, j
+        while True:
+            if 0 <= ni + di < n and 0 <= nj + dj < m:
+                ni, nj = ni + di, nj + dj
+                if office_[ni][nj] == 6:
+                    break
+                elif office_[ni][nj] == 0:
+                    office_[ni][nj] = 7
+            else:
+                break
+    return office_
+
+
+def count_zero(watched_office):
+    cnt = 0
+    for i in range(n):
+        for j in range(m):
+            if watched_office[i][j] == 0:
+                cnt += 1
+    return cnt
+
+
+def dfs(depth, office):
+    global min_acc
+
+    if depth == num_cctv:
+        min_acc = min(count_zero(office), min_acc)
+    else:
+        copied_office = copy(office)
+        r, c, num = info_cctv[depth]
+        for direction in cctv[num]:
+            dfs(depth + 1,  mark_cctvline(r, c, direction, copied_office))
+            copied_office = copy(office)
+
 n, m = map(int, input().split())
 office = [list(map(int, input().split())) for _ in range(n)]
 
@@ -28,32 +66,15 @@ cctv = [[],
         [[(0, -1), (-1, 0), (1, 0)], [(0, 1), (-1, 0), (1, 0)], [(0, 1), (0, -1), (1, 0)], [(0, 1), (0, -1), (-1, 0)]],
         [[(0, 1), (0, -1), (-1, 0), (1, 0)]]]
 
-
-idx_cctv = []
+info_cctv = []
 for i in range(n):
     for j in range(m):
         if office[i][j] not in [0, 6]:
-                idx_cctv.append((i, j))
+            info_cctv.append((i, j, office[i][j]))
 
-num_cctv = len(idx_cctv)
-min_acc = 0
-
-
-def mark_cctvline(watchLine, copied_office):
-    for di, dj in watchLine:
-        while True:
-            
-
-    return copied_office
+num_cctv = len(info_cctv)
+min_acc = 64
 
 
-def dfs(depth, office):
-    global min_acc
-
-    if depth == num_cctv:
-        min_acc = min(min_acc)
-    else:
-        copied_office = copy(office)
-        for watchLine in cctv[depth]:
-            copied_office = mark_cctvline(watchLine, copied_office)
-            dfs(depth + 1, copied_office)
+dfs(0, office)
+print(min_acc)
