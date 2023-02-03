@@ -30,7 +30,7 @@ n 계단 수 길이 / 방금 사용한 숫자 / 비스 마스크
 import sys
 sys.stdin = open("input.txt")
 
-num = int(1<<9)
+num = int(1e9)
 
 n = int(input())
 dp = list(list([0] * (1 << 10) for _ in range(10)) for __ in range(n + 1))
