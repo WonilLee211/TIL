@@ -13,22 +13,22 @@ dfs
 4. 괄호 케이스 하나당 수식 계산 후 비교
 '''
 
-
 visited = [0] * n
 m =  n // 2
 max_value = 0
 def operate(acc, op, next):
     num = int(next)
     if op == "-":
-        acc -= - num
+        acc -= num
     elif op == "+":
-        acc += - num
+        acc += num
     else:
         acc *= num
     return acc
+
 def calculate(exp):
     length = len(exp)
-    acc = int(exp[0])
+    acc = exp[0]
     for i in range(1, length, 2):
         acc = operate(acc, exp[i], exp[i + 1])
     return acc
@@ -36,22 +36,31 @@ def calculate(exp):
 def make_expression(depth, visited, exp):
     global max_value
 
-    if depth == m:
+    print(exp)
+    if depth == n:
         acc = calculate(exp)
         max_value = max(max_value, acc)
+        print(max_value)
+        print("----")
 
     else:
-        for i in range(1, n, 2):
+        for i in range(depth, n - 1, 2):
             if (i > 1 and visited[i - 2] == 1) or (i < n - 2 and visited[i + 2] == 1):
+                print("here")
                 exp.append(data[i])
-                exp.append(data[i + 1])
-                make_expression(depth + 1, visited, exp)
+                exp.append(int(data[i + 1]))
+                make_expression(depth + 2, visited, exp)
+                exp.pop()
+                exp.pop()
                 continue
+            print("there")
             visited[i] = 1
-            exp[-1] = operate(exp[-1], data[i], data[i + 1])
-            make_expression(depth + 1, visited, exp)
+            temp = exp[-1]
+            exp[-1] = operate(exp[-1], data[i], int(data[i + 1]))
+            make_expression(depth + 2, visited, exp)
+            exp[-1] = temp
             visited[i] = 0
 
-make_expression(0, visited, data[0])
+make_expression(1, visited, [int(data[0])])
 
 print(max_value)
