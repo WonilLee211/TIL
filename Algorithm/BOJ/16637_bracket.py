@@ -11,6 +11,13 @@ dfs
 2. 1 ~ 가장 큰 홀수까지 visited를 찍기 
 3. 괄호 내 값을 연산하여 수식 만들기
 4. 괄호 케이스 하나당 수식 계산 후 비교
+
+(3+8)*(7-9)*2
+(3+8)*7-(9*2)
+(3+8)*7-9*2
+3+(8*7)-(9*2)
+3+(8*7)-9*2
+3+8*(7-9)*2
 '''
 
 visited = [0] * n
@@ -51,7 +58,7 @@ def make_expression(depth, visited, exp):
                 exp.append(int(data[i + 1]))
                 make_expression(depth + 2, visited, exp)
                 exp.pop()
-                exp.pop()
+                exp.pop
                 continue
             print("there")
             visited[i] = 1
