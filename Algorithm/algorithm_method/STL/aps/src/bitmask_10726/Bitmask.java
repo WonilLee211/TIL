@@ -17,8 +17,8 @@ public class Bitmask {
             int M = Integer.parseInt(st.nextToken());
 
             int testBit = (1 << N) - 1;
-            if (testBit == (M & testBit)) System.out.println("#" + testcase + " " + "ON");
-            else System.out.println("#" + testcase + " " + "OFF");
+            if (testBit == (M & testBit)) System.out.println("#" + i + " " + "ON");
+            else System.out.println("#" + i + " " + "OFF");
         }
     }
 }
