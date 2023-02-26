@@ -95,7 +95,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        br = new BufferedReader(new InputStreamReader(System.in));
         int testcase = 10;
 
         for (int tc = 1 ; tc <= testcase ; tc++ ){
