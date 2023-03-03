@@ -1,12 +1,11 @@
 package processorDFS;
 
-import bitmask_10726.Bitmask;
 
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class Solution {
+
 
     static BufferedReader br;
 
@@ -34,13 +33,15 @@ public class Solution {
             N = Integer.parseInt(br.readLine());
             map = new int[N][N];
             coreIdx = new ArrayList<>();
+            minLength = maxConnection = 0;
 
             for (int i = 0; i < N; i++){
                 st = new StringTokenizer(br.readLine());
                 for (int j = 0; j < N; j++){
                     int core = Integer.parseInt(st.nextToken());
-                    if (Objects.equals(core, 1)) coreIdx.add(new int[]{i, j});
                     map[i][j] = core;
+//                    if (i == 0 || j == 0 || i == N - 1 || j == N - 1) continue;
+                    if (Objects.equals(core, 1)) coreIdx.add(new int[]{i, j});
                 }
             }
             M = coreIdx.size();
@@ -63,26 +64,20 @@ public class Solution {
             else if (connection == maxConnection) minLength = Math.min(length, minLength);
             return;
         }
-        for (int i = depth; i < M; i++){
-            if ((visited & (1 << i)) == 1) continue;
-            visited |= 1 << i;
 
-            if(isEdge(coreIdx.get(i)[0], coreIdx.get(i)[1])) dfs(depth + 1, connection + 1, length);
-            else {
-                boolean flag = true;
-                for (int j = 0; j < 4; j++){
-                    if (availablePath(coreIdx.get(i), dr[j], dc[j])){
-                        flag = false;
-                        int cnt = markPath(coreIdx.get(i), dr[j], dc[j]);
-                        dfs(depth + 1, connection + 1, length + cnt);
-                        removePath(coreIdx.get(i), dr[j], dc[j]);
-                    }
+        if(isEdge(coreIdx.get(depth)[0], coreIdx.get(depth)[1])) dfs(depth + 1, connection, length);
+        else {
+            for (int j = 0; j < 4; j++){
+                if (availablePath(coreIdx.get(depth), dr[j], dc[j])){
+                    int cnt = markPath(coreIdx.get(depth), dr[j], dc[j]);
+                    dfs(depth + 1, connection + 1, length + cnt);
+                    removePath(coreIdx.get(depth), dr[j], dc[j]);
                 }
-                if (flag) dfs(depth + 1, connection, length);
             }
-            visited ^= 1 << i;
+            dfs(depth + 1, connection, length);
         }
     }
+
 
     public static void removePath(int[] idx, int dr, int dc){
         int nr = idx[0] + dr;
