@@ -6,18 +6,7 @@ import java.util.*;
 
 public class Solution {
 
-
-    static BufferedReader br;
-
-    static {
-        try {
-            br = new BufferedReader(new FileReader("C:\\Users\\multicampus\\Desktop\\LWI\\TIL\\Algorithm\\algorithm_method\\STL\\aps\\src\\processorDFS\\input.txt"));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer st;
     static int T, N, M, minLength, maxConnection, visited;
