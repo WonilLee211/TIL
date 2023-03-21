@@ -791,6 +791,24 @@ DELETE FROM classmates WHERE name LIKE '%영%';
 
 ---
 
+## MySQL
+
+### 전체 용량 확인
+
+- 재 DB의 남은 디스크 용량(free_MB)과 사용중인 디스크 용량(used_MB)을 다음 쿼리를 통해 알 수 있습니다
+
+```sql
+SELECT SUM(data_length+index_length)/1024/1024 "used_MB", SUM(data_free)/1024/1024 "free_MB" FROM information_schema.tables;
+```
+
+
+### database 별 용량 확인
+```sql
+SELECT table_schema "Database", ROUND(SUM(data_length+index_length)/1024/1024,1) "used_MB" FROM information_schema.TABLES GROUP BY 1;
+```
+
+---
+
 # 마무리
 
 - Database
