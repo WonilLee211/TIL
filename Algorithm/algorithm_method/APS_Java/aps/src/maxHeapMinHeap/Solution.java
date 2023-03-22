@@ -57,7 +57,7 @@ class Solution {
 }
 
 //
-//public class Solution {
+//public class hash.Solution {
 //
 //    static BufferedReader br;
 //
