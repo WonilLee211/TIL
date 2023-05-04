@@ -1,7 +1,6 @@
-package simulation_DFS;
+package simulation;
 import java.util.*;
 import java.io.*;
-import java.util.stream.Collectors;
 
 /** 배운 점
  *  1. for loof문에서 new int[][]를 하니 메모리 초과가 났다.
