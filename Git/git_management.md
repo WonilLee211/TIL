@@ -74,7 +74,7 @@ $ git filter-branch --tree-filter 'git lfs track "*.{트래킹할 확장자}"' -
 
 ### 4. 100MB가 넘어가는 commit을 .git에서 삭제
 ```bash
-$ java -jar bfg-1.14.0.jar --strip-blobs-bigger-than 100M --delete-files *.gif --no-blob-protection project_nlp.git
+$ java -jar bfg-1.14.0.jar --strip-blobs-bigger-than 100M --delete-files *.gif --no-blob-protection
 $ git push --mirror <git 저장소>
 ```
 <br>
