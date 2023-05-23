@@ -54,15 +54,20 @@ git clone --bare [원본 저장소 주소]
 
 - 모든 브랜치와 태그를 대상으로 Git 저장소의 모든 커밋에서 특정 확장자를 가진 파일을 Git LFS로 추적하도록 설정합니다.
 - old-repository.git이 있는 위치에 bfg-1.14.0.jar이 있어야 합니다.
-
-
-### 3. 커밋 히스토리에서 large file을 찾아 트래킹
-
-- old-repository.git에 들어가서 lfs를 설치합니다.
+    - 각자의 버전에 맞게 bfg 파일을 별도로 설치하시면 됩니다.
 
 ```bash
 $ ls
 old-repository.git  bfg-1.14.0.jar
+```
+
+### 3. 커밋 히스토리에서 large file을 찾아 트래킹
+
+- old-repository.git에 들어가서 lfs를 설치합니다.
+- 위에서 push했을 때 발생한 에러를 주의깊게 보면 어떤 확장자가 문제인지 확인할 수 있습니다.
+    - 확장자가 복수일 경우, "*.{def dic}"와 같이 작성하시면 됩니다.
+
+```bash
 $ cd old-repository.git
 $ git lfs install
 $ git filter-branch --tree-filter 'git lfs track "*.{트래킹할 확장자}"' -- --all
@@ -73,10 +78,13 @@ $ git filter-branch --tree-filter 'git lfs track "*.{트래킹할 확장자}"' -
 여기서는 "git lfs track" 명령어가 트래킹할 확장자를 가진 파일을 Git LFS로 추적하도록 설정하도록 수정하고 다시 커밋합니다.
 
 ### 4. 100MB가 넘어가는 commit을 .git에서 삭제
+- 삭제가 완료되면, old-repo.git 폴더 내에서 복사해 넣을 원격 저장소로 mirror push하면 됩니다.
+
 ```bash
-$ java -jar bfg-1.14.0.jar --strip-blobs-bigger-than 100M --delete-files *.gif --no-blob-protection
+$ java -jar ../bfg-1.14.0.jar --strip-blobs-bigger-than 100M --delete-files *.gif --no-blob-protection
 $ git push --mirror <git 저장소>
 ```
+
 <br>
 
 - `--strip-blobs-bigger-than 100M` : 100MB가 넘어가는 파일을 삭제합니다.
