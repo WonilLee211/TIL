@@ -1,4 +1,4 @@
-package org.example.bruteForce;
+package org.example.bruteForce.p1;
 
 /**
  * 최소 직사각형

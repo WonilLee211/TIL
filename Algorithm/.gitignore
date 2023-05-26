@@ -353,7 +353,6 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 
-
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle
 
@@ -411,4 +410,3 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle
-`
