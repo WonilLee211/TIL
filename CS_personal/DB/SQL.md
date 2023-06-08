@@ -10,7 +10,7 @@
 2. DML(Data Manipulation Language)
 3. DCL(Data Control Language)
 
-![Alt text](../img/sql1.png)
+![Alt text](../../img/sql1.png)
 
 - SQLite는 파일로 관리되는 DB이기 때문에 SQL을 이용한 접근 제한이 아닌 운영체제의 파일 접근 권한으로만 제어 가능
   
@@ -112,7 +112,7 @@
 - static, rigid typing 데이터 베이스
   - 입력된 데이터 타입을 지정된 데이터 타입으로 형변환도 지원
 
-![img](../img/dbdatatype.PNG)
+![img](../../img/dbdatatype.PNG)
 
 ### 1.3 Type Affinity
 
@@ -304,8 +304,8 @@ DROP TABLE new_contants;
 
 - 테이블 생성
   
-  - ![Untitled](../img/sql3.png)
-  - ![Untitled](../img/sql4.png)
+  - ![Untitled](../../img/sql3.png)
+  - ![Untitled](../../img/sql4.png)
 
 ## 1. Simple query
 

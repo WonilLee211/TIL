@@ -32,7 +32,7 @@
 
 ## cache architecture
 
-![cacheArchitecture](/img/cacheServerArchitecture.png)
+![cacheArchitecture](./img/cacheServerArchitecture.png)
 
 - 클라이언트로부터 요청을 받는다.
 - Cache와 작업을 한다.
@@ -67,7 +67,7 @@
 
 - 시스템의 사용되지 않는 일부 메모리를 활용할 수 있어 남는 자원을 효율적으로 사용하여 성능을 향상시킬 수 있다.
 
-![memcached](/img/Memcached.png)
+![memcached](./img/Memcached.png)
 
 - [그림1] : 초창기의 캐시 시스템, 각 노드가 완전히 독립적으로 운영되어 데이터를 조회하거나 저장 시 어느 서버를 이용할지 관리해야 하고, 용량의 제한으로 인해 비생산적이며 자원 낭비적인 시스템으로 구성
 - [그림2] : 
@@ -130,7 +130,7 @@
 
 ## Redis VS Memcached
 
-![RedisVSMemcached](/img/MemcachedVSRedis.png)
+![RedisVSMemcached](./img/MemcachedVSRedis.png)
 
 
 ---
