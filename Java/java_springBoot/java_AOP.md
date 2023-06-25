@@ -1,6 +1,7 @@
 # AOP(Aspect Oriented Programming)
 
 - **관점지향 프로그램**
+
 - 스프링 어플리케이션은 대부분 특별한 경우를 제외하고는 MVC 웹 어플리케이션에서는 Web Layer, Business Layer, Data Layer 로 정의
 
     - Web Layer: REST API를 제공하며, Client 중심의 로직 적용
@@ -26,7 +27,7 @@
 
 ## 실습 1. log 찍기
 
-- `@Pointcut("execution()")
+- `@Pointcut("execution()")`
 
 ```java
 package com.example.aop.controller;
