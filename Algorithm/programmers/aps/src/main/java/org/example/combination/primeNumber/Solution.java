@@ -1,4 +1,4 @@
-package org.example.combination;
+package org.example.combination.primeNumber;
 
 /**
  * 소수 찾기

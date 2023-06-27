@@ -13,7 +13,7 @@
 
 ## Interceptor
 
-- Filter와 매우 유사한 형태로 존재 하지만, 차 이점은 Spring Context에 등록된다. 
+- Filter와 매우 유사한 형태로 존재 하지만, 차이점은 Spring Context에 등록된다. 
 - AOP와 유사한 기능을 제공 할 수 있으며, 주로 **인증 단계를 처리** 하거나, **Logging를 하는 데에 사용**한다. 
 - 이를 선/후 처리함으로써, Service business logic과 분리시킨다.
 
