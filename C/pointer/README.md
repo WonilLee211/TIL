@@ -2,6 +2,8 @@
 
 - 포인터에 대한 이해
 - `*, &` 단항 연산자의 의미
+- 상수 포인터(`const int*, int* const`)
+
 
 ## 정의
 
@@ -80,3 +82,30 @@ int main() {
 - 여기서 포인터에 주소값이 할당될 때 모든 주소값이 저장되는 것이 아니라, **시작 주소만 들어가게 됨.**
 - type 별로 저장되는 공간크기가 다르기 때문에 pointer에 값을 저장할 때 type을 선언해 주는 것이 중요하다.
     - 예를 들어 4byte인 int 주소값을 pointer에 저장한 경우, 실제 데이터를 불러올 때 4byte크기의 메모리를 읽어서 반환하게 된다.
+
+
+## 상수 포인터
+
+`const int* pa = &a;`
+
+- 포인터, pa에 int형 변수 a의 주소값을 저장하는데, 그 주소에 해당하는 값을 절대 바꿀 수 없음
+
+```c
+#include <stdio.h>
+
+int main(){
+    int a;
+    int b;
+    int* const pa1 = &a;
+
+    *pa1 = 3; // 올바른 문장
+    pa1 = &b; // 올바르지 않은 문장, compile 불가
+
+
+    const int* const pa2 = &b;
+    *pa2 = 4; // 올바르지 않은 문장, compile 불가 
+    pa2 = &a; // 올바르지 않은 문장, compile 불가
+
+    return 0;
+}
+```
