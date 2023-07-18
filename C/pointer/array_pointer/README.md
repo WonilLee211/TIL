@@ -141,4 +141,114 @@ int main(){
 `arr + 4bx + 5y`
 
 - `arr[x][y]`원소에 접근할 때 주소값 계산법
-- 
+
+### **2 차원 베열을 가리키는 포인터를 통해서 원소들을 정확히 접근하기 위해 필요한 정보**
+  1. 가리키는 원소의 크기
+  2. b의 값(열의 길이)
+- 두 정보가 포인터의 타입에 명시되어야 컴파일러가 원소에 올바르게 접근할 수 있음
+
+## 2 차원 배열을 가리키는 포인터
+
+`(배열의 형) (*포인터이름)[2 차원 배열의 열 개수];`
+
+- 2차원 배열을 가리키는 포인터는 배열의 크기에 관한 정보를 알 수 있도록 선언되어야 함
+
+
+`int (*arrP)[b];`
+
+- `arrP`는 `int` 형 원소의 열의 개수가 b인 2 차원 배열을 가리키는 포인터
+- 다른 말로, 크기가 b인 배열을 가리키는 포인터
+- 1 차원 배열에서 배열의 이름이 첫 번째 원소를 가리키는 포인터로 형변환되었듯, 2 차원 배열에서 배열의 이름은 배열의 첫 번째 행을 가리키는 포인터로 형변환되어야 함
+
+
+```c
+#include <stdio.h>
+int main() {
+  int arr[2][3] = {{1, 2, 3}, {4, 5, 6}};
+  int (*arrP)[3];
+
+  arrP = arr; // arrP가 arr를 가리키게 됨
+
+  printf("arrP[1][2] : %d, arr[1][2] : %d \n", arrP[1][2], arr[1][2]);
+
+  return 0;
+}
+// parr[1][2] : 6 , arr[1][2] : 6 
+```
+
+### 오류코드
+
+```c
+#include <stdio.h>
+int main(){
+  int arr[2][3];
+  int brr[10][3];
+  int crr[2][5];
+
+  int (*arrP)[3];
+
+  arrP = arr; // ok
+  arrP = brr; // ok
+  arrP = crr; // error
+
+  return 0;
+}
+```
+
+### 2 차원 배열을 가리키는 포인터 에러코드 분석
+
+```c
+#include <stdio.h>
+int main() {
+  int arr[2][3] = {{1, 2, 3}, {4, 5, 6}};
+  int **arrP;
+
+  arrP = arr;
+
+  printf("arrP[1][1] : %d \n", arrP[1][2]); // bugggggggg
+
+  return 0;
+}
+```
+
+`arrP[1][1]` 
+
+- `= *(*(arrP + 1) + 1)`
+- `arrP + 1`
+  - `arrP` : `int*`를 가리키는 포인터
+  - 주소값 크기인 8이 더해짐
+- `*(arrP + 1)`
+  - `= 3`
+- `*(arrP + 1) + 1`
+  - `*(arrP + 1)`의 타입은 `int` 형
+  - `3 + 4 = 7`
+- `*(7)` : 주소값 7을 읽어라!고 명령하기에 오류 발생
+
+
+## 포인터 배열
+
+- 포인터들의 배열
+
+```c
+#include <stdio.h>
+
+int main() {
+  int *arr[3];
+  int a = 1, b =2, c = 3;
+  arr[0] = &a;
+  arr[1] = &b;
+  arr[2] = &c;
+
+  printf("a : %d, *arr[0] : %d \n", a, *arr[0]);
+  printf("b : %d, *arr[1] : %d \n", b, *arr[1]);
+  printf("c : %d, *arr[2] : %d \n", c, *arr[2]);
+
+  printf("&a : %p, arr[0] : %p \n", &a, arr[0]);
+  
+  return 0;
+}
+// a : 1, *arr[0] : 1 
+// b : 2, *arr[1] : 2 
+// b : 3, *arr[2] : 3 
+// &a : 0x7ffe8a2fa4e4, arr[0] : 0x7ffe8a2fa4e4
+```
