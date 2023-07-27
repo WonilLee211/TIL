@@ -1,16 +1,27 @@
 #include <stdio.h>
-#include "str.h"
-int main() {
-  char str1[20];
-  char str2[20];
+#include <stdlib.h>
 
-  scanf("%s", str1);
-  scanf("%s", str2);
+int main(int argc, char **argv) {
+  int i;
+  int x, y;
+  int **arr;  // 우리는 arr[x][y] 를 만들 것이다.
 
-  if (compare(str1, str2)) {
-    printf("%s 와 %s 는 같은 문장 입니다! \n", str1, str2);
-  } else {
-    printf("%s 와 %s 는 다른 문장 입니다.. \n", str1, str2);
+  printf("arr[x][y] 를 만들 것입니다.\n");
+  scanf("%d %d", &x, &y);
+
+  arr = (int **)malloc(sizeof(int *) * x);
+  // int* 형의 원소를 x 개 가지는 1 차원 배열 생성
+
+  for (i = 0; i < x; i++) {
+    arr[i] = (int *)malloc(sizeof(int) * y);
   }
+
+  printf("생성 완료! \n");
+
+  for (i = 0; i < x; i++) {
+    free(arr[i]);
+  }
+  free(arr);
+
   return 0;
 }
