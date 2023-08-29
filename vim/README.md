@@ -2,15 +2,12 @@
 
 ## 학습 출처
 
-<br>
-
 ### 단축키 관련 사이트
 
 - [VimGenius](http://vimgenius.com/)
 
 - [ShortcutFoo](https://www.shortcutfoo.com/app/dojos/vim/beginner-text-navigation/practice)
 
-<br>
 
 ### 연습
 
@@ -21,20 +18,18 @@
 
 ## setting
 
-<br>
-
-### 출처
+### refereneces
 
 - https://easy-study-note.tistory.com/7
 - https://onurmark.tistory.com/3
 
 <br>
 
-### setting
+### steps
 
 1. vim-plug 설치
-    - curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    - `curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
 2. ~/.vimrc cusmtomization
 
 ```vim
