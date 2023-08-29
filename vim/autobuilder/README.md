@@ -31,7 +31,7 @@ rootDir
 └── src
     └── main.c
 
-SUBDIRSS = src
+SUBDIRS = src
 ```
 
 subdir 폴더 내에 파일 작성
@@ -44,9 +44,9 @@ rootDir
     └── main.c
 
 
-bin_PROGRAMS = amhello
+bin_PROGRAMS = rootDir
 
-amhello_SOURCES = main.c
+rootDir_SOURCES = main.c
 
 ```
 
