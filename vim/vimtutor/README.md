@@ -68,3 +68,19 @@
     - To substitute all occurrences in the file type       `:%s/old/new/g`
     - To ask for confirmation each time add 'c'            `:%s/old/new/gc`
 
+
+## 5. external command, write file, visual select, insert from file
+
+1. `:r` command  executes an external command.
+    - Some useful examples are:
+    - (Windows)        (Unix)
+    - `:!di`           `:!ls`           -  shows a directory listing.
+    - `:!del FILENAME` `:!rm FILENAME`  -  removes file FILENAME.
+
+2. `:w FILENAME` :  writes the current Vim file to disk with name FILENAME.
+
+3. `v  motion :w FILENAME` : saves the Visually selected lines in file, FILENAME.
+
+4. `:r FILENAME` retrieves disk file FILENAME and puts it below the cursor position.
+
+5. `:r !ls` : reads the output of the dir command and puts it below the cursor position.
