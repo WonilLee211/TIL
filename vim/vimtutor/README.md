@@ -101,4 +101,16 @@
     - `hls` : `hlsearch` : highlight all matching phrases
     - You can either use the long or the short option name.
 
-  7. Prepend "no" to switch an option off:   :set noic.
+7. Prepend "no" to switch an option off:   :set noic.
+
+## 7. help, vimrc, auto complete
+
+
+1. Type `:help` or  `press <F1>` or `<HELP>` to open a help window.
+2. Type `:help cmd` to find help on  cmd .
+3. Type `CTRL-W CTRL-W` to jump to another window.
+4. Type `:q` to close the help window.
+5. Create a vimrc startup script to keep your preferred settings.
+6. When typing a `:` command, press `CTRL-D` to see possible completions.
+    - Press `<TAB>` to use one completion.
+
