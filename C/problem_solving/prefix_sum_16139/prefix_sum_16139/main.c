@@ -1,61 +1,48 @@
-    //
-    //  main.c
-    //  prefix_sum_16139
-    //
-    //  Created by Lee Wonil on 5/5/24.
-    //
-    // 122 97
-    #include <stdio.h>
-    #include <string.h>
-    #include <stdlib.h>
+//
+//  main.c
+//  prefix_sum_16139
+//
+//  Created by Lee Wonil on 5/5/24.
 
-    int STR_MAX = 200001;
+#include <stdio.h>
+#include <string.h>
 
-    int main(void) {
-        char str[STR_MAX];
-        int N;
-        unsigned long str_len;
-        
-        scanf("%s", str);
-        while (getchar() != '\n');
-        scanf("%d", &N);
-        while (getchar() != '\n');
+#define STR_MAX (200001)
+#define ALPHA_CNT (25 + 1)
+int prefix_map[ALPHA_CNT][STR_MAX];
 
-        str_len = strlen(str);
+int main(void) {
+    char str[STR_MAX];
+    int N;
+    unsigned long str_len;
+    
+    scanf("%s", str);
+    while (getchar() != '\n');
+    scanf("%d", &N);
+    while (getchar() != '\n');
 
-        int **prefix_map = (int **)calloc(123, sizeof(int *));
-        
-        for (int i = 0; i < 123; i++){
-            prefix_map[i] = (int *)calloc(str_len + 1, sizeof(int));
-        }
+    str_len = strlen(str);
 
-        for (int i = 0; i < 123; i++){
-            prefix_map[i][0] = 0;
+    int idx;
+    for (int i = 0; i < str_len; i++){
+        idx = (int)str[i] - (int)'a';
+        prefix_map[idx][i + 1] += 1;
+        for (int j = 0; j < ALPHA_CNT; j++){
+            prefix_map[j][i + 1] += prefix_map[j][i];
         }
-        
-        for (int i = 0; i < str_len; i++){
-            prefix_map[str[i]][i + 1] += 1;
-            for (int j = 0; j < 123; j++){
-                prefix_map[j][i + 2] += prefix_map[j][i + 1];
-            }
-        }
-        
-        char c[N];
-        int fr[N], to[N];
-        
-        for (int i = 0; i < N; i++){
-            scanf("%c %d %d", &c[i], &fr[i], &to[i]);
-            while (getchar() != '\n');
-            to[i]++;
-        }
-        for (int i = 0; i < N; i++){
-            printf("%d\n", prefix_map[(int)c[i]][to[i]] - prefix_map[(int)c[i]][fr[i]]);
-        }
-
-        for (int i = 0; i < 123; i++){
-            free(prefix_map[i]);
-        }
-        free(prefix_map);
-        
-        return 0;
     }
+    
+    char c[N];
+    int fr[N], to[N];
+    
+    for (int i = 0; i < N; i++){
+        scanf("%c %d %d", &c[i], &fr[i], &to[i]);
+        while (getchar() != '\n');
+        to[i]++;
+
+        idx = (int)c[i] - (int)'a';
+        printf("%d\n", prefix_map[idx][to[i]] - prefix_map[idx][fr[i]]);
+    }
+
+    return 0;
+}
